@@ -7,8 +7,8 @@
 @stop
 
 @section('content')
-<form action="{{url('/Administrador/categorias/editar/'.$categorias->id)}}" method="put">
-    @csrf_field
+<form action="{{url('/Administrador/categorias/editar/'.$categorias->id)}}" method="post">
+   @csrf
   <div class="container mt-5 mr-4">
       <label for="">Nombre de la Categoría</label>
       <input type="hidden" value="{{$categorias->id}}">

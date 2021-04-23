@@ -185,10 +185,7 @@
                                 <div class="order-payment-method">
                                     <div class="single-payment-method show">
                                         <div class="payment-method-name">
-                                        <form  id="formPayU">
-                                            <input name="referenceCode" type="hidden"  value="{{$pedido->Id_Pedido + 1}}" id="referenceCode">
-                                            <input name="accountId"  type="hidden"  value="{{$u->Id_Usuarios}}" id="accountId">
-                                        </form>
+                        
                                     </div>
                                 
                                     <button type="submit" id="contraEntrega" class="btn btn-dark">Contra Entrega</button>
@@ -197,6 +194,7 @@
                                   
                                     </div>
                                 </div>
+                                <div id="divformPayU"></div>
                             </div>
                         </div>
                     </div>
