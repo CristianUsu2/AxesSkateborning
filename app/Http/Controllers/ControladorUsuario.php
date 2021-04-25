@@ -147,6 +147,13 @@ else {
        $sesion=session('datosU');
        $pedidos=Pedidos::all();
        $ultimoPedido=$pedidos->last();
+       if($ultimoPedido == null){
+        $pedido= new Pedidos();
+        $pedido->Id_Pedido=1;
+        return view('Usuario/finalizarCompra')->with('usuario', $sesion)
+        ->with('pedido',$pedido);
+       }
+      
         if($sesion == null){
             return "no hay nada en sesion";
         } 

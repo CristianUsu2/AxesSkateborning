@@ -171,7 +171,7 @@ class ControladorAdmin extends Controller
     public function ModificarC(Request $request){
       $categoria=Categorias::find($request->id);
       if($categoria !=null){
-           $categoria->Nombre_Categoria=$request->categoria;
+           $categoria->Nombre_Categoria=$request->Nombre_Categoria;
            $categoria->save();
       }
       return redirect()->action([ControladorAdmin::class,"categorias"]);

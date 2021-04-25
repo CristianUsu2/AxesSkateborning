@@ -48,6 +48,7 @@ Route::get('/Administrador/categorias', [ControladorAdmin::class, "categorias"])
 Route::get('/Administrador/categorias/agregar', [ControladorAdmin::class, "Agregar"])->name('agregar');
 Route::post('/Administrador/categorias/agregar', [ControladorAdmin::class, "Agregar"])->name('agregarC');
 Route::get('/Administrador/categorias/editar/{id}', [ControladorAdmin::class, "editarC"])->name('editarC');
+Route::post('/Administrador/categorias/editar/{id}', [ControladorAdmin::class, "ModificarC"]);
 Route::get('/Administrador/categorias/{id}',[ControladorAdmin::class, "EstadoC"]);
 
 
