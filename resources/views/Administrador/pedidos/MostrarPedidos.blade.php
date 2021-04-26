@@ -86,9 +86,9 @@
                                   
                                </td>
                                <td>{{$pedido->Tipo_Pago}}</td>
-                               <td>{{$pedido->direccion}}</td>
+                               <td>{{$pedido->Direccion}}</td>
                                <td>{{$pedido->Total}}</td>
-                               <td>{{$pedido->fecha}}</td>
+                               <td>{{$pedido->Fecha}}</td>
                                <td> 
                                    @foreach ($estadoPedido as $item)
                                    @if($pedido->id_estado == $item->Id_Estado)

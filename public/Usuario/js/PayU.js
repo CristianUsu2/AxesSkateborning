@@ -63,9 +63,6 @@ const EnvioPayU=(e)=>{
              data.append("responseUrl", "https://biz.payulatam.com/B0e22fd45D26DF4")
   fetch('https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu',{
     method: 'POST',
-    headers:{
-
-    },
     body: data
   })
   .then((r)=>{
