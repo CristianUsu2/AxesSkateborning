@@ -50,6 +50,12 @@ class ControladorUsuario extends Controller
    public function categoriaU(){
      return view('Usuario/categoriaU');
    }
+   public function terminos(){
+    return view('Usuario/terminos');
+  }
+  public function privacidad(){
+    return view('Usuario/privacidad');
+  }
    public function datosU($id){
     $UserB=User::find($id);
      return view('Usuario/informacion')->with('usuario',$UserB);;

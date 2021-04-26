@@ -12,6 +12,7 @@ use App\Models\Pedidos;
 use App\Models\EstadoPedido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Response;
 use Exception;
 
 class ControladorAdmin extends Controller
@@ -158,7 +159,7 @@ class ControladorAdmin extends Controller
              $busqueda->estado=1;   
            }
          $busqueda->save();   
-         return redirect()->action([ControladorAdmin::class,"categorias"]);
+         return back()->with("success", "Cambio de estado éxitoso.");
               
      }
   }
@@ -198,7 +199,7 @@ class ControladorAdmin extends Controller
                $busqueda->estado=1;   
              }
            $busqueda->save();   
-           return redirect()->action([ControladorAdmin::class,"MostrarColor"]);
+           return back()->with("success", "Cambio de estado éxitoso.");
          }catch(Exeption $e){  
             return response()->json($e.getMessage()); 
          }
@@ -296,7 +297,8 @@ class ControladorAdmin extends Controller
         }
         $busquedaT->save();
       }
-      return redirect()->action([ControladorAdmin::class, "MostrarTallas"]);
+      return back()->with("success", "Cambio de estado éxitosamente.");
+
     }
 
    /*----------Accciones productos------------ */
@@ -418,6 +420,18 @@ return true;
 }
 
 public function GuardarProductos(Request $request){
+  $request->validate([
+    'nombre' => 'required|min:2|max:30',
+    'stock'=> 'required|min:2|max:20',
+    'precio' => 'required|min:4|max:50|',
+    'descuento' => 'required|min:0|max:50|',
+     'descripcion' => 'required|min:0|max:150',
+     'tallas'=> 'required',
+     'categoria'=>'required',
+     'color' =>'required',
+     'imagenes' =>'required'
+ ]);
+
   try{
      $producto= new Productos(); 
      $producto->nombre=$request->nombre;
@@ -439,7 +453,8 @@ public function GuardarProductos(Request $request){
        if($r){
          $res=ControladorAdmin::GuardarTallaIntermedia($tallas,$cantidadesTallas,$producto);
          if($res){
-           return redirect()->action([ControladorAdmin::class, "MostrarProductos"]);
+          return back()->with("success", "Producto creado éxitosamente.");
+
          }
        }
      }
@@ -462,7 +477,7 @@ public function EstadoProductos($id){
        $busquedaProducto->estado=1;  
       }
      $busquedaProducto->save();
-     return redirect()->action([ControladorAdmin::class, "MostrarProductos"]);
+     return back()->with("success", "Cambio de estado éxitosamente.");
     } 
   }catch(Exception $e){
    return $e.getMensagge();

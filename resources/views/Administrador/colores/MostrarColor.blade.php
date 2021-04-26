@@ -10,6 +10,7 @@
         <div class="col-md-12 mt-5">
 
             <div class="row">
+            <button class="btn btn-success mb-2 ml-2" data-toggle="modal" data-target="#btnUsuario"><i style="margin-right:5px;" class="fas fa-plus"></i>Agregar Color</button>
 
                 <div class="col-md-12 text-center">
 
@@ -19,8 +20,9 @@
                         @elseif(Session::has("failed"))
                             <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
                         @endif
+                        
                 </div>
-               <button class="btn btn-success mb-2 ml-2" data-toggle="modal" data-target="#btnUsuario"><i style="margin-right:5px;" class="fas fa-plus"></i>Agregar Color</button>
+
             </div>
 
             <div class="col-md-12 mt-5">

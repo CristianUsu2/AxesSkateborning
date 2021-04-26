@@ -13,7 +13,9 @@
                 <div class="col-md-12 text-center">
 
                     <h3><strong>Productos Registrados</strong></h3>
-
+                    @if(Session::has("success"))
+                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
+                              @endif
                 </div>
                <button class="btn btn-success mb-2 ml-2" data-toggle="modal" data-target="#btnProductos"><i style="margin-right:5px;" class="fas fa-plus"></i>Crear Producto</button>
                 <a href="{{route('PDF')}}"><button class="btn btn-danger mb-2 ml-2"><i style="margin-right:5px;" class="fas fa-file-import"></i>Generar PDF</button></a>
@@ -37,68 +39,108 @@
                              <div class="col-12"> 
                                 <label>Nombre</label>
                                 <input type="text" name="nombre" class="form-control" id="nombre" />
+                                @if($errors->has('nombre'))
+                                <span class="error text-danger">{{$errors->first('nombre')}}</span>
+                                @endif
                               </div>  
                               <div class="col-6 mt-2">
                                 <label>Stock</label>
                                 <input type="number" name="stock" class="form-control" />
+                                @if($errors->has('stock'))
+                                <span class="error text-danger">{{$errors->first('stock')}}</span>
+                                @endif
                               </div>
                               <div class="col-6 mt-2">
                                  <label>Precio</label>
                                  <input type="number" name="precio" class="form-control" />
+                                 @if($errors->has('precio'))
+                                <span class="error text-danger">{{$errors->first('precio')}}</span>
+                                @endif
                               </div>
                               <div class="col-12 mt-2">
                                   <label>Descuento</label>
                                   <input type="text" name="descuento" class="form-control" />
+                                  @if($errors->has('descuento'))
+                                <span class="error text-danger">{{$errors->first('descuento')}}</span>
+                                @endif
                               </div>
                               <div class="col-12"> 
                                 <label>Descripcion</label>
                                 <textarea type="text" name="descripcion" class="form-control" id="desc"></textarea>
+                                @if($errors->has('descripcion'))
+                                <span class="error text-danger">{{$errors->first('descripcion')}}</span>
+                                @endif
                               </div> 
                               <div class="col-4 mt-2" id="divColor">
+                              
                                   <label>Color</label>
+              
                                   <select class="custom-select" id="colores" onchange="selectValores(0)" name="color">
+                                 
                                     <option selected>Escoger Color</option>
                                     @foreach ($colores as $item)
                                     <option value="{{$item->id}}">{{$item->color}}</option>     
                                     @endforeach
-                                   
                                     
                                   </select>
+                                  @if($errors->has('color'))
+                                <span class="error text-danger">{{$errors->first('color')}}</span>
+                                @endif
                                   <!--<input type="hidden" name="color" id="color"/>-->
                               </div>
                               <div class="col-4 mt-2" id="divCategori">
                                  <label>Categorias</label>
                                  <select class="custom-select" id="selectCategori" onchange="selectValores(1)" name="categoria">
+                                
                                     <option selected>Escoger Categoria</option>
                                     @foreach ($categorias as $cate)
                                     <option value="{{$cate->id}}">{{$cate->Nombre_Categoria}}</option>     
                                     @endforeach                                    
                                   </select>
+                                  @if($errors->has('categoria'))
+                                <span class="error text-danger">{{$errors->first('categoria')}}</span>
+                                @endif
                                   <!--<input type="hidden" name="categoria" id="categoria"/>-->
                               </div>
                               <div class="col-4 mt-2" id="divTallas">   
                                   <label>Tallas</label>
                                     <select id="multi" class="selectpicker" name="tallas[]" onchange="TallasOrganizacion()" multiple>
+                                    
                                           @foreach ($tallas as $talla)
                                           <option value="{{$talla->id}}">{{$talla->talla}}</option>
                                         @endforeach
                                     </select>
+                                    @if($errors->has('tallas'))
+                                <span class="error text-danger">{{$errors->first('tallas')}}</span>
+                                @endif
                               </div>
                               <div class="col-6 mt-2">
                                  <label>Imagen 1</label>
                                  <input  type="file" class="form-control-file"  name="imagenes[]" id="imagen1"/>
+                                 @if($errors->has('imagenes'))
+                                <span class="error text-danger">{{$errors->first('imagenes')}}</span>
+                                @endif
                               </div>
                               <div class="col-6 mt-2">
                                <label>Imagen 2</label>
                                <input type="file" class="form-control-file"  name="imagenes[]" id="imagen2"/>
+                               @if($errors->has('imagenes'))
+                                <span class="error text-danger">{{$errors->first('imagenes')}}</span>
+                                @endif
                             </div>
                             <div class="col-6 mt-2">
                              <label>Imagen 3</label>
                              <input class="form-control-file" type="file" name="imagenes[]" id="imagen3" />
+                             @if($errors->has('imagenes'))
+                                <span class="error text-danger">{{$errors->first('imagenes')}}</span>
+                                @endif
                             </div>
                             <div class="col-6 mt-2">
                               <label>Imagen 4</label>
                               <input class="form-control-file" type="file"  name="imagenes[]" id="imagen4"/>
+                              @if($errors->has('imagenes'))
+                                <span class="error text-danger">{{$errors->first('imagenes')}}</span>
+                                @endif
                             </div>
                             </div>
                             <div class="row" id="inputTallaC">

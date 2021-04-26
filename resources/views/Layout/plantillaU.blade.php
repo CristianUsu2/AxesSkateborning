@@ -252,7 +252,7 @@
                     <p>©2021 Todos los Derechos Reservados |  <strong>AXES SKATEBOARDING</strong></p>
                 </div>
                 <div class="payment-method-img">
-                   <a style="color:#000;" href="#"><p>Términos y Condiciones | </a> <a style="color:#000;" href="x">Política y Privacidad</a> </p>
+                   <a style="color:#000;" href="{{route('terminos')}}"><p>Términos y Condiciones | </a> <a style="color:#000;" href="{{route('privacidad')}}">Política y Privacidad</a> </p>
                 </div>
             </div>
         </div>

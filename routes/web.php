@@ -13,6 +13,8 @@ Route::get('index', [ControladorUsuario::class, "index"]);
 Route::get('/InicioSesion', [ControladorUsuario::class, "login"])->name('login');
 Route::post('/InicioSesion', [ControladorUsuario::class, "loginV"]);
 Route::post('/InicioSesionR', [ControladorUsuario::class, "register"]);
+Route::get('/Terminos-Condiciones', [ControladorUsuario::class, "terminos"])->name("terminos");
+Route::get('/Politica-Privacidad', [ControladorUsuario::class, "privacidad"])->name("privacidad");
 Route::get("RecuperarContraseña", [MailerController::class, "email"])->name("email");
 Route::get('/CambiarContraseña', [ControladorUsuario::class, "cambioC"]);
 Route::get('/Categorias', [ControladorUsuario::class, "categoriaU"])->name("categorias");

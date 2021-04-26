@@ -10,19 +10,19 @@
         <div class="col-md-12 mt-5">
 
             <div class="row">
+            <button class="btn btn-success mb-2 ml-2" data-toggle="modal" data-target="#btnUsuario"><i style="margin-right:5px;" class="fas fa-plus"></i>Crear Talla</button>
 
                 <div class="col-md-12 text-center">
 
                     <h3><strong>Tallas Registradas</strong></h3>
-
-                </div>
-               <button class="btn btn-success mb-2 ml-2" data-toggle="modal" data-target="#btnUsuario"><i style="margin-right:5px;" class="fas fa-plus"></i>Crear Talla</button>
-            </div>
-            @if(Session::has("success"))
+                    @if(Session::has("success"))
                             <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
                         @elseif(Session::has("failed"))
                             <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
                         @endif
+                </div>
+            </div>
+
                 
             <div class="col-md-12 mt-5">
                 <div class="modal  fade" id="btnUsuario" tabindex="-1" role="dialog"  aria-hidden="true">
