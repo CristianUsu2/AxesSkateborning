@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" id="csrf" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../Usuario/pushbar/css/pushbar.css">
     <link rel="stylesheet" type="text/css" href="../Usuario/fontawesome-free-5.15.1-web/css/all.min.css">
@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../Usuario/css/helper.min.css">
     <link rel="stylesheet" type="text/css" href="../Usuario/css/plugins.css">
     <link rel="stylesheet" type="text/css" href="../Usuario/css/style.css">
+     <link rel="stylesheet" type="text/css" href="../Usuario/css/chat.css">
     <link rel="stylesheet" type="text/css" href="../Usuario/css/skin-default.css">
 
     <link rel="icon" href="../Usuario/img/logo.jpeg" />
@@ -47,6 +48,7 @@
                                                 <a class="dropdown-toggle" id="myaccount" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     @php 
+                                                   
                                                     $datosS=session('datosU')
                                                    
                                                     @endphp
@@ -71,6 +73,7 @@
                                                @else
                                                 @if (session()->has('datosU'))
                                                 <div class="dropdown-menu" aria-labelledby="myaccount" >
+                                                    <input type="hidden" id="idUsu" value="{{$item->Id_Usuarios}}" />
                                                     <a class="dropdown-item" href="{{url('/Informacion/'.$item->Id_Usuarios)}}"><i style="margin-right:5px;" class="fas fa-user"></i>Mi Perfil</a>
                                                     <a class="dropdown-item" href="{{route('PedidosU')}}"><i style="margin-right:5px;" class="fa fa-truck"></i>Mis Pedidos</a>
                                                     <a class="dropdown-item" href="{{route('loginCerrar')}}"><i style="margin-right:5px;" class="fas fa-sign-out-alt"></i>Cerrar Sesión</a>
@@ -253,7 +256,7 @@
                     <p>©2021 Todos los Derechos Reservados |  <strong>AXES SKATEBOARDING</strong></p>
                 </div>
                 <div class="payment-method-img">
-                   <a style="color:#000;" href="{{route('terminos')}}"><p>Términos y Condiciones | </a> <a style="color:#000;" href="{{route('privacidad')}}">Política y Privacidad</a> </p>
+                   <a style="color:#000;" href="#"><p>Términos y Condiciones | </a> <a style="color:#000;" href="x">Política y Privacidad</a> </p>
                 </div>
             </div>
         </div>
@@ -348,7 +351,65 @@
   </div>
 </div>
 <!-- Quick view modal end -->
+<div class="modal fade" id="formUsuarioGoogle" tabindex="-1" role="dialog" aria-labelledby="formUsuarioGoogle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Datos Necesarios Usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="formGoogleU" action="{{url('/Productos/FinalizarCompraGoogle')}}">
+            <div class="single-input-item">
+                <input type="text" placeholder="N° de identificacion" id="identificacion"/>
+            </div>
+            <div class="single-input-item">
+                <input type="text" placeholder="telefono" id="telefono"/>
+            </div>
 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="btnDatosGoogleU" class="btn btn-primary">Enviar</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+
+<div id="body"> 
+  
+      <div id="chat-circle" class="btn btn-raised">
+        <div id="chat-overlay"></div>
+        <i class="fas fa-comment"></i>
+	  </div>
+  
+       <div class="chat-box">
+         <div class="chat-box-header">
+          Chat en linea
+         <span class="chat-box-toggle"><i class="material-icons">Cerrar</i></span>
+       </div>
+      <div class="chat-box-body">
+        <div class="chat-box-overlay">   
+        </div>
+      <div class="chat-logs">
+       
+      </div><!--chat-log -->
+    </div>
+    <div class="chat-input">      
+      <form>
+        <input type="text" id="chat-input" placeholder="Enviar mensaje ..."/>
+      <button type="submit" class="chat-submit" id="chat-submit"><i class="material-icons">Enviar</i></button>
+      </form>      
+    </div>
+  </div>
+  
+  
+  
+  
+</div>
 <!-- Scroll to top start -->
 <div class="scroll-top not-visible">
   <i class="fa fa-angle-up"></i>
@@ -364,11 +425,13 @@
 </script>
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
 <script>
   var firebaseConfig = {
     apiKey: "AIzaSyCMzY42dtyJgXPfzCKZzKp-W2sOvvJcQAM",
     authDomain: "pruebatiendaaxes-4d509.firebaseapp.com",
+    databaseURL: "https://pruebatiendaaxes-4d509-default-rtdb.firebaseio.com",
     projectId: "pruebatiendaaxes-4d509",
     storageBucket: "pruebatiendaaxes-4d509.appspot.com",
     messagingSenderId: "664697906282",
@@ -378,60 +441,17 @@
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
   const auth = firebase.auth();
+  const db=firebase.firestore();
 </script>
 <script src="../Usuario/js/configFirebase.js"></script>
 <script src="../Usuario/js/cart.js"><script>
-<script src="../Usuario/js/chat.js"></script>
 <script src="../Usuario/js/detailsCart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
 <script src="../Usuario/js/PayU.js"></script>
 <script src="../Usuario/js/envios.js"></script>
 <script src="../Usuario/js/jquery-3.3.1.min.js"></script>
-<script>
-    $("#btnProcederPagar").click((e)=>{
-        let usuario=JSON.parse(localStorage.getItem("usuario"));
-        if(usuario.validado==false){
-           e.preventDefault();
-           FormGoogleUsuario(); 
-        }
-     }); 
-     const FormGoogleUsuario=()=>{
-         $('#formUsuarioGoogle').modal('show');
-         $('#btnDatosGoogleU').click(()=>{
-            let usuario=JSON.parse(localStorage.getItem("usuario"));
-            let ruta=$("#formGoogleU").attr("action");
-            let $datos={
-                'Id_Usuarios': usuario.additionalUserInfo.profile.id,
-                'name':usuario.additionalUserInfo.profile.given_name,
-                'email':usuario.additionalUserInfo.profile.email,
-                'identificacion':$("#identificacion").val(),
-                'estado':1,
-                'id_rol':1,
-                'apellido':usuario.additionalUserInfo.profile.family_name,
-                'telefono':$("#telefono").val()
-            }
-           
-            $.ajax({
-                type: "POST",
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: "{{url('/Productos/detalleCompra')}}",
-                data: $datos,
-                dataType: 'json',
-            }).done((r)=>{
-               if(r==1){
-                usuario.validado=true;
-                localStorage.setItem("usuario",JSON.stringify(usuario));
-                $('#formUsuarioGoogle').modal('hide');
-               }
-            })
-            .catch(r=>{
-                console.log(r);
-            });
-         });
-     }
-     
-</script>
+<script src="../Usuario/js/chat.js"></script>
 <script src="../Usuario/js/modernizr-3.6.0.min.js"></script>
 <script src="../Usuario/js/popper.min.js"></script>
 <script src="../Usuario/js/bootstrap.min.js"></script>

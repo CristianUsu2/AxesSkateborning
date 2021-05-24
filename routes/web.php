@@ -39,11 +39,17 @@ Route::get('/Administrador/usuarios/{Id_Usuarios}', [ControladorAdmin::class, "e
 Route::get('/Administrador/usuariosE/{Id_Usuarios}',[ControladorAdmin::class, "editarUsuario"]);
 Route::post('/Administrador/usuariosE',[ControladorAdmin::class,"ModificarUsuario"])->name('ModificarUsuario');
 Route::get('/Administrador/generarPDF', [PDFController::class, 'generatePDF'])->name('PDF');
+
+/*---------------------Rutas pedidos------------------------- */
 Route::get('/Administrador/productos/MostrarPedidos',[ControladorAdmin::class, "MostrarPedidos"]);
 Route::get('/Administrador/productos/MostrarPedidos/{id}',[ControladorAdmin::class, "EditarEstadoPedido"]);
 Route::post('/Administrador/productos/MostrarPedidos',[ControladorAdmin::class, "CambiarEstadoPedido"]);
 Route::get('/Administrador/productos/MostrarPagosRealizados',[ControladorAdmin::class, "MostrarPagosRealizados"]);
-
+Route::get('/Administrador/pedidos/MostrarEstadoPedidos',[ControladorAdmin::class, "MostrarEstadoPedidos"]);
+Route::post('/Administrador/pedidos/MostrarEstadoPedidos',[ControladorAdmin::class, "AgregarEstadoPedido"]);
+Route::get('/Administrador/pedidos/MostrarEstadoPedidos/{id}',[ControladorAdmin::class, "EditarEstadoPedidoBD"]);
+Route::post('/Administrador/pedidos/MostrarEstadoPedidos/{id}',[ControladorAdmin::class, "ModificarEstadoPedidoBD"]);
+Route::get('/Administrador/pedidos/MostrarTiposPagos',[ControladorAdmin::class, "MostrarTiposPago"]);
 /*-----------Rutas de las categorias ----------- */
 
 Route::get('/Administrador/categorias', [ControladorAdmin::class, "categorias"])->name('categoria');
@@ -75,6 +81,13 @@ Route::post('/Administrador/productos/MostrarProductos',[ControladorAdmin::class
 Route::get('/Administrador/productos/MostrarProductos/{id}',[ControladorAdmin::class,"EstadoProductos"]);
 Route::get('/Administrador/productos/EditarProductos/{id}',[ControladorAdmin::class,"EditarProductos"]);
 Route::post('/Administrador/productos/ModificarProductos',[ControladorAdmin::class,"ModificarProductos"]);
+Route::get('/Administrador/productos/SumarCantidad',[ControladorAdmin::class, "EntradaProducto"]);
+Route::post('/Administrador/productos/SumarCantidad',[ControladorAdmin::class, "SumarProducto"]);
+Route::get('/Administrador/productos/RestarCantidad',[ControladorAdmin::class, "VistaRestaProducto"]);
+Route::post('/Administrador/productos/RestarCantidad',[ControladorAdmin::class,"RestarProducto"]);
+/*---------------------------Ruta chat----------------------------- */
+Route::get('/Administrador/chats',[ControladorAdmin::class, "Chat"]);
+Route::post('/Administrador/chats',[ControladorAdmin::class, "DatosUsuarioChat"]);
 /*
 |--------------------------------------------------------------------------
 | Web Routes
