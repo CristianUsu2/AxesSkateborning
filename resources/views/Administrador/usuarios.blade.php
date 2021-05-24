@@ -41,31 +41,52 @@
                            <div class="row">
                              <div class="col-12"> 
                                 <label>Documento de identidad</label>
-                                <input type="text" name="identificacion" class="form-control" placeholder="12312 ...."/>
+                                <input type="text" name="Identificacion" class="form-control" placeholder="12312 ...."/>
+                                @if($errors->has('Identificacion'))
+                                <span class="error text-danger">{{$errors->first('Identificacion')}}</span>
+                                @endif
                               </div>  
                               <div class="col-6 mt-2">
                                 <label>Nombre</label>
-                                <input type="text" name="nombreNu" class="form-control" placeholder="alveiro"/>
+                                <input type="text" name="Nombre" class="form-control" placeholder="alveiro"/>
+                                @if($errors->has('Nombre'))
+                                <span class="error text-danger">{{$errors->first('Nombre')}}</span>
+                                @endif
                               </div>
                               <div class="col-6 mt-2">
                                  <label>Apellido</label>
-                                 <input type="text" name="apellidoNu" class="form-control" placeholder="zuñiga"/>
+                                 <input type="text" name="Apellido" class="form-control" placeholder="zuñiga"/>
+                                 @if($errors->has('Apellido'))
+                                <span class="error text-danger">{{$errors->first('Apellido')}}</span>
+                                @endif
                               </div>
                               <div class="col-12 mt-2">
                                   <label>Email</label>
-                                  <input type="email" name="emailNu" class="form-control" placeholder="212@gmail.com"/>
+                                  <input type="email" name="Correo" class="form-control" placeholder="212@gmail.com"/>
+                                  @if($errors->has('Correo'))
+                                <span class="error text-danger">{{$errors->first('Correo')}}</span>
+                                @endif
                               </div>
                               <div class="col-12 mt-2">
                                   <label>Telefono</label>
-                                  <input type="text" name="telefonoNu" class="form-control" placeholder=""/> 
+                                  <input type="text" name="Telefono" class="form-control" placeholder=""/> 
+                                  @if($errors->has('Telefono'))
+                                <span class="error text-danger">{{$errors->first('Telefono')}}</span>
+                                @endif
                               </div>
                               <div class="col-6 mt-2">
                                   <label>Contraseña</label>
-                                  <input type="password" name="passwordNu" class="form-control" placeholder=""/>
+                                  <input type="password" name="Contraseña" class="form-control" placeholder=""/>
+                                  @if($errors->has('Contraseña'))
+                                <span class="error text-danger">{{$errors->first('Contraseña')}}</span>
+                                @endif
                               </div>
                               <div class="col-6 mt-2">
                                   <label>Confirmar contraseña</label>
-                                  <input type="password" name="passwordNuR" class="form-control" placeholder=""/>
+                                  <input type="password" name="ConfirmarContraseña" class="form-control" placeholder=""/>
+                                  @if($errors->has('ConfirmarContraseña'))
+                                <span class="error text-danger">{{$errors->first('ConfirmarContraseña')}}</span>
+                                @endif
                               </div>
                            </div>  
                         </div>

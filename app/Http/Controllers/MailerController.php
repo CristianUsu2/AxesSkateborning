@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ControladorUsuario;
 use App\Models\User;
-
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
+use Response;
 class MailerController extends Controller {
 
     // =============== [ Email ] ===================
@@ -19,7 +19,11 @@ class MailerController extends Controller {
 
     // ========== [ Compose Email ] ================
     public function composeEmail(Request $request) {
-        $dt = "";
+        $request->validate([
+            'emailBcc' => 'required|email|min:4|max:50|'
+        ]);
+        $respuesta=[];
+       $dt = "";
         $email = $request->emailBcc;
         $busquedaEmail=User::where('email','=',$request->emailBcc)->value('email');
         $contra = User::where('password','=',$busquedaEmail)->value('password');
@@ -31,8 +35,8 @@ class MailerController extends Controller {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';            //  smtp host
             $mail->SMTPAuth = true;
-            $mail->Username = env('EMAIL_USERNAME');   //  sender username
-            $mail->Password = env('EMAIL_PASSWORD');   // sender password
+            $mail->Username = 'axesskateboarding@gmail.com';   //  sender username
+            $mail->Password = 'johanayjorge';   // sender password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;                          // port - 587/465
             $mail->setFrom($email, 'Tienda Axes');
@@ -183,15 +187,22 @@ class MailerController extends Controller {
             // $mail->AltBody = plain text version of email body;
 
             if(!$dt ) {
-                return back()->with("failed", "Ocurrio un error en el envio, no encontramos el correo $email favor ingrese de nuevo el correo.")->withErrors($mail->ErrorInfo);
+                $objR= (object)[
+                    "estado"=>0,
+                    "email"=> $email
+                 ];
+                 array_push($respuesta,$objR);
             }
             
             else {
-                return back()->with("success", "Hemos enviado un correo a $email por favor revise su correo para confirmar.");
+               $objR= (object)[
+                  "estado"=>1,
+                  "email"=> $email
+               ];
+               array_push($respuesta, $objR);
             }
 
-        
-             return back()->with('error','No se pudo enviar el mensaje.');
+             return Response::json($respuesta );
         
     }
 }

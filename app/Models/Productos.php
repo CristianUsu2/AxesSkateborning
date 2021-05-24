@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Productos extends Model
 {
+    
     use HasFactory;
     /*Relacion 1 a muchos */
-
+    
     public function colores(){
         return $this->belongsTo('App\Models\Colores');
     }
@@ -36,4 +37,5 @@ class Productos extends Model
     public function Pedidos(){
         return $this->belongsToMany('App\Models\Pedidos');
     }
+    
 }

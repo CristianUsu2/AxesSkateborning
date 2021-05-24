@@ -115,26 +115,31 @@
                                         <div class="col-md-6">
                                             <div class="single-input-item">
                                                 <label for="f_name" class="required">Nombre</label>
-                                                <input type="text"  id="f_name" value="{{$u->name}}" placeholder="Nombre" required />
+                                                <input type="text" name="nombre" id="f_name" value="{{$u->name}}" placeholder="Nombre" required />
                                             </div>
                                         </div>
         
                                         <div class="col-md-6">
                                             <div class="single-input-item">
                                                 <label for="l_name" class="required">Apellido</label>
-                                                <input type="text" id="l_name" value="{{$u->apellido}}" placeholder="Apellido" required />
+                                                <input type="text" name="apellido" id="l_name" value="{{$u->apellido}}" placeholder="Apellido" required />
                                             </div>
                                         </div>
                                     </div>
         
                                     <div class="single-input-item">
                                         <label for="email" class="required">Correo</label>
-                                        <input type="email" id="email" value="{{$u->email}}" placeholder="Correo Electronico" required />
+                                        <input type="email" name="correo" id="email" value="{{$u->email}}" placeholder="Correo Electronico" required />
                                     </div>
                                     
                                     <div class="single-input-item">
+                                                <label for="town_2" class="required">Ciudad</label>
+                                                <input type="text" id="town_2"  placeholder="Ciudad" />
+                                            </div>
+
+                                    <div class="single-input-item">
                                         <label for="phone" class="required">Teléfono</label>
-                                        <input type="text" id="phone"  value="{{$u->telefono}}" placeholder="Teléfono" />
+                                        <input type="text" id="phone" name="telefono"  value="{{$u->telefono}}" placeholder="Teléfono" />
                                     </div>
       
                                     <div class="single-input-item">

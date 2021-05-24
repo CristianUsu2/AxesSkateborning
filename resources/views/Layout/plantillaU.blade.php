@@ -16,6 +16,7 @@
     <title>Tienda Axes</title>
   </head>
   <body>
+  <input type="hidden" value="{{csrf_token()}}" id="csrf" />
       <div class="wrapper">
 
         <!-- header area start -->
@@ -139,7 +140,7 @@
                               <div class="header-middle-block">
                                   <div class="header-middle-searchbox">
                                       <input type="text" placeholder="Buscar Producto...">
-                                      <button class="search-btn"><i class="fa fa-search"></i></button>
+                                      <button type="submit" class="search-btn" ><i class="fa fa-search"></i></button>
                                   </div>
                                   <div class="header-mini-cart">
                                       <div class="mini-cart-btn">
@@ -385,6 +386,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
 <script src="../Usuario/js/PayU.js"></script>
+<script src="../Usuario/js/envios.js"></script>
 <script src="../Usuario/js/jquery-3.3.1.min.js"></script>
 <script>
     $("#btnProcederPagar").click((e)=>{

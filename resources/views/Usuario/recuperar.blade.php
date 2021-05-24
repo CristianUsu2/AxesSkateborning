@@ -7,12 +7,8 @@
                 <form action="{{route('send-email')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card shadow">
-
-                        @if(Session::has("success"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
-                        @elseif(Session::has("failed"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
-                        @endif
+                    <div class="col-sm-12 mt-3" id="divAlertas"></div>
+                      
 
                         <div class="login-reg-form-wrap  pr-lg-50">
                         <h2>Recuperar Contraseña</h2>
@@ -22,7 +18,7 @@
                             </div>
 
                             <div class="single-input-item">
-                                <button class="sqr-btn" type="submit">Recuperar Contraseña</button>
+                                <button class="sqr-btn" type="button" id="btnRecuperarContra">Recuperar Contraseña</button>
                             </div>
 
                     </div>

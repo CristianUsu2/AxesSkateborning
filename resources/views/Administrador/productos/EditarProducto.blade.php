@@ -15,7 +15,11 @@
               <div class="col-md-12 text-center">
 
                   <h3><strong>Editar Producto</strong></h3>
-
+                  @if(Session::has("success"))
+                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
+                        @elseif(Session::has("failed"))
+                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
+                        @endif
               </div>
 
           </div>

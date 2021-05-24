@@ -18,17 +18,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use UxWeb\SweetAlert\SweetAlert;
+
 use Response;
 
 use Exception;
 
 class ControladorUsuario extends Controller
 {
-    public function index(){
+
+  
+    public function index(){      
       $colores=Colores::where("estado","=", "1")->get();
       $categorias=Categorias::where("estado","=","1")->get();
       $tallas=Tallas::where("estado","=","1")->get();
-      $producto=Productos::where("estado","=","1")->get();
+      $producto=Productos::where("estado","=","1")
+                                                  ->paginate(6);
       $imagenes= Productos::select('productos.id','foto_producto.foto')
                            ->join('foto_producto','foto_producto.id_producto','=','productos.id')
                            ->get();
@@ -43,13 +47,26 @@ class ControladorUsuario extends Controller
                                     ->with('imagenes',$imagenes)
                                     ->with('tallasP', $tallasP);
    }
-   public function prueba(){
-    alert()->success('You have been logged out.', 'Good bye!');
-    return view('Usuario/prueba');
+
+   public function categoriaU(Categorias $categoria){
+    $producto = Productos::where('id_categoria',$categoria->id)
+                            ->where("estado","=","1")
+                            ->select("*")
+                            ->paginate(1);
+                            
+    $tallas=Tallas::where("estado","=","1")->get();                 
+    $imagenes= Productos::select('productos.id','foto_producto.foto')
+    ->join('foto_producto','foto_producto.id_producto','=','productos.id')
+    ->get();                      
+
+     return view('Usuario/categoriaU')
+     ->with('Categorias',$categoria)
+     ->with('productos',$producto)
+     ->with('imagenes',$imagenes)
+     ->with('tallas',$tallas);
+    
    }
-   public function categoriaU(){
-     return view('Usuario/categoriaU');
-   }
+   
    public function terminos(){
     return view('Usuario/terminos');
   }
@@ -63,14 +80,15 @@ class ControladorUsuario extends Controller
 
    public function update(Request $request){
     $request->validate([
-       'pass' => 'required|min:2|max:30',
-       'passC' => 'required|min:2|max:30'
+        'correo' => 'required|email|min:4|max:50|',
+       'contraseña' => 'required|min:2|max:30',
+       'confirmarContraseña' => 'required|min:2|max:30'
        ]);
 
     $correoC=User::where('email','=',$request->correo)->first();
 
-    if($correoC && $request->pass == $request->passC){
-      $password = bcrypt($request->pass);
+    if($correoC && $request->contraseña == $request->confirmarContraseña){
+      $password = bcrypt($request->contraseña);
       $correoC->password = $password; 
       $correoC->save();
     }
@@ -150,6 +168,15 @@ else {
    }
 
    public function FinalizarCompra(){
+    /*$request->validate([
+      'documento' => 'required|min:4|max:50|',
+     'nombre' => 'required|min:2|max:30',
+     'apellido' => 'required|min:2|max:30',
+     'correo' => 'required|email|min:2|max:30',
+     'telefono' => 'required|min:7|max:12',
+     'direccion' => 'required|email|min:6|max:50|'
+     ]);*/
+
        $sesion=session('datosU');
        $pedidos=Pedidos::all();
        $ultimoPedido=$pedidos->last();
@@ -273,8 +300,8 @@ else {
                 }
               }
             }
-         return redirect()->action([ControladorUsuario::class, "login"]);
-         
+         return back()->with("login", "Ocurrio un error, los datos no coincide, por favor verifiquelos.");
+
     }
 
     public function loginC(){

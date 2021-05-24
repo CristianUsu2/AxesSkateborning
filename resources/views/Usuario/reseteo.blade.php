@@ -17,14 +17,23 @@
                         
                         <div class="single-input-item">
                                 <input type="email" name="correo" id="emailBcc" placeholder="Ingrese su Correo"/>
+                                @if($errors->has('correo'))
+                                <span class="error text-danger">{{$errors->first('correo')}}</span>
+                                @endif
                             </div>
 
                             <div class="single-input-item">
-                                <input type="password" name="pass" id="emailBcc" placeholder="Nueva contraseña"/>
+                                <input type="password" name="contraseña" id="emailBcc" placeholder="Nueva contraseña"/>
+                                @if($errors->has('contraseña'))
+                                <span class="error text-danger">{{$errors->first('contraseña')}}</span>
+                                @endif
                             </div>
 
                             <div class="single-input-item">
-                                <input type="password" name="passC" id="emailBcc" placeholder="Confirmar contraseña"/>
+                                <input type="password" name="confirmarContraseña" id="emailBcc" placeholder="Confirmar contraseña"/>
+                                @if($errors->has('confirmarContraseña'))
+                                <span class="error text-danger">{{$errors->first('confirmarContraseña')}}</span>
+                                @endif
                             </div>
 
                             <div class="single-input-item">

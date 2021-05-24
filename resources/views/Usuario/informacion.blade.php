@@ -35,17 +35,6 @@
                                 <input type="text" name="telefono"  value="{{$usuario->telefono}}" placeholder="Telefono / Celular" />
                             </div>
                            
-     
-                            <div class="single-input-item">
-                                <div class="login-reg-form-meta">
-                                    <div class="remember-meta">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="subnewsletter">
-                                            <label class="custom-control-label" for="subnewsletter">Acepto Términos y Condiciones</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="single-input-item">
                                 <button class="sqr-btn" type="submit">EDITAR DATOS</button>
                             </div>

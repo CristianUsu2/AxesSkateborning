@@ -9,6 +9,9 @@
                 <div class="col-lg-6">
                     <div class="login-reg-form-wrap  pr-lg-50">
                         <h2>Iniciar Sesión</h2>
+                        @if(Session::has("login"))
+                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('login')}}</div>
+                        @endif
                         <form action="{{url('/InicioSesion')}}" method="post">
                             @csrf
                             <div class="single-input-item">
@@ -104,16 +107,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="single-input-item">
-                                <div class="login-reg-form-meta">
-                                    <div class="remember-meta">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="subnewsletter">
-                                            <label class="custom-control-label" for="subnewsletter">Acepto Términos y Condiciones</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="single-input-item">
                                 <button class="sqr-btn" id="registros" type="submit">REGISTRARSE</button>
                             </div>

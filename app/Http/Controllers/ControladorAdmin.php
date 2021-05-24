@@ -64,8 +64,8 @@ class ControladorAdmin extends Controller
           }        
           $UsuB->save();
          
-        return redirect()->action([ControladorAdmin::class, "usuarios"]);
-       }catch(Exception $e){
+          return back()->with("success", "Cambio de estado éxitoso.");
+        }catch(Exception $e){
         
          return response()->json($e.getMessage());
        }
@@ -99,25 +99,27 @@ class ControladorAdmin extends Controller
 
     public function crear(Request $request){
       $request->validate([
-        'nombreNu' => 'required|min:2|max:20',
-        'apellidoNu'=> 'required|min:2|max:20',
-        'emailNu' => 'required|email|min:4|max:50|',
-        'identificacion' => 'required|min:7|max:12|',
-         'passwordNu' => 'required|min:2|max:30',
-         'passwordNuR'=> 'required|min:2|max:30',
-         'telefonoNu' => 'required|min:2|max:11'
+        'Nombre' => 'required|min:2|max:20',
+        'Apellido'=> 'required|min:2|max:20',
+        'Correo' => 'required|email|min:4|max:50|',
+        'Identificacion' => 'required|min:7|max:12|',
+         'Contraseña' => 'required|min:2|max:30',
+         'ConfirmarContraseña'=> 'required|min:2|max:30',
+         'Telefono' => 'required|min:2|max:11'
      ]);
       try{
-      if($request->passwordNu== $request->passwordNuR){
+      if($request->Contraseña== $request->ConfirmarContraseña){
       
        $registro = new User();
-       $registro->name = $request->nombreNu;
-       $registro->email = $request->emailNu;
-       $registro->identificacion = $request->identificacion;
-       $incriptado= bcrypt($request->passwordNu);
+       $registro->name = $request->Nombre;
+       $registro->email = $request->Correo;
+       $registro->identificacion = $request->Identificacion;
+       $incriptado= bcrypt($request->Contraseña);
        $registro->password=$incriptado; 
-       $registro->apellido = $request->apellidoNu;
-       $registro->telefono = $request->telefonoNu;
+       $registro->apellido = $request->Apellido;
+       $registro->telefono = $request->Telefono;
+       $registro->id_rol=1;
+       $registro->estado=1;
        $registro->save();
        return back()->with("success", "Se ha registrado el usuario exitosamente.");
 
@@ -356,6 +358,7 @@ public function ModificarTablasIntermedias($idProducto,$request){
 public function ModificarProductos(Request $request){
   $productoE=Productos::find($request->idProducto);
   if($productoE !=null){
+    try{
     $productoE->nombre=$request->nombre;
     $productoE->precio=$request->precio;
     $productoE->descuento=$request->descuento;
@@ -364,13 +367,17 @@ public function ModificarProductos(Request $request){
     $productoE->id_categoria=$request->categoria;  
     $productoE->save();
     $res= ControladorAdmin::ModificarTablasIntermedias($productoE->id,$request);
-    if($res){
-      return "yo quiero es un hijupueta perreo por ser buen programador";
+    
+    return back()->with("success", "Se han modificado los datos exitosamente.");
+  
+     }catch(Exception $e){
+      return back()->with("failed", "Ocurrio un error, esta talla ya existe, ingrese otra talla.");
     }
   }  
-  
- return response()->json($productoTallaE);
+  return response()->json($productoTallaE);
+
 }
+
 public function MostrarProductos(){
  $colores=Colores::where("estado","=", "1")->get();
  $categorias=Categorias::where("estado","=","1")->get();
