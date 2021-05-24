@@ -10,10 +10,15 @@ use App\Models\FotoProducto;
 use App\Models\ProductosTallas;
 use App\Models\Pedidos;
 use App\Models\EstadoPedido;
+use App\Models\PagoEnLinea;
+use App\Models\TipoDePago;
+use App\Models\Entrada;
+use App\Models\EntradaProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Response;
 use Exception;
+use Response;
+
 
 class ControladorAdmin extends Controller
 {
@@ -525,10 +530,150 @@ public function EstadoProductos($id){
     return redirect()->action([ControladorAdmin::class , "MostrarPedidos"]);
    }
 
-
    public function MostrarPagosRealizados(){
+    $pagos=PagoEnLinea::join("tipo_de_pagos","tipo_de_pagos.Id_Tipo_Pago","=","pago_en_lineas.id_tipo_pago")
+                        ->select("*")
+                        ->get();
+    return view('Administrador/pedidos/MostrarPagosRealizados')->with('pagos',$pagos);
+  }
 
+  /*----------------Acciones estado pedidos-------------------- */
+  public function MostrarEstadoPedidos(){
+    $estadoPedidos=EstadoPedido::all();
+    return view('Administrador/estadopedidos/MostrarEstadoPedido')->with('estado',$estadoPedidos);
+  }
+
+  public function AgregarEstadoPedido(Request $request ){
+   try{
+    $EstadoPedido= new EstadoPedido();
+    $EstadoPedido->Estado=$request->estado;
+    $EstadoPedido->save();
+    }catch(Exception $e){
+      return $e->getMessage();
+    }
+    return redirect()->action([ControladorAdmin::class, "MostrarEstadoPedidos"]);
+
+  }
+  public function EditarEstadoPedidoBD($id){
+    $EstadoModificar=EstadoPedido::find($id);
+    return view('Administrador/estadopedidos/EditarEstadoPedido')->with('estadoP', $EstadoModificar);
+  }
+
+  public function ModificarEstadoPedidoBD(Request $request){
+     $BuscadoEstadoPedido=EstadoPedido::find($request->IdEstadoPedido);
+     if($BuscadoEstadoPedido !=null){
+       $BuscadoEstadoPedido->Estado=$request->Estado;
+       $BuscadoEstadoPedido->save();
+     }
+    return redirect()->action([ControladorAdmin::class, "MostrarEstadoPedidos"]);
+  }
+
+  public function MostrarTiposPago(){
+   $tiposPagos=TipoDePago::all();
+   return view('Administrador/pedidos/MostrarTipoPago')->with('pago', $tiposPagos);
+  }
+
+  /*-------------------------Entrada de productos--------------------------------- */
+
+  public function EntradaProducto(){
+    $productos=Productos::all();
+    return view('Administrador/productos/SumarCantidad')->with('productos', $productos);
+  }
+
+  public function VistaRestaProducto(){
+    $productos=Productos::all();
+    return view('Administrador/productos/RestarCantidad')->with('productos', $productos);
+  }
+
+  private function GuardarEntrada($cantidad){
+    $respuesta=false;
+    try{
+      $entrada=new Entrada();
+      $entrada->cantidad=$cantidad;
+      $entrada->save();
+      $respuesta=true;
+    }catch(Exception $e){
+      $respuesta=$e->getMessage();
+    }
+      return  $respuesta;
+  }
+
+  private function DetalleEntradaProducto($idProducto){
+    $respuesta=false;
+    $entrada=Entrada::all();
+    $entradaUltimo=$entrada->last();
+    try{
+    $fecha=date("Y-m-d H:i:s");
+    $entradaProducto= new EntradaProducto();
+    $entradaProducto->Id_entrada=$entradaUltimo->id;
+    $entradaProducto->Id_producto=$idProducto;
+    $entradaProducto->fecha=$fecha;
+    $entradaProducto->save();
+    $respuesta=true;
+    }catch(Exception $e){
+     $respuesta=$e->getMessage();
+    }
+    return $respuesta;
+  }
+  
+
+  public function SumarProducto(Request $request){
+    $respuesta;
+     if($request->id != null && $request->cantidad !=null){
+       $EntradaRespuesta=ControladorAdmin::GuardarEntrada($request->cantidad);
+       if($EntradaRespuesta == true){
+        $EntradaProducto=ControladorAdmin::DetalleEntradaProducto($request->id);
+        if($EntradaProducto== true){
+          $producto=Productos::find($request->id);
+          $cantidadActual=$producto->stock;
+          $producto->stock=$cantidadActual+$request->cantidad;
+          $producto->save();
+          $respuesta=true;
+        }    
+       }
+     }else{
+       if($request->id !=null){
+         $producto=Productos::find($request->id);
+         $producto != null ? $respuesta=$producto->stock :$respuesta=-1;
+       }
+     }
+     return Response::json($respuesta); 
+  }
+
+  public function RestarProducto(Request $request){
+    $respuesta;
+     if($request->id != null && $request->cantidad !=null){      
+          $producto=Productos::find($request->id);
+          $cantidadActual=$producto->stock;
+          $producto->stock=$cantidadActual-$request->cantidad;
+          $producto->save();
+          $respuesta=true;  
+     }else{
+       if($request->id !=null){
+         $producto=Productos::find($request->id);
+         $producto != null ? $respuesta=$producto->stock :$respuesta=-1;
+       }
+     }
+     return Response::json($respuesta); 
+  }
+
+   /*---------------Acciones chat----------------- */
+
+   public function Chat(){
+     return view('Administrador/chats/ChatAdmin');
    }
+   public function DatosUsuarioChat(Request $request){
+    $arrayDatosU=[];
+    $jsonConvertir=json_encode($request->all());
+    $jsonDesconvertir=json_decode($jsonConvertir,true);
+    foreach($jsonDesconvertir as $fila){
+      $id=$fila['id'];
+      $busquedaU=User::where("Id_Usuarios","=",$id)->get();
+      array_push($arrayDatosU,$busquedaU);
+    }
+     return Response::json($arrayDatosU);
+   }
+
 }
 
                     
