@@ -219,7 +219,6 @@ else {
       return Response::json($res);
    }
 
-
    public function login(){
 
      return view('Usuario/login');
