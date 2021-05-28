@@ -1,4 +1,5 @@
 
+
 let botonCompra = document.getElementById("botonCarrito");
 let id = document.getElementById("idProducto");
 let imgE = document.getElementById("img");
@@ -125,14 +126,19 @@ let EliminarProducto = (e) => {
   localStorage.setItem("productos", JSON.stringify(objetos));
   MostrarProductos();
   CalculoCompra();
+  
 }
 
 let CalculoCompra = () => {
   let subtotal = document.getElementById("subtotalC");
   let total = document.getElementById("totalC");
   let objetos = JSON.parse(localStorage.getItem("productos"));
+  let suma=0;
   if (objetos != null) {
-    let valorSubtotal = objetos.reduce((e, i) => Number(i.precioP) * Number(i.cantidadP),0);
+    let valorSubtotal = objetos.reduce((e,i)=>{
+      suma=suma+Number(i.precioP)*Number(i.cantidadP);
+      return suma;
+    },0);
    subtotal.textContent= '$' + valorSubtotal;
     total.textContent= '$' + valorSubtotal;
   }

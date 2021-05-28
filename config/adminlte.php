@@ -254,6 +254,10 @@ return [
                     'url'  => '/Administrador/categorias',
                 ],
                 [
+                    'text' => 'Sección Chats',
+                    'url'  => '/Administrador/chats',
+                ],
+                [
                     'text'    => 'Sección Productos',
                     'url'     => '#',
                     'submenu' => [
@@ -262,16 +266,20 @@ return [
                             'url'  => '/Administrador/productos/MostrarProductos',
                         ],
                         [
-                            'text'    => 'level_two',
+                            'text'    => 'Opciones Cantidades',
                             'url'     => '#',
                             'submenu' => [
                                 [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
+                                  'text' => 'Entradas de productos',
+                                  'url'=>'/Administrador/productos/EntradasProductos', 
                                 ],
                                 [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
+                                    'text' => 'Sumar Cantidades',
+                                    'url'  => '/Administrador/productos/SumarCantidad',
+                                ],
+                                [
+                                    'text' => 'Restar Cantidades',
+                                    'url'  => '/Administrador/productos/RestarCantidad',
                                 ],
                             ],
                         ],
@@ -300,11 +308,11 @@ return [
                             'submenu' => [
                                 [
                                     'text' => 'Mostrar Estados de pagos',
-                                    'url'  => '/Administrador/productos/MostrarProductos',
+                                    'url'  => '/Administrador/pedidos/MostrarEstadoPedidos',
                                 ],
                                 [
                                     'text' => 'Mostrar tipo de pagos',
-                                    'url'  => '/Administrador/productos/MostrarProductos',
+                                    'url'  => '/Administrador/pedidos/MostrarTiposPagos',
                                 ],
                             ],
                         ],

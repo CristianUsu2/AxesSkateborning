@@ -1,14 +1,21 @@
 const btnPayu=document.getElementById("btnPayU");
-const totalCompra=document.getElementById("totalCompra").value;
-const nombre=document.getElementById("f_name").value;
-const apellido=document.getElementById("l_name").value;
-const email=document.getElementById("email").value;
-const telefono=document.getElementById("phone").value;
+const divtotalCompra=document.getElementById("totalCompra");
+const divnombre=document.getElementById("f_name");
+const divapellido=document.getElementById("l_name");
+const divemail=document.getElementById("email");
+const divtelefono=document.getElementById("phone");
 const divFormPayu=document.getElementById("divformPayU");
 if(btnPayu !=null){
 btnPayu.addEventListener("click", ()=>{
     FormularioPayU();
 });
+}
+if(divtotalCompra !=null){
+    var totalCompra=DivtotalCompra.value;
+    var nombre=divnombre.value;
+    var apellido=divapellido.value;
+    var email=divemail.value;
+    var telefono=divtelefono.value;
 }
 const FormularioPayU=()=>{
    const productos=JSON.parse(localStorage.getItem("productos"));
