@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}" id="csrf" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../Usuario/pushbar/css/pushbar.css">
     <link rel="stylesheet" type="text/css" href="../Usuario/fontawesome-free-5.15.1-web/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="../Usuario/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../Usuario/css/helper.min.css">
@@ -444,8 +443,8 @@
   const db=firebase.firestore();
 </script>
 <script src="../Usuario/js/configFirebase.js"></script>
-<script src="../Usuario/js/cart.js"><script>
-<script src="../Usuario/js/detailsCart.js"></script>
+<script src="../Usuario/js/cart.js"></script>
+<script src="../Usuario/js/detailscart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
 <script src="../Usuario/js/PayU.js"></script>

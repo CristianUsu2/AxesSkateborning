@@ -581,6 +581,14 @@ public function EstadoProductos($id){
   }
 
   /*-------------------------Entrada de productos--------------------------------- */
+  public function EntradasProductos(){
+    $entradaProductos=EntradaProducto::join("entradas","entrada_productos.Id_entrada","=","entradas.id")
+      ->join("productos","productos.id","=","entrada_productos.Id_producto")
+      ->select("*")
+      ->get();
+
+     return view('Administrador/productos/EntradasProductos')->with("entradaP",$entradaProductos); 
+  }
 
   public function EntradaProducto(){
     $productos=Productos::all();

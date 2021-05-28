@@ -13,7 +13,7 @@
 
                 <div class="col-md-12 text-center">
 
-                    <h3><strong>Pagos realizados</strong></h3>
+                    <h3><strong>Entradas Productos</strong></h3>
                     @if(Session::has("success"))
                             <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
                         @elseif(Session::has("failed"))
@@ -32,15 +32,15 @@
 
                     <tr>
 
-                        <th width="10">Id pago</th>
+                        <th width="10">Id Producto</th>
 
-                        <th>Tipo pago</th>
+                        <th>Nombre</th>
 
-                        <th>Valor</th>
+                        <th>Stock</th>
 
                         <th>Fecha</th>
 
-                        <th>Id pedido</th>
+                        <th>Cantidad Añadida</th>
 
                     
 
@@ -49,14 +49,14 @@
                 </thead>
 
                 <tbody>
-                    @foreach ($pagos as $user)
+                    @foreach ($entradaP as $entrada)
                         
                     <tr>
-                        <td>{{$user->Id_Pago}}</td>
-                        <td>{{$user->Tipo_Pago}}</td>
-                        <td>{{$user->Valor_Pago}}</td>
-                        <td>{{$user->Fecha}}</td>
-                        <td>{{$user->id_pedido}}</td>
+                        <td>{{$entrada->id}}</td>
+                        <td>{{$entrada->nombre}}</td>
+                        <td>{{$entrada->stock}}</td>
+                        <td>{{$entrada->fecha}}</td>
+                        <td>{{$entrada->cantidad}}</td>
                         
                       
                       

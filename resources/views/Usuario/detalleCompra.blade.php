@@ -168,7 +168,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <a href="{{url('/Productos/finalizarCompra')}}" id="btnProcederPagar" class="sqr-btn d-block">Proceder a pagar</a>
+                            <a href="/Productos/finalizarCompra" id="btnProcederPagar" class="sqr-btn d-block">Proceder a pagar</a>
                         </div>
                     </div>
                 </div>

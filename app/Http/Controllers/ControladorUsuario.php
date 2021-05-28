@@ -200,22 +200,31 @@ else {
    }
 
    public function FinalizarCompraGoogle(Request $request){
-      $res=1;
+      $res=0;
+      if($request->name != null && $request->email !=null && $request->identificacion!=null && $request->apellido!=null && $request->telefono!=null ){
       try{
-      $user=new User();
-      $user->name=$request->name;
-      $user->email=$request->email;
-      $user->identificacion=$request->identificacion;
-      $user->estado=1;
-      $user->id_rol=1;
-      $user->apellido=$request->apellido;
-      $user->telefono=$request->telefono;
-      $user->save();
-      }catch(Exception $e){
+           $user=new User();
+           $user->name=$request->name;
+           $user->email=$request->email;
+           $user->identificacion=$request->identificacion;
+           $user->estado=1;
+           $user->id_rol=1;
+           $user->apellido=$request->apellido;
+           $user->telefono=$request->telefono;
+           $user->save();
+       }catch(Exception $e){
         return Response::json($e->getMessage());
+       }
+       $usuario=User::where("email","=",$user->email)->get();
+       session(['datosU' => $usuario]);
+       $res=1;
+     }else{
+      $user=User::where("email","=",$request->email)->get();
+      if($user != null){
+        session(['datosU' => $user]);
+        $res=2;
       }
-      $usuario=User::where("email","=",$user->email)->get();
-      session(['datosU' => $usuario]);
+     }
       return Response::json($res);
    }
 
