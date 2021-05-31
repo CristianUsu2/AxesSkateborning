@@ -139,10 +139,21 @@
                                       </div>
                                   </div> <!-- end single shipping -->
                               </div>
+                              @if(Session::has("success"))
+                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
+                                 @elseif(Session::has("failed"))
+                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
+                            @elseif(Session::has("failed1"))
+                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed1')}}</div>
+                             @endif
                               <div class="header-middle-block">
                                   <div class="header-middle-searchbox">
-                                      <input type="text" placeholder="Buscar Producto...">
-                                      <button type="submit" class="search-btn" ><i class="fa fa-search"></i></button>
+                                  <form action="{{route('buscador')}}" method="POST">
+                                    @csrf
+                                    
+                                      <input type="text" name="productoB" placeholder="Buscar Producto...">
+                                      <button type="submit" id="buscar" class="search-btn"><i class="fa fa-search"></i></button>
+                                      </form>
                                   </div>
                                   <div class="header-mini-cart">
                                       <div class="mini-cart-btn">
@@ -413,6 +424,7 @@
 <div class="scroll-top not-visible">
   <i class="fa fa-angle-up"></i>
 </div>
+
 <script>
   const divsImagenes=document.querySelector("#divPadreProductos");
   if(divsImagenes!=null){

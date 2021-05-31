@@ -9,7 +9,7 @@
                 <div class="col-lg-6">
                     <div class="login-reg-form-wrap  pr-lg-50">
                         <h2>Iniciar Sesión</h2>
-                        @if(Session::has("login"))
+                         @if(Session::has("login"))
                             <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('login')}}</div>
                         @endif
                         <form action="{{url('/InicioSesion')}}" method="post">

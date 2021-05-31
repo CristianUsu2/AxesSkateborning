@@ -12,12 +12,15 @@ Route::resource('/', ControladorUsuario::class);
 Route::get('index', [ControladorUsuario::class, "index"]);
 Route::get('/InicioSesion', [ControladorUsuario::class, "login"])->name('login');
 Route::post('/InicioSesion', [ControladorUsuario::class, "loginV"]);
+Route::post('/Buscador', [ControladorUsuario::class, "buscar"])->name('buscador');
+Route::get('/Buscador', [ControladorUsuario::class, "buscarD"]);
+
 Route::post('/InicioSesionR', [ControladorUsuario::class, "register"]);
 Route::get('/Terminos-Condiciones', [ControladorUsuario::class, "terminos"])->name("terminos");
 Route::get('/Politica-Privacidad', [ControladorUsuario::class, "privacidad"])->name("privacidad");
 Route::get("RecuperarContraseña", [MailerController::class, "email"])->name("email");
 Route::get('/CambiarContraseña', [ControladorUsuario::class, "cambioC"]);
-Route::get('/Categorias', [ControladorUsuario::class, "categoriaU"])->name("categorias");
+Route::get('/Categorias/{categoria}', [ControladorUsuario::class, "categoriaU"])->name("categorias");
 Route::get('/Informacion/{Id_Usuarios}', [ControladorUsuario::class, "datosU"]);
 Route::post('/Informacion', [ControladorUsuario::class, "informacionU"])->name('Modificar');
 Route::post('/CambiarContraseña', [ControladorUsuario::class, "update"])->name('cambiarC');
@@ -29,6 +32,7 @@ Route::get('/Productos/finalizarCompra',[ControladorUsuario::class,"FinalizarCom
 Route::post('/Productos/finalizarCompra',[ControladorUsuario::class,"GuardarCompra"]);
 Route::post('/Productos/detalleCompra',[ControladorUsuario::class,"FinalizarCompraGoogle"]);
 Route::get('/Productos/Pedidos',[ControladorUsuario::class,"PedidosUsuario"])->name('PedidosU');
+
 /*-------------Rutas de Administrador Usuarios---------------------- */
 Route::get('/Administrador', [ControladorAdmin::class, "index"])->name('inicio');
 Route::get('/Administrador/usuarios', [ControladorAdmin::class, "usuarios"])->name('usuarios');

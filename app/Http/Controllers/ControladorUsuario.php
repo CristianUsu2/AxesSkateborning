@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use UxWeb\SweetAlert\SweetAlert;
+use Illuminate\Support\Str;
 
 use Response;
 
@@ -73,10 +74,59 @@ class ControladorUsuario extends Controller
   public function privacidad(){
     return view('Usuario/privacidad');
   }
+
    public function datosU($id){
     $UserB=User::find($id);
      return view('Usuario/informacion')->with('usuario',$UserB);;
    }
+
+   public function buscarD(){
+      $productos = Productos::where("estado","=","1")
+      ->select("*")
+      ->paginate(5);
+      $imagenes= Productos::select('productos.id','foto_producto.foto')
+      ->join('foto_producto','foto_producto.id_producto','=','productos.id')
+      ->get();                      
+      
+     return view('Usuario/buscarD')
+     ->with('imagenes',$imagenes)
+     ->with('productos',$productos);
+
+   }  
+   public function buscar(Request $request){
+ 
+    if(trim($request->productoB) == null){
+      return back()->with("failed", "Este campo es obligatorio.");
+    }
+
+    if($request){
+      $consulta = trim($request->get('productoB'));
+      $productos = Productos::where('nombre','like','%'.$consulta .'%')
+                            ->orderBy('id','asc')
+                            ->get();
+       if($productos.Str::length(1)){   
+          $productos = Productos::where("estado","=","1")
+          ->select("*")
+          ->where('nombre','like','%'.$consulta .'%')
+          ->paginate(5);
+
+          $tallas=Tallas::where("estado","=","1")->get();                 
+          $imagenes= Productos::select('productos.id','foto_producto.foto')
+          ->join('foto_producto','foto_producto.id_producto','=','productos.id')
+          ->get();     
+
+          return view('Usuario/buscarD')
+          ->with('productos',$productos)
+          ->with('imagenes',$imagenes)
+          ->with('tallas',$tallas);
+      
+     }
+    }else{
+      return "error";
+    }
+  
+ }
+
 
    public function update(Request $request){
     $request->validate([
@@ -200,31 +250,22 @@ else {
    }
 
    public function FinalizarCompraGoogle(Request $request){
-      $res=0;
-      if($request->name != null && $request->email !=null && $request->identificacion!=null && $request->apellido!=null && $request->telefono!=null ){
+      $res=1;
       try{
-           $user=new User();
-           $user->name=$request->name;
-           $user->email=$request->email;
-           $user->identificacion=$request->identificacion;
-           $user->estado=1;
-           $user->id_rol=1;
-           $user->apellido=$request->apellido;
-           $user->telefono=$request->telefono;
-           $user->save();
-       }catch(Exception $e){
+      $user=new User();
+      $user->name=$request->name;
+      $user->email=$request->email;
+      $user->identificacion=$request->identificacion;
+      $user->estado=1;
+      $user->id_rol=1;
+      $user->apellido=$request->apellido;
+      $user->telefono=$request->telefono;
+      $user->save();
+      }catch(Exception $e){
         return Response::json($e->getMessage());
-       }
-       $usuario=User::where("email","=",$user->email)->get();
-       session(['datosU' => $usuario]);
-       $res=1;
-     }else{
-      $user=User::where("email","=",$request->email)->get();
-      if($user != null){
-        session(['datosU' => $user]);
-        $res=2;
       }
-     }
+      $usuario=User::where("email","=",$user->email)->get();
+      session(['datosU' => $usuario]);
       return Response::json($res);
    }
 
