@@ -20,9 +20,11 @@ let MostrarProductosDetalle = () => {
         <td class="pro-price"><span>$${Element.precioP}</span></td>
         <td class="pro-quantity">
             <div class="pro-qty">
-            <div class="col-1">
-            </div>
+                <span class="dec qtybtn">-</span>
                 <input type="text" id="cantidadProducto" value="${Element.cantidadP}" />
+                <input type="hidden" id="idProdu" value="${Element.itemP}" />
+                <input type="hidden" id="tallaProducto" value="${Element.tallaP}" />
+                <span class="inc qtybtn">+</span>
             </div>
            
         </td>
@@ -47,11 +49,8 @@ if (botonFinalizar != null) {
   })
 }
 
-if (cantidadProducto != null) {
-  cantidadProducto.addEventListener('change', (e) => {
-    AumentarValor(e);
-  });
-}
+
+
 if (botonContraEntrega != null) {
   botonContraEntrega.addEventListener("click", () => {
     localStorage.removeItem("productos");
@@ -82,7 +81,6 @@ const EnvioDetalleCompra=()=>{
     if(datos==2){
      usuario.validado=true;
      localStorage.setItem("usuario",JSON.stringify(usuario));
-     
     }
   })
   .catch(error=>console.log(error))
@@ -93,6 +91,9 @@ if (tbody != null) {
     if (e.target.classList.contains("fas", "fa-trash-alt")) {
       const div = e.target.parentElement;
       EliminarProductoD(div);
+    }else if(e.target.classList.contains("dec","qtybtn") || e.target.classList.contains("inc","qtybtn")){
+      const $cantidad=e.target.parentNode;
+      EditarProducto($cantidad);
     }
   });
 }
@@ -118,20 +119,6 @@ let CalculoCompraD = () => {
   }
 }
 
-let AumentarValor = (e) => {
-  let card = e.target.parentElement;
-  let itemB = card.querySelector('input[type="hidden"]').value;
-  if (itemB != null) {
-    let busqueda = productos.findIndex(i => i.itemP == itemB);
-    if (busqueda != -1) {
-      let valor = card.querySelector('input[type="text"]').value;
-      productos[busqueda].cantidadP = valor;
-      localStorage.setItem("productos", JSON.stringify(productos));
-      CalculoCompraD();
-    }
-  }
-}
-
 
 let ValidacionDeItemsCard = () => {
   /*productos.reduce((e,i,o)=>{
@@ -152,8 +139,6 @@ let EliminarProductoD = (e) => {
   CalculoCompra();
 }
 
-
-
 if (tbodyfinalizarc !== null) {
   if (productos != null) {
     tbodyfinalizarc.innerHTML = "";
@@ -171,5 +156,18 @@ if (tbodyfinalizarc !== null) {
     CalculoCompraD();
   }
 }
-ValidacionDeItemsCard()
+
+let EditarProducto=(e)=>{
+  const talla=e.querySelector("#tallaProducto").value;
+  const CantidadModificada=e.querySelector("#cantidadProducto").value;
+  const idProducto=e.querySelector("#idProdu").value;
+  const pos=productos.findIndex(e=>e.itemP==idProducto && e.tallaP==talla);
+  if(pos !=-1){
+    productos[pos].cantidadP=CantidadModificada;
+    localStorage.setItem("productos",JSON.stringify(productos));
+    CalculoCompraD();
+  }
+
+}
+
 MostrarProductosDetalle()
