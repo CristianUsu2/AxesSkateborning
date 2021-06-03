@@ -266,12 +266,16 @@ return [
                             'url'  => '/Administrador/productos/MostrarProductos',
                         ],
                         [
-                            'text'    => 'Opciones Cantidades',
+                            'text'    => 'Opciones Productos',
                             'url'     => '#',
                             'submenu' => [
                                 [
                                   'text' => 'Entradas de productos',
                                   'url'=>'/Administrador/productos/EntradasProductos', 
+                                ],
+                                [
+                                    'text' => 'Agregar descuentos',
+                                    'url'=>'/Administrador/productos/DescuentosProductos', 
                                 ],
                                 [
                                     'text' => 'Sumar Cantidades',

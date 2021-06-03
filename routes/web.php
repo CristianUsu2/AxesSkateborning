@@ -90,6 +90,8 @@ Route::post('/Administrador/productos/SumarCantidad',[ControladorAdmin::class, "
 Route::get('/Administrador/productos/RestarCantidad',[ControladorAdmin::class, "VistaRestaProducto"]);
 Route::post('/Administrador/productos/RestarCantidad',[ControladorAdmin::class,"RestarProducto"]);
 Route::get('/Administrador/productos/EntradasProductos',[ControladorAdmin::class, "EntradasProductos"]);
+Route::get('/Administrador/productos/DescuentosProductos',[ControladorAdmin::class, "VistaDescuentosProductos"]);
+Route::post('/Administrador/productos/DescuentosProductos',[ControladorAdmin::class, "DescuentosProductos"]);
 /*---------------------------Ruta chat----------------------------- */
 Route::get('/Administrador/chats',[ControladorAdmin::class, "Chat"]);
 Route::post('/Administrador/chats',[ControladorAdmin::class, "DatosUsuarioChat"]);

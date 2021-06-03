@@ -496,8 +496,43 @@ public function EstadoProductos($id){
   }   
 }
   
+public function VistaDescuentosProductos(){
+  $productos=Productos::all();
+    return view('Administrador/productos/DescuentosProductos')->with('productos', $productos);
+}  
   
-  
+public function DescuentosProductos(Request $request){
+  $respuesta=-1;
+  if($request->id !=null && $request->descuento ==null){
+    $producto=Productos::find($request->id);
+    if($producto!=null){
+     $respuesta=$producto->precio;
+    }
+  }else if($request->id !=null && $request->descuento !=null && $request->accion==1){
+    $producto=Productos::find($request->id);
+    if($producto!=null){
+      $precioProducto=$producto->precio;
+      $valorDescuento=$precioProducto*$request->descuento;
+      $precioProductoDescu=$precioProducto-$valorDescuento;
+      $respuesta=$precioProductoDescu;
+    }
+  }else{
+    $producto=Productos::find($request->id);
+    if($producto!=null){
+      try{
+      $producto->descuento=$request->descuento;
+      $producto->save();
+      $respuesta=1;
+      }catch(Exception $e){
+        $respuesta=-1;
+      }
+    }
+   }
+
+ return Response::json($respuesta);
+}
+
+
    /*Accciones pedidos */
    public function MostrarPedidos(){
     $productos=Productos::all();
