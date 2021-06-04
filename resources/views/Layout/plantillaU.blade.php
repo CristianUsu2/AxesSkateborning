@@ -440,14 +440,13 @@
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
 <script>
   var firebaseConfig = {
-    apiKey: "AIzaSyCMzY42dtyJgXPfzCKZzKp-W2sOvvJcQAM",
-    authDomain: "pruebatiendaaxes-4d509.firebaseapp.com",
-    databaseURL: "https://pruebatiendaaxes-4d509-default-rtdb.firebaseio.com",
-    projectId: "pruebatiendaaxes-4d509",
-    storageBucket: "pruebatiendaaxes-4d509.appspot.com",
-    messagingSenderId: "664697906282",
-    appId: "1:664697906282:web:4f91c9d720ef40bfb75613",
-    measurementId: "G-KTH3MNV6R9"
+    apiKey: "AIzaSyADbRq5ER8UsC7-XnQ2srTiaoAsKt2qryg",
+    authDomain: "axesskateborning-e0bf9.firebaseapp.com",
+    projectId: "axesskateborning-e0bf9",
+    storageBucket: "axesskateborning-e0bf9.appspot.com",
+    messagingSenderId: "782465290202",
+    appId: "1:782465290202:web:35da585c1a5cd19f587ae3",
+    measurementId: "G-YB04YWTL2V" 
   };
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
