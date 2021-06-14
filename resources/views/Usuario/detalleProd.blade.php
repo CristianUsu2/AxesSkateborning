@@ -33,7 +33,15 @@
                                             <span>{{$ProductoSelecc->stock}}</span>
                                         </div>
                                         <div class="pricebox">
-                                            <span class="regular-price" id="precio">${{$ProductoSelecc->precio}}</span>
+                                        @if($ProductoSelecc->descuento>=0.1)
+                                            {{!$precioProducto=$ProductoSelecc->precio}}
+                                            {{!$valorDescuento=$precioProducto*$ProductoSelecc->descuento}}
+                                            {{!$precioProductoDescu=$precioProducto-$valorDescuento}}
+                                            <span class="regular-price" id="precio">${{$precioProductoDescu}}</span>
+                                            @else
+                                    <span class="regular-price" id="precio">${{$ProductoSelecc->precio}}</span>
+
+                                    @endif
                                         </div>
                                         <p>{{$ProductoSelecc->descripcion}}</p>
                                         <div class="quantity mt-2 mb-3">

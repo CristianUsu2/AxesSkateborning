@@ -21,6 +21,7 @@ Route::get('/Politica-Privacidad', [ControladorUsuario::class, "privacidad"])->n
 Route::get("RecuperarContraseña", [MailerController::class, "email"])->name("email");
 Route::get('/CambiarContraseña', [ControladorUsuario::class, "cambioC"]);
 Route::get('/Categorias/{categoria}', [ControladorUsuario::class, "categoriaU"])->name("categorias");
+Route::get('/Descuentos',[ControladorUsuario::class,"promociones"])->name("promo");
 Route::get('/Informacion/{Id_Usuarios}', [ControladorUsuario::class, "datosU"]);
 Route::post('/Informacion', [ControladorUsuario::class, "informacionU"])->name('Modificar');
 Route::post('/CambiarContraseña', [ControladorUsuario::class, "update"])->name('cambiarC');
@@ -32,6 +33,7 @@ Route::get('/Productos/finalizarCompra',[ControladorUsuario::class,"FinalizarCom
 Route::post('/Productos/finalizarCompra',[ControladorUsuario::class,"GuardarCompra"]);
 Route::post('/Productos/detalleCompra',[ControladorUsuario::class,"FinalizarCompraGoogle"]);
 Route::get('/Productos/Pedidos',[ControladorUsuario::class,"PedidosUsuario"])->name('PedidosU');
+Route::get('/Productos/Pedidos/generarPDF', [PDFController::class, 'comprobante'])->name('comprobante');
 
 /*-------------Rutas de Administrador Usuarios---------------------- */
 Route::get('/Administrador', [ControladorAdmin::class, "index"])->name('inicio');
@@ -43,6 +45,8 @@ Route::get('/Administrador/usuarios/{Id_Usuarios}', [ControladorAdmin::class, "e
 Route::get('/Administrador/usuariosE/{Id_Usuarios}',[ControladorAdmin::class, "editarUsuario"]);
 Route::post('/Administrador/usuariosE',[ControladorAdmin::class,"ModificarUsuario"])->name('ModificarUsuario');
 Route::get('/Administrador/generarPDF', [PDFController::class, 'generatePDF'])->name('PDF');
+Route::post("/Administrador/notificaciones", [MailerController::class, "notificar"])->name("notificar");
+Route::get("/Administrador/notificaciones", [MailerController::class, "notificar"])->name("notificar");
 
 /*---------------------Rutas pedidos------------------------- */
 Route::get('/Administrador/productos/MostrarPedidos',[ControladorAdmin::class, "MostrarPedidos"]);

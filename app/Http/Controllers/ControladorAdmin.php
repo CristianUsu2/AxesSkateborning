@@ -376,7 +376,7 @@ public function ModificarProductos(Request $request){
     return back()->with("success", "Se han modificado los datos exitosamente.");
   
      }catch(Exception $e){
-      return back()->with("failed", "Ocurrio un error, esta talla ya existe, ingrese otra talla.");
+      return back()->with("failed", "Ocurrio un error, no se pudo modificar el producto, revise todos los campos.");
     }
   }  
   return response()->json($productoTallaE);

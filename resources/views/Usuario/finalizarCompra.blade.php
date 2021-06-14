@@ -15,16 +15,11 @@
                                 </div>
                                 <nav class="category-menu hm-1">
                                     <ul>
-                                        <li><a href="{{route('categorias')}}"><i class="fas fa-shoe-prints"></i>
-                                            Zapatos</a></li>
-                                                                              
-                                        <li><a href="{{route('categorias')}}"><i class="fas fa-suitcase-rolling"></i>
-                                               Bolsos</a></li>
-                                        <li><a href="{{route('categorias')}}"><i class="fas fa-graduation-cap"></i>
-                                                Gorras</a></li>
-                                        <li><a href="{{route('categorias')}}"><i class="fa fa-tshirt"></i>
-                                                Camisas</a></li>
-                                       
+                                    @foreach($categorias as $Categorias)
+                                        <li><a href="{{route('categorias',$Categorias)}}"><i style="color:red" class="fas fa-check"></i>
+                                            {{$Categorias->Nombre_Categoria}}</a></li>
+                                     @endforeach                                         
+                                                            
                                     </ul>
                                 </nav>
                             </div>

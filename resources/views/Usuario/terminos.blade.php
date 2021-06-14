@@ -29,7 +29,7 @@
     <h2>TÉRMINOS Y CONDICIONES</h2>
     </div>
     <div class="parrafo">
-    <p>Este aplicativo web fue diseñada y creada para la promoción y distribución de productos y servicios
+    <p>Este aplicativo web fue diseñado y creado para la promoción y distribución de productos y servicios
     de <strong>Axes Skateboarding.</strong> Todos nuestros productos cumplen con las normas establecidas por
     las entidades regulares de industria y comercio, garantizando la calidad y legalidad de cada producto.
     </p>

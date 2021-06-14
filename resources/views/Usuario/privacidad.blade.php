@@ -31,7 +31,7 @@
     <div class="parrafo">
     <p><strong>Axes Skateboarding</strong> es una empresa Colombiana enfocada en la fabricación y venta de ropa
     y elementos deportivos de alto rendimiento, cada producto cumple con las normas establecidas de comercialización
-    como el IVA y pagos de derecho de distribución, cual quier uso indebido del nombre de los productos o
+    como el IVA y pagos de derecho de distribución, cualquier uso indebido del nombre de los productos o
     servicios de la empresa <strong>Axes Skateboarding</strong> será sancionado por las entidades reguladoras
     de industria y comercio.
     </p>

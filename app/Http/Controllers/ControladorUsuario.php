@@ -19,11 +19,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use UxWeb\SweetAlert\SweetAlert;
 use Illuminate\Support\Str;
-
 use Response;
-
 use Exception;
-
+use DB;
 class ControladorUsuario extends Controller
 {
 
@@ -48,6 +46,33 @@ class ControladorUsuario extends Controller
                                     ->with('imagenes',$imagenes)
                                     ->with('tallasP', $tallasP);
    }
+
+   public function promociones(){
+
+    $colores=Colores::where("estado","=", "1")->get();
+    $categorias=Categorias::where("estado","=","1")->get();
+    $tallas=Tallas::where("estado","=","1")->get();
+    $producto=Productos::where("estado","=","1")
+                          ->where("descuento",">","0.1")
+                         ->paginate(6);
+    $imagenes= Productos::select('productos.id','foto_producto.foto')
+                         ->join('foto_producto','foto_producto.id_producto','=','productos.id')
+                         ->get();
+                        
+    $tallasP=Productos::join('producto_talla','producto_talla.id_producto','=','productos.id')
+                         ->select("*")
+                         ->get();       
+                               
+     return view("Usuario/promociones")
+     ->with('colores',$colores)
+     ->with('categorias',$categorias)
+     ->with('tallas',$tallas)
+     ->with('productos',$producto)
+     ->with('imagenes',$imagenes)
+     ->with('tallasP', $tallasP);
+   }
+
+
 
    public function categoriaU(Categorias $categoria){
     $producto = Productos::where('id_categoria',$categoria->id)
@@ -87,7 +112,6 @@ class ControladorUsuario extends Controller
       $imagenes= Productos::select('productos.id','foto_producto.foto')
       ->join('foto_producto','foto_producto.id_producto','=','productos.id')
       ->get();                      
-      
      return view('Usuario/buscarD')
      ->with('imagenes',$imagenes)
      ->with('productos',$productos);
@@ -97,13 +121,25 @@ class ControladorUsuario extends Controller
  
     if(trim($request->productoB) == null){
       return back()->with("failed", "Este campo es obligatorio.");
+      return false;
     }
-
+    $p = DB::select("SELECT nombre FROM productos");
+    $pConsulta = [$p];
+    for ($i=0; $i <$pConsulta; $i++) { 
+     if($pConsulta[$i] === $request->productoB){
+       return "encontrado";
+       break;
+     }else{
+       return "no encontrado";
+     }
+    }
+   
     if($request){
       $consulta = trim($request->get('productoB'));
       $productos = Productos::where('nombre','like','%'.$consulta .'%')
                             ->orderBy('id','asc')
                             ->get();
+                            
        if($productos.Str::length(1)){   
           $productos = Productos::where("estado","=","1")
           ->select("*")
@@ -121,8 +157,6 @@ class ControladorUsuario extends Controller
           ->with('tallas',$tallas);
       
      }
-    }else{
-      return "error";
     }
   
  }
@@ -181,7 +215,8 @@ else {
  }
 
    public function detalleCompra(){
-       return view('Usuario/detalleCompra');
+    $categoria =Categorias::all();
+       return view('Usuario/detalleCompra')->with("categorias",$categoria);
    }
    public function cambioC(){
      return view('Usuario/reseteo');
@@ -226,7 +261,7 @@ else {
      'telefono' => 'required|min:7|max:12',
      'direccion' => 'required|email|min:6|max:50|'
      ]);*/
-
+     $categoria =Categorias::all();
        $sesion=session('datosU');
        $pedidos=Pedidos::all();
        $ultimoPedido=$pedidos->last();
@@ -234,18 +269,21 @@ else {
         $pedido= new Pedidos();
         $pedido->Id_Pedido=1;
         return view('Usuario/finalizarCompra')->with('usuario', $sesion)
-        ->with('pedido',$pedido);
+        ->with('pedido',$pedido)
+        ->with('categorias',$categoria);
        }
-      
+
         if($sesion == null){
-            return "no hay nada en sesion";
-        } 
+          return back()->with("failed", "Debes iniciar sesión para finalizar la compra.");
+        }
+
         foreach($sesion as $u){
           $id=$u->Id_Usuarios;
         }
         
        return view('Usuario/finalizarCompra')->with('usuario', $sesion)
-                                             ->with('pedido',$ultimoPedido);
+                                             ->with('pedido',$ultimoPedido)
+                                             ->with('categorias',$categoria);
        
    }
 
@@ -440,6 +478,7 @@ else {
            $idUsuario=$usua->Id_Usuarios;
        }
        $usuario=User::find($idUsuario);
+       $user = User::all();
        $productos=Productos::all();
        $pedidosT=Pedidos::all();
        $estadosPedido=EstadoPedido::all();
@@ -452,6 +491,7 @@ else {
        return view('Usuario/PedidosU')->with('pedidos', $pedidos)
                                       ->with('productos', $productos)
                                       ->with('pedidosT',$pedidosT)
+                                      ->with('usuario',$user)
                                       ->with('estadoPedido', $estadosPedido);                       
      }
     

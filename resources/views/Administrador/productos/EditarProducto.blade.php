@@ -48,7 +48,7 @@
                    </div>
                    <div class="col-12"> 
                      <label>Descripcion</label>
-                     <textarea type="text" name="descripcion" class="form-control" id="desc" value="{{$productoB->descripcion}}"></textarea>
+                     <textarea type="text" name="descripcion" class="form-control" id="desc" value="{{$productoB->descripcion}}">{{$productoB->descripcion}}</textarea>
                    </div> 
                    <div class="col-4 mt-2" id="divColor">
                        <label>Color</label>

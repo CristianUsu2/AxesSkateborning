@@ -11,14 +11,12 @@
     <link rel="stylesheet" type="text/css" href="../Usuario/css/style.css">
      <link rel="stylesheet" type="text/css" href="../Usuario/css/chat.css">
     <link rel="stylesheet" type="text/css" href="../Usuario/css/skin-default.css">
-
     <link rel="icon" href="../Usuario/img/logo.jpeg" />
     <title>Tienda Axes</title>
   </head>
   <body>
   <input type="hidden" value="{{csrf_token()}}" id="csrf" />
-      <div class="wrapper">
-
+      <div class="wrapper">  
         <!-- header area start -->
         <header>
 
@@ -139,12 +137,14 @@
                                       </div>
                                   </div> <!-- end single shipping -->
                               </div>
-                              @if(Session::has("success"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
+                              @if(Session::has("success1"))
+                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success1')}}</div>
                                  @elseif(Session::has("failed"))
                             <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
                             @elseif(Session::has("failed1"))
                             <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed1')}}</div>
+                            @elseif(Session::has("failed2"))
+                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed2')}}</div>
                              @endif
                               <div class="header-middle-block">
                                   <div class="header-middle-searchbox">
@@ -266,7 +266,7 @@
                     <p>©2021 Todos los Derechos Reservados |  <strong>AXES SKATEBOARDING</strong></p>
                 </div>
                 <div class="payment-method-img">
-                   <a style="color:#000;" href="#"><p>Términos y Condiciones | </a> <a style="color:#000;" href="x">Política y Privacidad</a> </p>
+                   <a style="color:#000;" href="{{route('terminos')}}"><p>Términos y Condiciones | </a> <a style="color:#000;" href="{{route('privacidad')}}">Política y Privacidad</a> </p>
                 </div>
             </div>
         </div>
@@ -276,90 +276,7 @@
 </footer>
 <!-- footer area end -->
 
-<div class="modal" id="quick_view">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-              <!-- product details inner end -->
-              <div class="product-details-inner">
-                  <div class="row">
-                      <div class="col-lg-5">
-                          <div class="product-large-slider slick-arrow-style_2 mb-20">
-                              <div class="pro-large-img">
-                                  <img src="../Usuario/img/product-details-img1.jpg" alt="" />
-                              </div>
-                              <div class="pro-large-img">
-                                  <img src="../Usuario/img/product-details-img2.jpg" alt="" />
-                              </div>
-                              <div class="pro-large-img">
-                                  <img src="../Usuario/img/product-details-img3.jpg" alt="" />
-                              </div>
-                              <div class="pro-large-img">
-                                  <img src="../Usuario/img/product-details-img4.jpg" alt="" />
-                              </div>
-                              <div class="pro-large-img">
-                                  <img src="../Usuario/img/product-details-img5.jpg" alt="" />
-                              </div>
-                          </div>
-                          <div class="pro-nav slick-padding2 slick-arrow-style_2">
-                              <div class="pro-nav-thumb"><img src="../Usuario/img/product-details-img1.jpg"
-                                      alt="" /></div>
-                              <div class="pro-nav-thumb"><img src="../Usuario/img/product-details-img2.jpg"
-                                      alt="" /></div>
-                              <div class="pro-nav-thumb"><img src="../Usuario/img/product-details-img3.jpg"
-                                      alt="" /></div>
-                              <div class="pro-nav-thumb"><img src="../Usuario/img/product-details-img4.jpg"
-                                      alt="" /></div>
-                              <div class="pro-nav-thumb"><img src="../Usuario/img/product-details-img5.jpg"
-                                      alt="" /></div>
-                          </div>
-                      </div>
-                      <div class="col-lg-7">
-                          <div class="product-details-des mt-md-34 mt-sm-34">
-                              <h3><a href="product-details.html">external product 12</a></h3>
-                              <div class="ratings">
-                                  <span class="good"><i class="fa fa-star"></i></span>
-                                  <span class="good"><i class="fa fa-star"></i></span>
-                                  <span class="good"><i class="fa fa-star"></i></span>
-                                  <span class="good"><i class="fa fa-star"></i></span>
-                                  <span><i class="fa fa-star"></i></span>
-                                  <div class="pro-review">
-                                      <span>1 review(s)</span>
-                                  </div>
-                              </div>
-                              <div class="availability mt-10">
-                                  <h5>Availability:</h5>
-                                  <span>1 in stock</span>
-                              </div>
-                              <div class="pricebox">
-                                  <span class="regular-price">$160.00</span>
-                              </div>
-                              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-                                  tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.<br>
-                                  Phasellus id nisi quis justo tempus mollis sed et dui. In hac habitasse platea
-                                  dictumst. Suspendisse ultrices mauris diam. Nullam sed aliquet elit. Mauris
-                                  consequat nisi ut mauris efficitur lacinia.</p>
-                              <div class="quantity-cart-box d-flex align-items-center mt-20">
-                                  <div class="quantity">
-                                      <div class="pro-qty"><input type="text" value="1"></div>
-                                  </div>
-                                  <div class="action_link">
-                                      <a class="buy-btn" href="#">add to cart<i class="fa fa-shopping-cart"></i>
-                                      </a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <!-- product details inner end -->
-          </div>
-      </div>
-  </div>
-</div>
+
 <!-- Quick view modal end -->
 <div class="modal fade" id="formUsuarioGoogle" tabindex="-1" role="dialog" aria-labelledby="formUsuarioGoogle" aria-hidden="true">
     <div class="modal-dialog" role="document">

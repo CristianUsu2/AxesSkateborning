@@ -16,9 +16,13 @@
                     @if(Session::has("success"))
                             <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
                               @endif
+                              @if(Session::has("success1"))
+                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success1')}}</div>
+                              @endif        
                 </div>
                <button class="btn btn-success mb-2 ml-2" data-toggle="modal" data-target="#btnProductos"><i style="margin-right:5px;" class="fas fa-plus"></i>Crear Producto</button>
-                <a href="{{route('PDF')}}"><button class="btn btn-danger mb-2 ml-2"><i style="margin-right:5px;" class="fas fa-file-import"></i>Generar PDF</button></a>
+              
+                <a href="{{route('notificar')}}" style="margin-left:715px;"><button class="btn btn-info mb-2 ml-2"><i style="margin-right:5px;" class="fas fa-bell"></i>Notificar Descuentos Usuarios</button></a>
 
             </div>
 

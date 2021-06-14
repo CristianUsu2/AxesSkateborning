@@ -3,6 +3,7 @@
 
 <div class="col-lg-9" id="divPadreProductos">
         <div class="feature-category-area mt-md-70">
+
           <h3>Resultados de la Busqueda</h3> 
             <div class="featured-carousel-active slick-padding slick-arrow-style">
                 @foreach ($productos as $producto)
@@ -57,6 +58,7 @@
                             </ul>
                         </div>
                     </div>
+                   
                 </div>
               
 @endsection
