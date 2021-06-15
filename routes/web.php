@@ -11,9 +11,13 @@ use App\Http\Controllers\ControladorAdmin;
 Route::resource('/', ControladorUsuario::class);
 Route::get('index', [ControladorUsuario::class, "index"]);
 Route::get('/InicioSesion', [ControladorUsuario::class, "login"])->name('login');
-Route::post('/InicioSesion', [ControladorUsuario::class, "loginV"]);
 Route::post('/Buscador', [ControladorUsuario::class, "buscar"])->name('buscador');
 Route::get('/Buscador', [ControladorUsuario::class, "buscarD"]);
+Route::get('/ListadoProductos',[ControladorUsuario::class,"listarP"])->name("listar");
+Route::post('index',[ControladorUsuario::class, "listarPrecio"])->name("precio");
+Route::post('index/Color',[ControladorUsuario::class, "listarC"])->name("color");
+Route::get('index/{color}',[ControladorUsuario::class, "listarColor"])->name("colores");
+Route::get('Tallas',[ControladorUsuario::class,"listarTallas"])->name("tallas");
 
 Route::post('/InicioSesionR', [ControladorUsuario::class, "register"]);
 Route::get('/Terminos-Condiciones', [ControladorUsuario::class, "terminos"])->name("terminos");
@@ -36,7 +40,9 @@ Route::get('/Productos/Pedidos',[ControladorUsuario::class,"PedidosUsuario"])->n
 Route::get('/Productos/Pedidos/generarPDF', [PDFController::class, 'comprobante'])->name('comprobante');
 
 /*-------------Rutas de Administrador Usuarios---------------------- */
-Route::get('/Administrador', [ControladorAdmin::class, "index"])->name('inicio');
+    Route::post('/InicioSesion', [ControladorUsuario::class, "loginV"]);
+Route::get('/Administrador/index', [ControladorAdmin::class, "index"])->name('inicio');
+
 Route::get('/Administrador/usuarios', [ControladorAdmin::class, "usuarios"])->name('usuarios');
 Route::get('/Administrador/perfil/{Id_Usuarios}', [ControladorAdmin::class, "datosA"])->name('datos');
 Route::post('/Administrador/perfil', [ControladorAdmin::class, "perfil"])->name('editarD');
@@ -61,6 +67,7 @@ Route::get('/Administrador/pedidos/MostrarTiposPagos',[ControladorAdmin::class, 
 /*-----------Rutas de las categorias ----------- */
 
 Route::get('/Administrador/categorias', [ControladorAdmin::class, "categorias"])->name('categoria');
+Route::post('/Administrador/categorias', [MailerController::class, "notificar"]);
 Route::get('/Administrador/categorias/agregar', [ControladorAdmin::class, "Agregar"])->name('agregar');
 Route::post('/Administrador/categorias/agregar', [ControladorAdmin::class, "Agregar"])->name('agregarC');
 Route::get('/Administrador/categorias/editar/{id}', [ControladorAdmin::class, "editarC"])->name('editarC');
@@ -96,18 +103,9 @@ Route::post('/Administrador/productos/RestarCantidad',[ControladorAdmin::class,"
 Route::get('/Administrador/productos/EntradasProductos',[ControladorAdmin::class, "EntradasProductos"]);
 Route::get('/Administrador/productos/DescuentosProductos',[ControladorAdmin::class, "VistaDescuentosProductos"]);
 Route::post('/Administrador/productos/DescuentosProductos',[ControladorAdmin::class, "DescuentosProductos"]);
+Route::get('/Administrador/productos/notificaciones',[ControladorAdmin::class, "notificar"]);
 /*---------------------------Ruta chat----------------------------- */
 Route::get('/Administrador/chats',[ControladorAdmin::class, "Chat"]);
 Route::post('/Administrador/chats',[ControladorAdmin::class, "DatosUsuarioChat"]);
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 

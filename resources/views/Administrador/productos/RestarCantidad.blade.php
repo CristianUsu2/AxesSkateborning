@@ -30,7 +30,7 @@
         
         <div class="col-4 form-group">
          <label>Ingresar cantidad</label>
-         <input class="form-control" type="text" id="cantidadSum" />
+         <input class="form-control" type="text" id="cantidadRest" />
         </div>
         
     </div>
@@ -55,13 +55,13 @@
     const select=document.getElementById("producto");
     const csrf=document.getElementById("csrf").value;
     const stock=document.getElementById("cantidad");
-    const inputCantidadSum=document.getElementById("cantidadSum");
+    const inputCantidadRest=document.getElementById("cantidadRest");
     const btnEnviarSum=document.getElementById("btnEnviarSum");
     select.addEventListener("change",()=>{ obtenerStockProducto()});
     btnEnviarSum.addEventListener("click",()=>{
-        const cantidadSumar=inputCantidadSum.value; 
-        if(cantidadSumar!=null){
-        SumarStock(cantidadSumar); 
+        const cantidadRestar=inputCantidadRest.value; 
+        if(cantidadRestar!=null){
+          RestarStock(cantidadRestar); 
         }else{
             alert("debes llenar el campo de ingresar cantidad");
         }
@@ -82,12 +82,12 @@
         .catch(error=>console.log(error))
     }
    
-   const SumarStock=(CantidadSumar)=>{
+   const RestarStock=(cantidadRestar)=>{
      const id=select.value;
      const data=new URLSearchParams();
      data.append("id", id);
-     data.append("cantidad",CantidadSumar);
-     fetch('/Administrador/productos/SumarCantidad',{
+     data.append("cantidad",cantidadRestar);
+     fetch('/Administrador/productos/RestarCantidad',{
        headers:{
         'X-CSRF-TOKEN': csrf
        },
@@ -98,7 +98,7 @@
      .then(r=>{
         if(r==true){
              alert("si señor se actulizo el stock");
-             inputCantidadSum.value='';
+             inputCantidadRest.value='';
              stock.value='';
              select.value='';
     

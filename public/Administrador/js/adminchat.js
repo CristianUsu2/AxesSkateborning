@@ -3,6 +3,8 @@
 document.querySelector('.person[data-chat=person2]').classList.add('active')*/
 const contactos = document.getElementById("contactos");
 const chat = document.getElementById("chat");
+let csrf = document.getElementById("csrf").value;
+let usted = [];
 /*
 let friends = {
     list: document.querySelector('ul.people'),
@@ -51,6 +53,7 @@ const DatosFirebase = (e) => {
     data.forEach(e => {
       arrayDocumentos.push(e.data());
       //arrayFechas.push(e.data());
+
     });
     Fechasformato(arrayDocumentos, e)
   })
@@ -71,7 +74,7 @@ const OrganizarDatos = (e) => {
 }
 
 const DatosUsuario = (e) => {
-  let csrf = document.getElementById("csrf").value;
+
   Objetosids = [];
   e.forEach(id => {
     const ids = {
@@ -93,12 +96,10 @@ const DatosUsuario = (e) => {
 }
 
 const Fechasformato = (e, user) => {
-  console.log(e);
   let datosContacto = [];
   let arrayFecha = e.reduce((acc, v) => {
-    let fecha = new Date(v.fecha * 1000);
     const datos = {
-      "fecha": fecha,
+      "fecha": v.fecha,
       "idUsuario": v.idusuario,
       "leido": v.leido,
       "mensaje": v.mensaje,
@@ -107,12 +108,11 @@ const Fechasformato = (e, user) => {
     acc.push(datos);
     return acc;
   }, [])
-  const usu = user.reduce((acc, v) => {
-    return acc.concat(v);
-  }, [])
+
+  const usu = [].concat.apply([], user);
   arrayFecha.forEach(co => {
     usu.forEach(u => {
-      if (co.idUsuario == u.Id_Usuarios && co.idAdmin== 0) {
+      if (co.idUsuario == u.Id_Usuarios) {
         const usuario = {
           "fecha": co.fecha,
           "idUsuario": co.idUsuario,
@@ -125,64 +125,59 @@ const Fechasformato = (e, user) => {
       }
     });
   })
+  console.log(user, arrayFecha)
   MensajeContacto(datosContacto);
 }
 
 const MensajeContacto = (e) => {
-  const arrayRepetidos = [];
-  e.forEach(ele => {
-    let pos = e.find(ob => ob.idUsuario == ele.idUsuario && ob.fecha > ele.fecha && ob.idAdmin == 0);
-    if (pos != null) {
-      arrayRepetidos.push(pos);
-    }
-  })
-  console.log(e);
-  const mensajesContactosRepetidos = EliminarValoresRepetidos(arrayRepetidos);
-  MostrarMensajeContacto(mensajesContactosRepetidos, e);
+  const arrayUsuarios = e.filter(u => u.idAdmin == 0);
+  SeccionChatUsuario(arrayUsuarios);
 }
 
-const MostrarMensajeContacto = (repetidos, normales) => {
-  const arrayIdsRepeditos = repetidos.map(e => e.idUsuario);
-  normales.forEach(chat => {
-    arrayIdsRepeditos.forEach(id => {
-      if (chat.idUsuario != id) {
-        contactos.innerHTML += `<div class="discussion">
-        <div class="photo" style="background-image: url(http://e0.365dm.com/16/08/16-9/20/theirry-henry-sky-sports-pundit_3766131.jpg?20161212144602);">
-          <div class="online"></div>
-        </div>
-        <div class="desc-contact">
-          <p class="name">${chat.name}</p>
-          <input type="hidden" id="idUsuario" value="${chat.idUsuario}"/>
-          <input type="hidden" id="nombre" value="${chat.name}" />
-          <p class="message">${chat.mensaje}</p>
-        </div>
-        <div class="timer">${chat.fecha}</div>
-      </div>
-      </div>`;
-
+const SeccionChatUsuario = (e) => {
+  console.log(e)
+  const IdsUsuariosR = e.map(m => m.idUsuario);
+  const IdsUsuarios = EliminarValoresRepetidos(IdsUsuariosR);
+  let max = 0;
+  let prueba = [];
+  e.forEach(k => {
+    IdsUsuarios.forEach(id => {
+      if (id == k.idUsuario) {
+        const mensaje = {
+          "idusuario": k.idUsuario,
+          "mensaje": k.mensaje,
+          "nombre": k.name,
+          "idAdmin": k.idAdmin,
+          "fecha": k.fecha
+        }
+        prueba.push(mensaje)
       }
-    });
+    })
   })
-  if (repetidos != null) {
-    repetidos.forEach(chat => {
-      contactos.innerHTML +=
-        `<div class="discussion">
-       <div class="photo" style="background-image: url(http://e0.365dm.com/16/08/16-9/20/theirry-henry-sky-sports-pundit_3766131.jpg?20161212144602);">
-        <div class="online"></div>
-       </div>
-    <div class="desc-contact">
-     <input type="hidden" id="idUsuario" value="${chat.idUsuario}"/>
-     <input type="hidden" id="nombre" value="${chat.name}" />
-      <p class="name">${chat.name}</p>
-      <p class="message">${chat.mensaje}</p>
-    </div>
-    <div class="timer">${chat.fecha}</div>
-  </div>
-  </div>`;
-    });
-  }
-  
+  console.log(IdsUsuarios)
+  SacarFechaMensaje(IdsUsuarios);
 }
+
+
+const MostrarMensajeContacto = (chats) => {
+  contactos.innerHTML = '';
+  chats.forEach(chat => {
+    contactos.innerHTML += `<div class="discussion">
+    <div class="photo" style="background-image: url(http://e0.365dm.com/16/08/16-9/20/theirry-henry-sky-sports-pundit_3766131.jpg?20161212144602);">
+      <div class="online"></div>
+    </div>
+    <div class="desc-contact">
+      <p class="name" >${chat.nombre}</p>
+      <p class="message">${chat.mensaje}</p>
+      <input type="hidden" id="idUsuario" value="${chat.idusuario}" />
+      <input type="hidden" id="nombre" value="${chat.nombre} " />
+    </div>
+    <div class="timer">${new Date(chat.fecha)}</div>
+  </div>`;
+  })
+
+}
+
 
 const EliminarValoresRepetidos = (array) => {
   const respuesta = array.reduce((acc, v) => {
@@ -194,12 +189,45 @@ const EliminarValoresRepetidos = (array) => {
   return respuesta;
 }
 
+const SacarFechaMensaje = (array) => {
+  let respuesta = [];
+  for (let i = 0; i < array.length; i++) {
+    db.collection('chats').where("idusuario", "==", Number(array[i])).orderBy("fecha", "desc")
+      .onSnapshot((query) => {
+        query.forEach(q => {
+          const ob = {
+            "idusuario": q.data().idusuario,
+            "nombre": q.data().nombre,
+            "idAdmin": q.data().idAdmin,
+            "fecha": q.data().fecha,
+            "mensaje": q.data().mensaje
+          }
+          respuesta.push(ob);
+        })
+
+        BuscadorObjetos(respuesta, array);
+      })
+  }
+}
+
+const BuscadorObjetos = (e, i) => {
+  let res = [];
+  i.forEach(id => {
+    const chat = e.find(e => e.idusuario == id);
+    if (chat != -1) {
+      res.push(chat);
+    }
+  })
+  console.log(res)
+  MostrarMensajeContacto(res);
+}
+
 contactos.addEventListener("click", (e) => {
   ActivadorChat(e);
 });
 
 const ActivadorChat = (e) => {
-  const divPadre = e.target.parentElement;
+  const divPadre = e.target.parentElement
   const clasePadre = divPadre.className;
   if (clasePadre == "desc-contact" || clasePadre == "discussion") {
     const idUsuario = divPadre.querySelector("#idUsuario").value;
@@ -218,14 +246,15 @@ const ObtenerMensajesUsuarios = (e, nombre) => {
       MostrarMensajesUsuario(mensajes, nombre, e);
     });
 }
-const ObtenerMensajesAdmin = (e) => {
+
+const ObtenerMensajesAdmin = (e, usu) => {
   db.collection('chats').where("idusuario", "==", Number(e)).where("idAdmin", "==", 6).orderBy("fecha")
     .onSnapshot((querySnapshot) => {
       const mensajes = [];
       querySnapshot.forEach((doc) => {
         mensajes.push(doc.data());
       });
-      MostrarMensajesAdmin(mensajes);
+      MostrarMensajesAdmin(mensajes, usu);
     });
 }
 
@@ -248,9 +277,43 @@ const MostrarMensajesUsuario = (e, nombre, id) => {
     <i class="icon send fas fa-paper-plane clickable" aria-hidden="true" onclick="EnvioMensajeAdmin(${id})"></i>
   </div>`;
   nombreChat.innerText = `${nombre}`;
+
+  ObtenerMensajesAdmin(id, e);
+
+}
+
+const MostrarMensajesAdmin = (e, usu) => {
+  const ArrayMensajes = [];
+  ArrayMensajes.push(e);
+  ArrayMensajes.push(usu);
+  const mensajesArray = [].concat.apply([], ArrayMensajes);
+  const MensajesOrdenadas = mensajesArray.sort((a, b) => a.fecha - b.fecha);
   const divMensajes = document.getElementById("mensajes");
+  divMensajes.innerHTML = ""
+  MensajesOrdenadas.reduce((acc, v) => {
+    if (v.idAdmin != 6) {
+      const fecha = new Date(v.fecha * 1000);
+      divMensajes.innerHTML += `
+        <div class="message text-only">
+        <div class="request">
+        <p class="text">${v.mensaje}</p>
+        </div>
+    </div>
+    <p class="time">${fecha}</p>
+        `;
+    } else {
+      const fecha = new Date(v.fecha * 1000);
+      divMensajes.innerHTML += `<div class="message text-only">
+    <div class="response">
+    <p class="text">${v.mensaje}</p>
+    </div>
+</div>
+<p class="time">${fecha}</p>`
+    }
+  }, 0)
+  /*const divMensajes = document.getElementById("mensajes");
   divMensajes.innerHTML = "";
-  e.forEach(m => {
+  usu.forEach(m => {
     const fecha = new Date(m.fecha * 1000);
     divMensajes.innerHTML += `<div class="message text-only">
     <div class="request">
@@ -259,11 +322,7 @@ const MostrarMensajesUsuario = (e, nombre, id) => {
 </div>
 <p class="time">${fecha}</p>`;
   });
-  ObtenerMensajesAdmin(id);
-}
 
-const MostrarMensajesAdmin = (e) => {
-  const divMensajes = document.getElementById("mensajes");
   e.forEach(msg => {
     const fecha = new Date(msg.fecha * 1000);
     divMensajes.innerHTML += `<div class="message text-only">
@@ -272,31 +331,64 @@ const MostrarMensajesAdmin = (e) => {
     </div>
 </div>
 <p class="time">${fecha}</p>`;
-  });
+  });*/
 }
 
 const EnvioMensajeAdmin = (e) => {
   let mensaje = document.getElementById("textoEnvio").value;
-  const divmensaje = document.getElementById("mensajes");
+  /*const divmensaje = document.getElementById("mensajes");
   divmensaje.innerHTML += `<div class="message text-only">
   <div class="response">
     <p class="text">${mensaje}</p>
   </div>
-</div>`;
-  GuardarMensajeAdmin(mensaje, e);
+</div>`;*/
+  let msg = mensaje;
   mensaje.value = '';
+  GuardarMensajeAdmin(msg, e);
+
 }
 
 const GuardarMensajeAdmin = (e, id) => {
- const mensaje = {
-    "idAdmin": 6,
-    "fecha": Date.now(),
-    "leido": false,
-    "mensaje": e,
-    "idusuario": Number(id)
-  }
-  db.collection("chats").add(mensaje)
-    .then(r => console.log("a dormir papa"))
-    .catch(r => console.log(r))
+  let data = new URLSearchParams();
+  data.append("id", id);
+  fetch('/Administrador/chats', {
+    headers: {
+      'X-CSRF-TOKEN': csrf,
+    },
+    body: data,
+    method: "POST"
+
+  }).then(r => r.json())
+    .then(data => {
+      let nombre;
+      let apellido;
+      data.forEach(user => {
+        nombre = user.name;
+        apellido = user.apellido;
+      })
+      const mensaje = {
+        "idAdmin": 6,
+        "fecha": Date.now(),
+        "leido": false,
+        "mensaje": e,
+        "nombre": nombre,
+        "apellido": apellido,
+        "idusuario": Number(id)
+      }
+      db.collection("chats").add(mensaje)
+        .then(r => {
+          DatosFirebaseIdsUsuarios()
+        }
+        )
+        .catch(r => console.log(r))
+    })
+    .catch(error => console.log(error))
+
 }
+
+
+
+
+
 DatosFirebaseIdsUsuarios();
+
