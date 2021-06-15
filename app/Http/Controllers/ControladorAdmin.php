@@ -707,6 +707,12 @@ public function DescuentosProductos(Request $request){
    }
    public function DatosUsuarioChat(Request $request){
     $arrayDatosU=[];
+    if($request->id !=null){
+     $buscaU=User::find($request->id);
+     if($buscaU != null){
+      array_push($arrayDatosU,$buscaU);
+     }
+    }else{
     $jsonConvertir=json_encode($request->all());
     $jsonDesconvertir=json_decode($jsonConvertir,true);
     foreach($jsonDesconvertir as $fila){
@@ -714,9 +720,18 @@ public function DescuentosProductos(Request $request){
       $busquedaU=User::where("Id_Usuarios","=",$id)->get();
       array_push($arrayDatosU,$busquedaU);
     }
+    }
      return Response::json($arrayDatosU);
    }
 
+   public function Nombre(Request $request){
+     $respuesta=null;
+    $busqueda=User::find($request->id);
+    if($busqueda !=null){
+      $respuesta= $busqueda->name.$busqueda->apellido;
+    }
+     return Response::json($respuesta);
+   }
 }
 
                     

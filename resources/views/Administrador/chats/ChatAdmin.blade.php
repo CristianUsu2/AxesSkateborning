@@ -14,6 +14,16 @@
       </div>
     </div>
     <!-- clase message-active cuando el admin le da click  -->
+    <!--- <div class="discussion">
+          <div class="photo" style="background-image: url(http://e0.365dm.com/16/08/16-9/20/theirry-henry-sky-sports-pundit_3766131.jpg?20161212144602);">
+            <div class="online"></div>
+          </div>
+          <div class="desc-contact">
+            <p class="name">Dave Corlew</p>
+            <p class="message">Let's meet for a coffee or something today ?</p>
+          </div>
+          <div class="timer">3 min</div>
+        </div> -->
 </section>
   <section class="chat" id="chat">
     
@@ -26,14 +36,14 @@
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
 <script>
   var firebaseConfig = {
-    apiKey: "AIzaSyCMzY42dtyJgXPfzCKZzKp-W2sOvvJcQAM",
-    authDomain: "pruebatiendaaxes-4d509.firebaseapp.com",
-    databaseURL: "https://pruebatiendaaxes-4d509-default-rtdb.firebaseio.com",
-    projectId: "pruebatiendaaxes-4d509",
-    storageBucket: "pruebatiendaaxes-4d509.appspot.com",
-    messagingSenderId: "664697906282",
-    appId: "1:664697906282:web:4f91c9d720ef40bfb75613",
-    measurementId: "G-KTH3MNV6R9"
+    apiKey: "AIzaSyD_57Ysw5B4OoPz-fJYPPb2n67KTk89fOU",
+    authDomain: "pruebaaxessj.firebaseapp.com",
+    projectId: "pruebaaxessj",
+    databaseURL: "https://pruebaaxessj.firebaseio.com",
+    storageBucket: "pruebaaxessj.appspot.com",
+    messagingSenderId: "1030241529332",
+    appId: "1:1030241529332:web:6be0fb79a0742c432c5da1",
+    measurementId: "G-KFTBVF70K3"
   };
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();

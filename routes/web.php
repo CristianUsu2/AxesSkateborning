@@ -10,6 +10,7 @@ use App\Http\Controllers\ControladorAdmin;
 /*-----Rutas de las vistas del Usuario ----------------------- */
 Route::resource('/', ControladorUsuario::class);
 Route::get('index', [ControladorUsuario::class, "index"]);
+Route::post('index',[ControladorUsuario::class, "ValidacionUsuario"]);
 Route::get('/InicioSesion', [ControladorUsuario::class, "login"])->name('login');
 Route::post('/InicioSesion', [ControladorUsuario::class, "loginV"]);
 Route::post('/InicioSesionR', [ControladorUsuario::class, "register"]);
@@ -29,6 +30,7 @@ Route::get('/Productos/finalizarCompra',[ControladorUsuario::class,"FinalizarCom
 Route::post('/Productos/finalizarCompra',[ControladorUsuario::class,"GuardarCompra"]);
 Route::post('/Productos/detalleCompra',[ControladorUsuario::class,"FinalizarCompraGoogle"]);
 Route::get('/Productos/Pedidos',[ControladorUsuario::class,"PedidosUsuario"])->name('PedidosU');
+
 /*-------------Rutas de Administrador Usuarios---------------------- */
 Route::get('/Administrador', [ControladorAdmin::class, "index"])->name('inicio');
 Route::get('/Administrador/usuarios', [ControladorAdmin::class, "usuarios"])->name('usuarios');
@@ -91,6 +93,7 @@ Route::post('/Administrador/productos/DescuentosProductos',[ControladorAdmin::cl
 /*---------------------------Ruta chat----------------------------- */
 Route::get('/Administrador/chats',[ControladorAdmin::class, "Chat"]);
 Route::post('/Administrador/chats',[ControladorAdmin::class, "DatosUsuarioChat"]);
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

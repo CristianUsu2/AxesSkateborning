@@ -392,7 +392,7 @@
       <div class="chat-box-body">
         <div class="chat-box-overlay">   
         </div>
-      <div class="chat-logs">
+      <div class="chat-logs" id="chatlogs">
        
       </div><!--chat-log -->
     </div>
@@ -427,14 +427,14 @@
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
 <script>
   var firebaseConfig = {
-    apiKey: "AIzaSyCMzY42dtyJgXPfzCKZzKp-W2sOvvJcQAM",
-    authDomain: "pruebatiendaaxes-4d509.firebaseapp.com",
-    databaseURL: "https://pruebatiendaaxes-4d509-default-rtdb.firebaseio.com",
-    projectId: "pruebatiendaaxes-4d509",
-    storageBucket: "pruebatiendaaxes-4d509.appspot.com",
-    messagingSenderId: "664697906282",
-    appId: "1:664697906282:web:4f91c9d720ef40bfb75613",
-    measurementId: "G-KTH3MNV6R9"
+    apiKey: "AIzaSyD_57Ysw5B4OoPz-fJYPPb2n67KTk89fOU",
+    authDomain: "pruebaaxessj.firebaseapp.com",
+    projectId: "pruebaaxessj",
+    databaseURL: "https://pruebaaxessj.firebaseio.com",
+    storageBucket: "pruebaaxessj.appspot.com",
+    messagingSenderId: "1030241529332",
+    appId: "1:1030241529332:web:6be0fb79a0742c432c5da1",
+    measurementId: "G-KFTBVF70K3"
   };
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();

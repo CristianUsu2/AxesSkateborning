@@ -387,5 +387,16 @@ else {
                                       ->with('pedidosT',$pedidosT)
                                       ->with('estadoPedido', $estadosPedido);                       
      }
+
+     public function ValidacionUsuario(Request $request){
+       $res=-1;
+       if($request->email !=null){
+        $user=User::where("email","=",$request->email)->get();
+         if(!$user->isEmpty()){
+          $res=$user;
+         } 
+       }
+       return Response::json($res);
+     }
     
 }
