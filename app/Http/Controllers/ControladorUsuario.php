@@ -493,7 +493,7 @@ class ControladorUsuario extends Controller
 
   public function register(Request $request)
   {
-    $res = false;
+    $res = null;
     $request->validate([
       'nombre' => 'required|min:2|max:20',
       'apellido' => 'required|min:2|max:20',
@@ -516,18 +516,13 @@ class ControladorUsuario extends Controller
         $registro->id_rol = 1;
         $registro->estado = 1;
         $registro->save();
-        $res = true;
+      
       } catch (Exception $e) {
-        return back()->with("failed2", "Ocurrio un error, no pudimos crear su cuenta porque ya existen datos similares.");
+        return Response::json($e->getMessage());
       }
+      $res = 1;
     }
-    if ($res) {
-      return back()->with("success", "Su cuenta ha sido creada exitosamente, inicie sesion.");
-    } else {
-      return back()->with("failed", "Ocurrio un error, no pudimos crear su cuenta porque ya existen estos datos.");
-    }
-
-    return back()->with('error', 'No se pudo crear tu cuenta.');
+    return Response::json($res);
   }
 
   public function loginV(Request $request)

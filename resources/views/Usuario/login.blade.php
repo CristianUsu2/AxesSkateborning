@@ -1,5 +1,6 @@
 @extends('Layout.plantillaU')
 @section('paginas')
+
 <style>
     .nice-select{
         display: none;
@@ -53,81 +54,73 @@
                 <!-- Register Content Start -->
                 <div class="col-lg-6">
                     <div class="login-reg-form-wrap mt-md-34 mt-sm-34">
-                        <h2>REGISTRO</h2>
-                        @if(Session::has("success"))
-                            <script>
-                       Swal.fire(
-                        'Operación éxitosa!',
-                        'Su cuenta ha sido creada exitosamente, inicie sesion.',
-                        'success'
-                        )
-                        </script>
-                      @elseif(Session::has("failed2"))
-                      <script>
-                        Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Ocurrió un error, no pudimos crear su cuenta porque ya existen datos similares'
-                        })
-                      </script>
-                        @endif
-                
-                        <form action="{{url('/InicioSesionR')}}" method="post" id="registro">
-                            @csrf
+                        <h2>REGISTRO</h2>         
+                        <form>
                             <div class="single-input-item">
-                                <input type="text" name="identificacion" placeholder="Documento Identidad" />
+                                <input type="text" name="identificacion" placeholder="Documento Identidad" id="identificacion"/>
                                 @if($errors->has('identificacion'))
                                 <span class="error text-danger">{{$errors->first('identificacion')}}</span>
                                 @endif
+                                <span id="spanI" style="color:red;"></span>
                             </div>
                             <div class="single-input-item">
-                                <input type="text" name="nombre" placeholder="Nombre" />
+                                <input type="text" name="nombre" placeholder="Nombre" id="nombre"/>
                                 @if($errors->has('nombre'))
                                 <span class="error text-danger">{{$errors->first('nombre')}}</span>
                                 @endif
+                                <span id="spanN" style="color:red;"></span>
+
                             </div>
                             <div class="single-input-item">
-                                <input type="text" name="apellido" placeholder="Apellido" />
+                                <input type="text" name="apellido" placeholder="Apellido" id="apellido"/>
                                 @if($errors->has('apellido'))
                                 <span class="error text-danger">{{$errors->first('apellido')}}</span>
                                 @endif
+                                <span id="spanA" style="color:red;"></span>
 
                             </div>
 
                             <div class="single-input-item">
-                                <input type="email" name="correo" placeholder="Correo"  />
+                                <input type="email" name="correo" placeholder="Correo" id="correoU" />
                                 @if($errors->has('correo'))
                                 <span class="error text-danger">{{$errors->first('correo')}}</span>
                                 @endif
+                                <span id="spanC" style="color:red;"></span>
+
                             </div>
 
                             <div class="single-input-item">
-                                <input type="text" name="telefono" placeholder="Telefono / Celular" />
+                                <input type="text" name="telefono" placeholder="Telefono / Celular" id="telefono"/>
                                 @if($errors->has('telefono'))
                                 <span class="error text-danger">{{$errors->first('telefono')}}</span>
                                 @endif
+                                <span id="spanT" style="color:red;"></span>
+
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="single-input-item">
-                                        <input type="password" name="contraseña" placeholder="Contraseña" />
+                                        <input type="password" name="contraseña" placeholder="Contraseña" id="contraseña"/>
                                         @if($errors->has('contraseña'))
                                 <span class="error text-danger">{{$errors->first('contraseña')}}</span>
                                 @endif
+                                <span id="spanContra" style="color:red;"></span>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="single-input-item">
-                                        <input type="password" name="ConfirmarContraseña" placeholder="Confirmar contraseña" />
+                                        <input type="password" name="ConfirmarContraseña" placeholder="Confirmar contraseña" id="confirmarContraseña"/>
                                         @if($errors->has('ConfirmarContraseña'))
                                 <span class="error text-danger">{{$errors->first('ConfirmarContraseña')}}</span>
                                 @endif
+                                <span id="spanContraConfirm" style="color:red;"></span>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="single-input-item">
-                                <button class="sqr-btn" id="registros" type="submit">REGISTRARSE</button>
+                                <button class="sqr-btn" id="registrar" type="button">REGISTRARSE</button>
                             </div>
                         </form>
                     </div>

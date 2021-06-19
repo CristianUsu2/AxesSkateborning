@@ -1,10 +1,19 @@
 const btnRecuperarContra = document.getElementById("btnRecuperarContra");
 const $divAlertas = document.getElementById("divAlertas");
 const btonIngresar = document.getElementById("ingresar");
+const btonRegistrar = document.getElementById("registrar");
 const csrf = document.getElementById("csrf").content;
 const spanCorreo = document.querySelector("#spanCorreo");
 const spanContraseña = document.querySelector("#spanContraseña");
 const btnDatosGoogleU= document.getElementById("btnDatosGoogleU");
+const spanC = document.querySelector("#spanC");
+const spanI = document.querySelector("#spanI");
+const spanN = document.querySelector("#spanN");
+const spanA = document.querySelector("#spanA");
+const spanT = document.querySelector("#spanT");
+const spanContra = document.querySelector("#spanContra");
+const spanContraConfirm = document.querySelector("#spanContraConfirm");
+
 
 if (btnRecuperarContra != null) {
     btnRecuperarContra.addEventListener("click", () => {
@@ -17,6 +26,13 @@ if (btonIngresar != null) {
         e.preventDefault();
         LoginUsuario();
     });
+}
+
+if(btonRegistrar !=null){
+    btonRegistrar.addEventListener("click",(e)=>{
+        e.preventDefault();
+        registroUsuarios();
+    })
 }
 
 if(btnDatosGoogleU !=null){
@@ -99,17 +115,102 @@ const LoginUsuario = () => {
             .catch((error) => console.log(error));
       
     }
-    /* data.append("",correo);
-    data.append("",contra);
-    fetch('',{
-        method: 'POST',
-        body: data
-    })
-    .then(response=>console.log(response))  pille tambien pa que vaya aprendiendo es facil y si quiere con async si bueno */
 
-    //.catch(error=>console.log(error))
 };
 
+const registroUsuarios=()=>{
+    let cedula = document.getElementById("identificacion").value;
+    let nombre = document.getElementById("nombre").value;
+    let apellido = document.getElementById("apellido").value;
+    let correo = document.getElementById("correoU").value;
+    let telefono = document.getElementById("telefono").value;
+    let contraseña = document.getElementById("contraseña").value;
+    let confirmarContraseña = document.getElementById("confirmarContraseña").value;
+
+    if(cedula.length ==0 || cedula ==null){
+        spanI.innerHTML = `El campo identificacion es obligatorio`;
+    }else{
+        spanI.style.display = "none";
+    }
+    if(nombre.length == 0 || nombre == null){
+        spanN.innerHTML = `El campo nombre es obligatorio`;
+    }else{
+        spanN.style.display = "none";
+    }
+    if(apellido.length == 0 || apellido == null){
+        spanA.innerHTML = `El campo apellido es obligatorio`;
+    }else{
+        spanA.style.display = "none";
+    }
+    if(correo.length ==0 || correo == null){
+       spanC.innerHTML = `El campo correo es obligatorio`;
+    }else{
+        spanC.style.display = "none";
+    }
+    if(telefono.length == 0 || telefono == null){
+        spanT.innerHTML = `El campo telefono es obligatorio`;
+    }else{
+        spanT.style.display = "none";
+    }
+    if(contraseña.length == 0 || contraseña == null){
+        spanContra.innerHTML = `El campo contraseña es obligatorio`;
+    }else{
+        spanContra.style.display = "none";
+    }
+    if(confirmarContraseña.length == 0 || confirmarContraseña == null){
+        spanContraConfirm.innerHTML = `El campo confirmar contraseña es obligatorio`;
+    }else{
+        spanContraConfirm.style.display = "none";
+    }
+   
+    if(cedula.length == 0 && nombre.length ==0 && apellido.length ==0 && correo.length== 0 && telefono.length == 0 && contraseña.length == 0 && confirmarContraseña.length == 0){
+        spanI.innerHTML=`El campo identificación es obligatorio`;
+        spanN.innerHTML=`El campo nombre es obligatorio`;
+        spanA.innerHTML=`El campo apellido es obligatorio`;
+        spanC.innerHTML=`El campo correo es obligatorio`;
+        spanT.innerHTML=`El campo telefono es obligatorio`;
+        spanContra.innerHTML=`El campo contraseña es obligatorio`;
+        spanContraConfirm.innerHTML=`El campo confirmar contraseña es obligatorio`;
+        return false;
+    }
+    //if(contraseña.length >1 && confirmarContraseña.length >1){
+        if(contraseña.length >1 && confirmarContraseña.length >1 &&contraseña != confirmarContraseña){
+        Swal.fire({
+            icon: "error",
+            title: "Opps....",
+            text: "Las contraseñas no coinciden, ingrese las contraseñas iguales"
+        })
+    //}
+    }else{
+
+        let data = new URLSearchParams();
+        data.append("identificacion",cedula);
+        data.append("name",nombre);
+        data.append("apellido",apellido);
+        data.append("email",correo);
+        data.append("telefono",telefono);
+        data.append("password",contraseña);
+    
+        fetch("/InicioSesionR", {
+        headers: {
+        "X-CSRF-TOKEN": csrf,
+        },
+        body: data,
+        method: "POST",
+        })
+        .then((response) => response.json())
+        .then((datos)=>{
+            if(datos == 1){
+                Swal.fire({
+                    icon: "success",
+                    title: "Registro éxitoso",
+                    text: "Tu cuenta se ha creado éxitosamente"
+                });
+            }
+        })
+    }
+
+};
 
 const RegistroUsuariosGoogle=()=>{
     const usuario=JSON.parse(localStorage.getItem("usuario"));
