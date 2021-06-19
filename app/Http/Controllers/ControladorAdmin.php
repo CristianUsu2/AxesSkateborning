@@ -23,8 +23,26 @@ use Response;
 class ControladorAdmin extends Controller
 {
   /*------------Acciones Usuarios ------------------- */
+
+  public function __construct(){
+    $this->middleware('admin');
+  }
     public function index(){
-        return view('Administrador/Index');
+      $categoria = Categorias::all();
+        $contadorCategoria = count($categoria);
+        $pedidos = Pedidos::all();
+        $contadorPedidos = count($pedidos); 
+        $usuarios = User::all();
+        $contadorUsuarios = count($usuarios);
+        $productos = Productos::all();
+        $contadorProductos = count($productos);
+        return view('Administrador/Index')
+        ->with("contadorCategoria",$contadorCategoria)
+        ->with("contadorPedidos",$contadorPedidos)
+        ->with("contadorUsuarios",$contadorUsuarios)
+        ->with("contadorProductos",$contadorProductos);
+
+
     }
     public function usuarios(){
          $users = User::all();
@@ -69,7 +87,7 @@ class ControladorAdmin extends Controller
           }        
           $UsuB->save();
          
-          return back()->with("success", "Cambio de estado éxitoso.");
+          return back()->with("success1", "Cambio de estado éxitoso.");
         }catch(Exception $e){
         
          return response()->json($e.getMessage());
@@ -83,6 +101,7 @@ class ControladorAdmin extends Controller
 
     public function ModificarUsuario(Request $request){
       $usuM=User::find($request->IdUsuario);
+      
       if($usuM !=null){
           try{
          
@@ -93,12 +112,11 @@ class ControladorAdmin extends Controller
             $usuM->save();
           
             return back()->with("success", "Se han modificado los datos exitosamente.");
-
+            
           }catch(Exception $e){
-           
-            return back()->with("failed", "Ocurrio un error, no se han modificado los datos, verifique que si haya realizado modificaciones.");
-
-          }
+            return back()->with("failed", "No hay datos por modificar.");
+          
+          } 
       }
     } 
 
@@ -166,7 +184,7 @@ class ControladorAdmin extends Controller
              $busqueda->estado=1;   
            }
          $busqueda->save();   
-         return back()->with("success", "Cambio de estado éxitoso.");
+         return back()->with("success1", "Cambio de estado éxitosamente.");
               
      }
   }
@@ -181,13 +199,14 @@ class ControladorAdmin extends Controller
       if($categoria !=null){
            $categoria->Nombre_Categoria=$request->Nombre_Categoria;
            $categoria->save();
+           return back()->with("success", "Se ha modificado la categoria exitosamente.");
       }
       return redirect()->action([ControladorAdmin::class,"categorias"]);
     }
     /*---------------Acciones Colores ------------------------------------- */
 
     public function MostrarColor(){
-        $colores=Colores::paginate(5);
+        $colores=Colores::all();
       return  view('Administrador/colores/MostrarColor')->with('colores',$colores);
     }
    
@@ -206,7 +225,7 @@ class ControladorAdmin extends Controller
                $busqueda->estado=1;   
              }
            $busqueda->save();   
-           return back()->with("success", "Cambio de estado éxitoso.");
+           return back()->with("success1", "Cambio de estado éxitosamente.");
          }catch(Exeption $e){  
             return response()->json($e.getMessage()); 
          }
@@ -239,10 +258,12 @@ class ControladorAdmin extends Controller
           if($busqueda!=null){
             $busqueda->color=$request->colorN;
             $busqueda->save();
-            return redirect()->action([ControladorAdmin::class, "MostrarColor"]);
+            return back()->with("success", "Se ha modificado el color exitosamente.");
+
           }
          }catch(Exception $e){
-             return response()->$e.getMessage();
+          return back()->with("failed", "Ocurrió un error, no se pudo modificar el color.");
+
          }
     }
 
@@ -263,9 +284,9 @@ class ControladorAdmin extends Controller
             $talla->talla=$request->talla;
             $talla->estado=1;
             $talla->save();
-            return back()->with("success", "Su ha agregado la talla correctamente.");
+            return back()->with("success", "Se ha agregado la talla exitosamente.");
           }catch(Exception $e){
-            return back()->with("failed", "Ocurrio un error, esta talla ya existe, ingrese otra talla.");
+            return back()->with("failed", "Ocurrió un error, ya existe la talla, ingrese una talla diferente.");
 
           } 
 
@@ -281,6 +302,7 @@ class ControladorAdmin extends Controller
          try{
          $Btalla->talla=$request->tallaN;
          $Btalla->save();
+         return back()->with("success", "Se ha modificado la talla exitosamente.");
          return redirect()->action([ControladorAdmin::class,"MostrarTallas"]);
          }catch(Exception $e){
            return response()->json($e.getMessage());
@@ -304,7 +326,7 @@ class ControladorAdmin extends Controller
         }
         $busquedaT->save();
       }
-      return back()->with("success", "Cambio de estado éxitosamente.");
+      return back()->with("success1", "Cambio de estado éxitosamente.");
 
     }
 
@@ -373,10 +395,10 @@ public function ModificarProductos(Request $request){
     $productoE->save();
     $res= ControladorAdmin::ModificarTablasIntermedias($productoE->id,$request);
     
-    return back()->with("success", "Se han modificado los datos exitosamente.");
+    return back()->with("success", "Se ha modificado el producto exitosamente.");
   
      }catch(Exception $e){
-      return back()->with("failed", "Ocurrio un error, esta talla ya existe, ingrese otra talla.");
+      return back()->with("failed", "Ocurrió un error, debe ingresar las imagenes.");
     }
   }  
   return response()->json($productoTallaE);
@@ -465,7 +487,7 @@ public function GuardarProductos(Request $request){
        if($r){
          $res=ControladorAdmin::GuardarTallaIntermedia($tallas,$cantidadesTallas,$producto);
          if($res){
-          return back()->with("success", "Producto creado éxitosamente.");
+          return back()->with("success", "Se ha creado el producto éxitosamente.");
 
          }
        }
@@ -489,7 +511,7 @@ public function EstadoProductos($id){
        $busquedaProducto->estado=1;  
       }
      $busquedaProducto->save();
-     return back()->with("success", "Cambio de estado éxitosamente.");
+     return back()->with("success1", "Cambio de estado éxitosamente.");
     } 
   }catch(Exception $e){
    return $e.getMensagge();
@@ -603,11 +625,16 @@ public function DescuentosProductos(Request $request){
 
   public function ModificarEstadoPedidoBD(Request $request){
      $BuscadoEstadoPedido=EstadoPedido::find($request->IdEstadoPedido);
+     
      if($BuscadoEstadoPedido !=null){
+      try{
        $BuscadoEstadoPedido->Estado=$request->Estado;
        $BuscadoEstadoPedido->save();
+       return back()->with("success", "Se ha creado el método de pago éxitosamente.");
+     }catch(Exception $e){
+      return back()->with("failed", "Ocurrió un error, debe ingresar las imagenes.");
      }
-    return redirect()->action([ControladorAdmin::class, "MostrarEstadoPedidos"]);
+    }
   }
 
   public function MostrarTiposPago(){
@@ -627,12 +654,16 @@ public function DescuentosProductos(Request $request){
 
   public function EntradaProducto(){
     $productos=Productos::all();
-    return view('Administrador/productos/SumarCantidad')->with('productos', $productos);
+    $tallas=Tallas::all();
+    return view('Administrador/productos/SumarCantidad')->with('productos', $productos)
+                                                         ->with('tallas',$tallas) ;
   }
 
   public function VistaRestaProducto(){
     $productos=Productos::all();
-    return view('Administrador/productos/RestarCantidad')->with('productos', $productos);
+    $tallas=Tallas::all();
+    return view('Administrador/productos/RestarCantidad')->with('productos', $productos)
+                                                         ->with('tallas',$tallas);
   }
 
   private function GuardarEntrada($cantidad){
@@ -642,6 +673,8 @@ public function DescuentosProductos(Request $request){
       $entrada->cantidad=$cantidad;
       $entrada->save();
       $respuesta=true;
+
+
     }catch(Exception $e){
       $respuesta=$e->getMessage();
     }
@@ -666,14 +699,29 @@ public function DescuentosProductos(Request $request){
     return $respuesta;
   }
   
+  public function GuardarProductoTallaSum($cantidad, $idtalla, $idProducto){
+     $respuesta=false;
+     try{
+       $ProductoTalla=new ProductosTallas();   
+       $ProductoTalla->cantidad = $cantidad;
+       $ProductoTalla->id_talla= $idtalla; 
+       $ProductoTalla->id_producto = $idProducto;
+       $ProductoTalla->save();
+       $respuesta=true; 
+     }catch(Exception $e){
+      $respuesta=$e->getMessage();
+     }
+     return $respuesta;
+  }
 
   public function SumarProducto(Request $request){
     $respuesta;
-     if($request->id != null && $request->cantidad !=null){
+     if($request->id != null && $request->cantidad !=null && $request->talla !=null){
        $EntradaRespuesta=ControladorAdmin::GuardarEntrada($request->cantidad);
        if($EntradaRespuesta == true){
         $EntradaProducto=ControladorAdmin::DetalleEntradaProducto($request->id);
-        if($EntradaProducto== true){
+        $ProductoTalla=ControladorAdmin::GuardarProductoTallaSum($request->cantidad , $request->talla, $request->id);
+        if($EntradaProducto== true && $ProductoTalla==true){
           $producto=Productos::find($request->id);
           $cantidadActual=$producto->stock;
           $producto->stock=$cantidadActual+$request->cantidad;
@@ -682,7 +730,7 @@ public function DescuentosProductos(Request $request){
         }    
        }
      }else{
-       if($request->id !=null){
+       if($request->id !=null && $request->cantidad ==null && $request->talla ==null){
          $producto=Productos::find($request->id);
          $producto != null ? $respuesta=$producto->stock :$respuesta=-1;
        }
@@ -690,13 +738,15 @@ public function DescuentosProductos(Request $request){
      return Response::json($respuesta); 
   }
 
-  public function RestarProducto(Request $request){
+  /*public function RestarProducto(Request $request){
     $respuesta;
      if($request->id != null && $request->cantidad !=null){      
           $producto=Productos::find($request->id);
           $cantidadActual=$producto->stock;
           $producto->stock=$cantidadActual-$request->cantidad;
           $producto->save();
+         
+          $busquedaTallaP=ProductosTallas::where("");
           $respuesta=true;  
      }else{
        if($request->id !=null){
@@ -705,7 +755,7 @@ public function DescuentosProductos(Request $request){
        }
      }
      return Response::json($respuesta); 
-  }
+  }*/
 
    /*---------------Acciones chat----------------- */
 
@@ -714,6 +764,12 @@ public function DescuentosProductos(Request $request){
    }
    public function DatosUsuarioChat(Request $request){
     $arrayDatosU=[];
+    if($request->id !=null){
+     $buscaU=User::find($request->id);
+     if($buscaU != null){
+      array_push($arrayDatosU,$buscaU);
+     }
+    }else{
     $jsonConvertir=json_encode($request->all());
     $jsonDesconvertir=json_decode($jsonConvertir,true);
     foreach($jsonDesconvertir as $fila){
@@ -721,8 +777,18 @@ public function DescuentosProductos(Request $request){
       $busquedaU=User::where("Id_Usuarios","=",$id)->get();
       array_push($arrayDatosU,$busquedaU);
     }
+    }
      return Response::json($arrayDatosU);
    }
+
+   public function Nombre(Request $request){
+    $respuesta=null;
+   $busqueda=User::find($request->id);
+   if($busqueda !=null){
+     $respuesta= $busqueda->name.$busqueda->apellido;
+   }
+    return Response::json($respuesta);
+  }
 
 }
 

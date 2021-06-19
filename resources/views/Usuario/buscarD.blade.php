@@ -1,64 +1,206 @@
 @extends('Layout.plantillaU')
 @section('paginas')
 
-<div class="col-lg-9" id="divPadreProductos">
-        <div class="feature-category-area mt-md-70">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-          <h3>Resultados de la Busqueda</h3> 
-            <div class="featured-carousel-active slick-padding slick-arrow-style">
-                @foreach ($productos as $producto)
-                <div class="product-item fix">
-                    <div class="product-thumb">
-                        <a href="{{url('/Productos/detalleProducto'.$producto->id)}}"  id="imagenes">
-                            @foreach ($imagenes as $imagen)
-                            @if($imagen->id == $producto->id)
-                            <img src="{{asset('storage').'/'.$imagen->foto}}" class="img-sec" width="200" height="200"  alt="">
-                            @endif
-                            @endforeach
-                                                            
-                        </a>
-                        <div class="product-label">
-                            <span>nuevo</span>
-                        </div>
-                        <div class="product-action-link">
-                            <a href="#" data-toggle="modal" data-target="#quick_view"> <span
-                                    data-toggle="tooltip" data-placement="left" title="Quick view"><i
-                                        class="fas fa-shopping-cart"></i></span> </a>
-                            <a href="{{url('/Productos/detalleProducto'.$producto->id)}}" data-toggle="tooltip" data-placement="left" title="Wishlist"><i
-                                    class="fas fa-eye"></i></a>                             
+<div class="page-main-wrapper">
+            <div class="container">
+                <div class="row">
+                    <!-- sidebar start -->
+                    <div class="col-lg-3 order-2 order-lg-1">
+                        <div class="shop-sidebar-wrap mt-md-28 mt-sm-28">
+                            <!-- sidebar categorie start -->
+                         
+                            <!-- sidebar categorie start -->
+
+                            <!-- manufacturer start -->
+                            <div class="sidebar-widget mb-30">
+                                <div class="sidebar-title mb-10">
+                                    <h3>Manufacturers</h3>
+                                </div>
+                                <div class="sidebar-widget-body">
+                                    <ul>
+                                        <li><i class="fa fa-angle-right"></i><a href="#">calvin klein</a><span>(10)</span></li>
+                                        <li><i class="fa fa-angle-right"></i><a href="#">diesel</a><span>(12)</span></li>
+                                        <li><i class="fa fa-angle-right"></i><a href="#">polo</a><span>(20)</span></li>
+                                        <li><i class="fa fa-angle-right"></i><a href="#">Tommy Hilfiger</a><span>(12)</span></li>
+                                        <li><i class="fa fa-angle-right"></i><a href="#">Versace</a><span>(16)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- manufacturer end -->
+
+                            <!-- pricing filter start -->
+                            <div class="sidebar-widget mb-30">
+                                <div class="sidebar-title mb-10">
+                                    <h3>Filtrar por Precio</h3>
+                                </div>
+                                <div class="sidebar-widget-body">
+                                    <div class="price-range-wrap">
+                                        <div class="range-slider">
+                                            <form action="{{route('precio')}}" class="d-flex justify-content-between" method="POST">
+                                            @csrf
+                                                <input type="number" placeholder="Buscar por Precio" name="precioP"/>
+                                                <button id="buscarP" class="filter-btn" type="submit">Filtrar</button>
+                                                
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- pricing filter end -->
+
+                            <!-- product size start -->
+                          
+                            <div class="sidebar-widget mb-30">
+                                <div class="sidebar-title mb-10">
+                                    <h3>Colores</h3>
+                                </div>
+                                <div class="sidebar-widget-body">
+                                @foreach($colores as $color)
+                                @if($color->estado == 1)
+                                    <ul>
+                                        <li><i class="fa fa-angle-right"></i><a href="{{route('colores',$color)}}">{{$color->color}}</a></li>
+                                        
+                                    </ul>
+                                    @endif
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- product size end -->
+
+                            <!-- product tag start -->
+                     
+                            <!-- product tag end -->
+
+                            <!-- sidebar banner start -->
                             
+                            <!-- sidebar banner end -->
                         </div>
                     </div>
-                    <div class="product-content">
-                        <h4><a href="product-details.html">{{$producto->nombre}}</a></h4>
-                        <div class="pricebox">
-                            <span class="regular-price">{{$producto->precio}}</span>
-                            <div class="ratings">
-                                <span class="good"><i class="fa fa-star"></i></span>
-                                <span class="good"><i class="fa fa-star"></i></span>
-                                <span class="good"><i class="fa fa-star"></i></span>
-                                <span class="good"><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
+                    <!-- sidebar end -->
+
+                    <!-- product main wrap start -->
+                    <div class="col-lg-9 order-1 order-lg-2">
+                        
+                        <!-- product view wrapper area start -->
+                        <div class="shop-product-wrapper pt-34">
+                            <!-- shop product top wrap start -->
+                            <div class="shop-top-bar">
+                                <div class="row">
+                                    <div class="col-lg-7 col-md-6">
+                                        <div class="top-bar-left">
+                                            <div class="product-view-mode mr-70 mr-sm-0">
+                                                <a class="active" href="#" data-target="grid"><i class="fa fa-th"></i></a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 col-md-6">
+                                        <div class="top-bar-right">
+                                            <div class="product-short">
+                                                <p>Ordenar Por : </p>
+                                                <select class="nice-select" name="sortby">
+                                                    <option value="trending">Relevancia</option>
+                                                    <option value="sales">Name (A - Z)</option>
+                                                    <option value="sales">Name (Z - A)</option>
+                                                    <option value="rating">Price (Low &gt; High)</option>
+                                                    <option value="date">Rating (Lowest)</option>
+                                                    <option value="price-asc">Model (A - Z)</option>
+                                                    <option value="price-asc">Model (Z - A)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                             </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
+                            <div class="section-title-2 d-flex justify-content-between mb-28">
+                                <h3 style="color:red">PRODUCTOS DE LA BUSQUEDA </h3>
+                                <div class="category-append"></div>
+                            </div> <!-- section title end -->
 
+                            <!-- shop product top wrap start -->
+
+                            <!-- product item start -->
+                            <div class="shop-product-wrap grid row" id="divPadreProductos">
+                            
+                                @foreach ($productos as $producto)
+                                @if($producto->estado == 1)
+                                <div class="col-lg-3 col-md-4 col-sm-6" >
+                               
+                                    <!-- product single grid item start -->
+                                    <div class="product-item fix mb-30">
+                                        <div class="product-thumb">
+                                        <a href="{{url('/Productos/detalleProducto'.$producto->id)}}"  id="imagenes">
+                                             @foreach ($imagenes as $imagen)
+                                                @if($imagen->id == $producto->id)
+                                             <img src="{{asset('storage').'/'.$imagen->foto}}" class="img-sec" width="200" height="200"  alt="">
+                                             @endif
+                                             @endforeach
+                                   
+                                   
+                                         </a>
+                                            <div class="product-label">
+
+                                            </div>
+                                            <div class="product-action-link">
+                                    <a href="#" data-toggle="modal" data-target="#quick_view"> <span
+                                            data-toggle="tooltip" data-placement="left" title="Agregar Carrito"><i
+                                                class="fas fa-shopping-cart"></i></span> </a>
+                                    <a href="{{url('/Productos/detalleProducto'.$producto->id)}}" data-toggle="tooltip" data-placement="left" title="Ver Más"><i
+                                            class="fas fa-eye"></i></a>
+                                    
+                                    
+                                </div>
+                                        </div>
+                                        <div class="product-content">
+                                        <h4><a href="{{url('/Productos/detalleProducto'.$producto->id)}}">{{$producto->nombre}}</a></h4>
+                                        <div class="pricebox">
+
+                                        @if($producto->descuento>=0.1)
+
+                                            {{!$precioProducto=$producto->precio}}
+                                            {{!$valorDescuento=$precioProducto*$producto->descuento}}
+                                             {{!$precioProductoDescu=$precioProducto-$valorDescuento}}
+                                        <span class="regular-price">${{$precioProductoDescu}}</span>
+                                        <div class="old-price">                                     
+                                         <del>${{$producto->precio}}</del>
+                                        </div>
+                                             @else
+                                        <span class="regular-price">${{$producto->precio}}</span>
+                                        @endif
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                 </div> 
+                                    <!-- product single grid item end -->
+                                    <!-- product single list item start -->
+                                    @endif
+                                    @endforeach
+
+                            </div>
+                            <!-- product item end -->
+                        </div>
+                        <!-- product view wrapper area end -->
+
+                        <!-- start pagination area -->
+                        <div class="paginatoin-area text-center pt-28">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="pagination-box">
+                                    {{$productos->links()}}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end pagination area -->
+
+                    </div>
+                    <!-- product main wrap end -->
+                </div>
             </div>
-
-      
-
-                <div class="paginatoin-area text-center pt-28">
-                    <div class="row">
-                        <div class="col-12">
-                            <ul class="pagination-box">
-                               {{$productos->links()}}
-                            </ul>
-                        </div>
-                    </div>
-                   
-                </div>
-              
+        </div>
 @endsection

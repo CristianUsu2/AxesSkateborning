@@ -3,6 +3,10 @@
 @section('title', 'Tienda Axes | Administrador')
 
 @section('content')
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 <div class="container">
 
     <div class="row mt-2">
@@ -16,9 +20,29 @@
 
                     <h3><strong>Tallas Registradas</strong></h3>
                     @if(Session::has("success"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
-                        @elseif(Session::has("failed"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
+                            <script>
+                       Swal.fire(
+                        'Operación éxitosa!',
+                        'Se ha agregado la talla exitosamente.',
+                        'success'
+                        )
+                        </script>
+                         @elseif(Session::has("success1"))
+                            <script>
+                       Swal.fire(
+                        'Operación éxitosa!',
+                        'Cambio de estado éxitosamente.',
+                        'success'
+                        )
+                        </script>
+                      @elseif(Session::has("failed"))
+                      <script>
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ocurrió un error, ya existe la talla, ingrese una talla diferente.',
+                        })
+                      </script>
                         @endif
                 </div>
             </div>

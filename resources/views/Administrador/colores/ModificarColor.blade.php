@@ -2,8 +2,10 @@
 
 @section('title', 'Tienda Axes | Administrador')
 
-
 @section('content')
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <div class="container">
 
     <div class="row">
@@ -15,7 +17,23 @@
                 <div class="col-md-12 text-center">
 
                     <h3><strong>Editar Color</strong></h3>
-                  
+                    @if(Session::has("success"))
+                            <script>
+                       Swal.fire(
+                        'Operación éxitosa!',
+                        'Se ha modificado el color exitosamente.',
+                        'success'
+                        )
+                        </script>
+                      @elseif(Session::has("failed"))
+                      <script>
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ocurrió un error, no se pudo modificar el color.',
+                        })
+                      </script>
+                        @endif
                 </div>
 
             </div>

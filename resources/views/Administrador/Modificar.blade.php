@@ -2,8 +2,10 @@
 
 @section('title', 'Tienda Axes | Administrador')
 
-
 @section('content')
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <div class="container">
 
     <div class="row">
@@ -16,9 +18,21 @@
 
                     <h3><strong>Editar Usuario</strong></h3>
                     @if(Session::has("success"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
-                        @elseif(Session::has("failed"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
+                            <script>
+                       Swal.fire(
+                        'Operación éxitosa!',
+                        'Datos modificados exitosamente.',
+                        'success'
+                        )
+                        </script>
+                      @elseif(Session::has("failed"))
+                      <script>
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No hay datos por modificar.',
+                        })
+                      </script>
                         @endif
                 </div>
 

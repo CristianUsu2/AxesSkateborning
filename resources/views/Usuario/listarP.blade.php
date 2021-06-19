@@ -1,5 +1,6 @@
 @extends('Layout.plantillaU')
 @section('paginas')
+ 
 
 <div class="main-header-wrapper bdr-bottom1">
             <div class="container">
@@ -32,9 +33,9 @@
                                         </li>
                                        
                                         <li><a href="{{route('promo')}}">Descuentos<i class="fas fa-percent"></i></a>
-                                                                                  
+                                                                                     
                                         </li>
-                                       
+                                        
                                     </ul>
                                 </nav>
                             </div>
@@ -45,57 +46,10 @@
                     </div>
                 </div>
             </div>
-        </div>            
+        </div>  
 
-<br>
+        <br><br>
 
-<div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="slider-wrapper-area">
-                    <div class="hero-slider-active hero__1 slick-dot-style hero-dot">
-                        <div class="single-slider" style="background-image: url(../Usuario/img/carrousel.jpg);">
-                    
-                        </div>
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-</div>
-<div class="banner-area mt-30">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 order-1">
-                        <div class="img-container img-full fix imgs-res mb-sm-30">
-                            <a href="#">
-                                <img src="../Usuario/img/banner_left.jpg" alt="">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-md-5 order-sm-3">
-                        <div class="img-container img-full fix mb-30">
-                            <a href="#">
-                                <img src="../Usuario/img/banner_static_top1.jpg" alt="">
-                            </a>
-                        </div>
-                        <div class="img-container img-full fix mb-30">
-                            <a href="#">
-                                <img src="../Usuario/img/banner_static_top2.jpg" alt="">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 order-2 order-md-3">
-                        <div class="img-container img-full fix">
-                            <a href="#">
-                                <img src="../Usuario/img/banner_static_top3.jpg" alt="">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-<br>
 
 <div class="page-main-wrapper">
             <div class="container">
@@ -145,7 +99,6 @@
                             <!-- pricing filter end -->
 
                             <!-- product size start -->
-                          
                             <div class="sidebar-widget mb-30">
                                 <div class="sidebar-title mb-10">
                                     <h3>Colores</h3>
@@ -161,7 +114,6 @@
                                     @endforeach
                                 </div>
                             </div>
-
                             <!-- product size end -->
 
                             <!-- product tag start -->
@@ -169,7 +121,11 @@
                             <!-- product tag end -->
 
                             <!-- sidebar banner start -->
-                            
+                            <div class="sidebar-widget mb-30">
+                                <div class="img-container fix img-full">
+                                    <a href="#"><img src="assets/img/banner/banner_shop.jpg" alt=""></a>
+                                </div>
+                            </div>
                             <!-- sidebar banner end -->
                         </div>
                     </div>
@@ -177,7 +133,9 @@
 
                     <!-- product main wrap start -->
                     <div class="col-lg-9 order-1 order-lg-2">
-                        
+                        <div class="shop-banner img-full">
+                            <img src="assets/img/banner/banner_static1.jpg" alt="">
+                        </div>
                         <!-- product view wrapper area start -->
                         <div class="shop-product-wrapper pt-34">
                             <!-- shop product top wrap start -->
@@ -208,61 +166,69 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                             </div>
-                            <div class="section-title-2 d-flex justify-content-between mb-28">
-                                <h3 style="color:red">PRODUCTOS</h3>
-                                <div class="category-append"></div>
-                            </div> <!-- section title end -->
-
                             <!-- shop product top wrap start -->
-
-                            <!-- product item start -->
-                            <div class="shop-product-wrap grid row" id="divPadreProductos">
+                            <div class="section-title-2 d-flex justify-content-between mb-28">
                             
-                                @foreach ($productos as $producto)
-                                @if($producto->estado == 1)
-                                <div class="col-lg-3 col-md-4 col-sm-6" >
+                                <h3 style="color:red">PRODUCTOS POR FILTRO DE PRECIOS</h3>
+                                <div class="category-append"></div>
+                                
+                            </div> <!-- section title end -->
+                            <!-- product item start -->
+                            @if($productos->isEmpty())
+                            <script>
+                                Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'No se encontraron resultados para la busqueda por precio',
+                                })
+                            </script>
+                             @else
+                            <div class="shop-product-wrap grid row" id="divPadreProductos">
+                            @foreach ($productos as $producto)
+                                <div class="col-lg-3 col-md-4 col-sm-6">
                                
+
                                     <!-- product single grid item start -->
                                     <div class="product-item fix mb-30">
                                         <div class="product-thumb">
                                         <a href="{{url('/Productos/detalleProducto'.$producto->id)}}"  id="imagenes">
-                                             @foreach ($imagenes as $imagen)
-                                                @if($imagen->id == $producto->id)
-                                             <img src="{{asset('storage').'/'.$imagen->foto}}" class="img-sec" width="200" height="200"  alt="">
-                                             @endif
-                                             @endforeach
+                                    @foreach ($imagenes as $imagen)
+                                    @if($imagen->id == $producto->id)
+                                    <img src="{{asset('storage').'/'.$imagen->foto}}" class="img-sec" width="200" height="200"  alt="">
+                                    @endif
+                                    @endforeach
                                    
                                    
-                                         </a>
+                                    </a>
                                             <div class="product-label">
-
+                                                <span>Promo</span>
                                             </div>
                                             <div class="product-action-link">
-                                    
-                                    <a href="{{url('/Productos/detalleProducto'.$producto->id)}}" style="margin-top:75px;" data-toggle="tooltip" data-placement="left" title="Ver Más"><i
+                                    <a href="#" data-toggle="modal" data-target="#quick_view"> <span
+                                            data-toggle="tooltip" data-placement="left" title="Agregar Carrito"><i
+                                                class="fas fa-shopping-cart"></i></span> </a>
+                                    <a href="{{url('/Productos/detalleProducto'.$producto->id)}}" data-toggle="tooltip" data-placement="left" title="Ver Más"><i
                                             class="fas fa-eye"></i></a>
                                     
                                     
                                 </div>
                                         </div>
                                         <div class="product-content">
-                                        <h4><a href="{{url('/Productos/detalleProducto'.$producto->id)}}">{{$producto->nombre}}</a></h4>
-                                        <div class="pricebox">
-
-                                        @if($producto->descuento>=0.1)
+                                        <h4><a href="product-details.html">{{$producto->nombre}}</a></h4>
+                                            <div class="pricebox">
+                                            @if($producto->descuento>=0.1)
 
                                             {{!$precioProducto=$producto->precio}}
                                             {{!$valorDescuento=$precioProducto*$producto->descuento}}
-                                             {{!$precioProductoDescu=$precioProducto-$valorDescuento}}
-                                        <span class="regular-price">${{$precioProductoDescu}}</span>
-                                        <div class="old-price">                                     
-                                         <del>${{$producto->precio}}</del>
-                                        </div>
-                                             @else
-                                        <span class="regular-price">${{$producto->precio}}</span>
-                                        @endif
+                                            {{!$precioProductoDescu=$precioProducto-$valorDescuento}}
+                                            <span class="regular-price">${{$precioProductoDescu}}</span>
+                                            <div class="old-price">                                     
+                                            <del>${{$producto->precio}}</del>
+                                            </div>
+                                            @else
+                                            <span class="regular-price">${{$producto->precio}}</span>
+                                            @endif
                                                 
                                             </div>
                                         </div>
@@ -270,8 +236,8 @@
                                  </div> 
                                     <!-- product single grid item end -->
                                     <!-- product single list item start -->
-                                    @endif
                                     @endforeach
+                                    @endif
 
                             </div>
                             <!-- product item end -->
@@ -283,7 +249,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <ul class="pagination-box">
-                                    {{$productos->links()}}
+                                        {{$productos->links()}}
                                     </ul>
                                 </div>
                             </div>
@@ -295,4 +261,5 @@
                 </div>
             </div>
         </div>
-@endsection
+
+        @endsection  

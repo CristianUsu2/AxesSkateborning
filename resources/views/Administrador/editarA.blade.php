@@ -4,6 +4,9 @@
 
 @section('content')
 
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 <div class="container">
 
 <div class="row">
@@ -28,9 +31,21 @@
         <form action="{{route('editarD')}}" method="POST">
             @csrf
             @if(Session::has("success"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
-                        @elseif(Session::has("failed"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
+                            <script>
+                       Swal.fire(
+                        'Operación éxitosa!',
+                        'Tus datos se han modificado correctamente',
+                        'success'
+                        )
+                        </script>
+                      @elseif(Session::has("failed"))
+                      <script>
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No pudimos modificar tus datos, vuelve a intentarlo'
+                        })
+                      </script>
                         @endif
             <input type="hidden" value="{{$administrador->Id_Usuarios}}" name="IdUsuario"/>
             <div class="row form-row">

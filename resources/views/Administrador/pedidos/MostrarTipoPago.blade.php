@@ -3,6 +3,10 @@
 @section('title', 'Tienda Axes | Administrador')
 
 @section('content')
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 <div class="container">
 
     <div class="row mt-2">
@@ -15,13 +19,24 @@
 
                     <h3><strong>Metodos de pago</strong></h3>
                     @if(Session::has("success"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
-                        @elseif(Session::has("failed"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
+                            <script>
+                       Swal.fire(
+                        'Operación éxitosa!',
+                        'Se ha creado el método de pago éxitosamente.',
+                        'success'
+                        )
+                        </script>
+                      @elseif(Session::has("failed"))
+                      <script>
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ocurrio un error, ya existe el método de pago, ingrese uno diferente.',
+                        })
+                      </script>
                         @endif
                 </div>
                 <button class="btn btn-success mb-2" data-toggle="modal" data-target="#btnPediosEstado">Agregar</button>
-                <a href="{{route('PDF')}}"><button class="btn btn-danger mb-2 ml-2"><i style="margin-right:5px;" class="fas fa-file-import"></i>Generar PDF</button></a>
                 
             </div>
 
@@ -30,7 +45,7 @@
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Crear Estado pedido</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Crear Método de Pago</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -40,8 +55,8 @@
                             @csrf
                            <div class="row">
                              <div class="col-12"> 
-                                <label>Estado pedido</label>
-                                <input type="text" name="estado" class="form-control" placeholder="Verde - Rojo - Morado - Azul......"/>
+                                <label>Método de Pago</label>
+                                <input type="text" name="estado" class="form-control" placeholder="Visa - MasterCard - Contra Entrega......"/>
                               </div>  
                               
                            </div>  

@@ -1,5 +1,10 @@
 @extends('Layout.plantillaU')
 @section('paginas')
+<style>
+    .nice-select{
+        display: none;
+    }
+</style>
 
 <div class="login-register-wrapper">
     <div class="container">
@@ -9,22 +14,22 @@
                 <div class="col-lg-6">
                     <div class="login-reg-form-wrap  pr-lg-50">
                         <h2>Iniciar Sesión</h2>
-                         @if(Session::has("login"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('login')}}</div>
-                        @endif
-                        <form action="{{url('/InicioSesion')}}" method="post">
-                            @csrf
+                     
+                        <form>
                             <div class="single-input-item">
-                                <input type="email" placeholder="Ingrese su Correo" name="Correo"/>
+                                <input type="email" placeholder="Ingrese su Correo" name="Correo" id="correo"/>
                                 @if($errors->has('Correo'))
                                 <span class="error text-danger">{{$errors->first('Correo')}}</span>
                                 @endif
+                                <span class="error text-danger" id="spanCorreo"></span>
+
                             </div>
                             <div class="single-input-item">
-                                <input type="password" placeholder="Ingrese su Contraseña" name="Contraseña"/>
+                                <input type="password" placeholder="Ingrese su Contraseña" name="Contraseña" id="contra"/>
                                 @if($errors->has('Contraseña'))
                                 <span class="error text-danger">{{$errors->first('Contraseña')}}</span>
                                 @endif
+                                <span class="error text-danger" id="spanContraseña"></span>
                             </div>
                             <div class="single-input-item">
                                 <div class="login-reg-form-meta d-flex align-items-center justify-content-between">
@@ -37,7 +42,7 @@
                                 </div>
                             </div>
                             <div class="single-input-item">
-                                <button class="sqr-btn">INGRESAR</button>
+                                <button type="button" class="sqr-btn" id="ingresar">INGRESAR</button>
                                 <button type="button" class="sqr-btn" id="google">Google</button>
                             </div>
                         </form>
@@ -50,9 +55,21 @@
                     <div class="login-reg-form-wrap mt-md-34 mt-sm-34">
                         <h2>REGISTRO</h2>
                         @if(Session::has("success"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
-                        @elseif(Session::has("failed"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
+                            <script>
+                       Swal.fire(
+                        'Operación éxitosa!',
+                        'Su cuenta ha sido creada exitosamente, inicie sesion.',
+                        'success'
+                        )
+                        </script>
+                      @elseif(Session::has("failed2"))
+                      <script>
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ocurrió un error, no pudimos crear su cuenta porque ya existen datos similares'
+                        })
+                      </script>
                         @endif
                 
                         <form action="{{url('/InicioSesionR')}}" method="post" id="registro">
@@ -74,6 +91,7 @@
                                 @if($errors->has('apellido'))
                                 <span class="error text-danger">{{$errors->first('apellido')}}</span>
                                 @endif
+
                             </div>
 
                             <div class="single-input-item">
@@ -120,5 +138,7 @@
     </div>
 </div>
 
-@endsection
 
+
+
+@endsection

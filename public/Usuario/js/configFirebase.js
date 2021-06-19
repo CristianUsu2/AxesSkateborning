@@ -22,6 +22,7 @@ const MostrarNombreGoogle=()=>{
        if(user){
         let divOpciones=document.getElementById("OpcionesU");
         let divNombre=document.getElementById("myaccount"); 
+        let avatar=document.getElementById("avatar");
         if(divNombre!=null && divOpciones!=null){
         divNombre.innerHTML=`
           ${user.displayName}
@@ -30,6 +31,9 @@ const MostrarNombreGoogle=()=>{
         divOpciones.innerHTML=`
         <a class="dropdown-item" href="/Productos/Pedidos">Mis pedidos</a>
         <a class="dropdown-item" href="#"  onclick="CerrarSesion()">Cerrar Sesión</a>
+        `;
+        avatar.innerHTML=`
+          <img src="${user.photoURL}" style="border-radius:50px; width:50px; height:50px; object-fit: cover;"/>
         `;
        }
        }

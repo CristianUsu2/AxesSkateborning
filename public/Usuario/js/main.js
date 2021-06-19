@@ -498,11 +498,9 @@
 
 	// quantity change js
     var proQty = $('.pro-qty');
-	proQty.prepend('<span class="dec qtybtn">-</span>');
-	proQty.append('<span class="inc qtybtn">+</span>');
 	proQty.on('click', '.qtybtn', function () {
 		var $button = $(this);
-		var oldValue = $button.parent().find('input').val();
+		var oldValue = $button.parent().find('input[type="text"]').val();
 		if ($button.hasClass('inc')) {
 			var newVal = parseFloat(oldValue) + 1;
 		} else {
@@ -513,7 +511,7 @@
 				newVal = 0;
 			}
 		}
-		$button.parent().find('input').val(newVal);
+		$button.parent().find('input[type="text"]').val(newVal);
 	});
 
 	// nice select active js
@@ -569,13 +567,7 @@
 	});
 
 	// scroll to top
-	$('body').on('click', '.scroll-top', function (e) {
-        e.preventDefault();
-		$('html,body').animate({
-			scrollTop: 0
-		}, 1000);
-	});
-
+	
 	// Mailchimp for dynamic newsletter
 	$('#mc-form').ajaxChimp({
 		language: 'en',

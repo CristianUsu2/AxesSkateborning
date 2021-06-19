@@ -154,7 +154,7 @@
                                 @foreach($tallas as $talla)
                                 @if($talla->estado == 1)
                                     <ul>
-                                        <li><i class="fa fa-angle-right"></i><a href="{{route('tallas')}}">{{$talla->talla}}</a></li>
+                                        <li><i class="fa fa-angle-right"></i><a href="{{url('Tallas/'.$talla->id)}}">{{$talla->talla}}</a></li>
                                         
                                     </ul>
                                     @endif
@@ -238,39 +238,22 @@
                             </div> <!-- section title end -->
 
                             <!-- shop product top wrap start -->
-
                             <!-- product item start -->
                             <div class="shop-product-wrap grid row" id="divPadreProductos">
-                            
                                 @foreach ($productos as $producto)
-                                @foreach($tallas as $talla)
-                                @if($producto->estado == 1)
-                                @if($talla->id == $talla->id_producto)
+@foreach ($imagenesA as $p)
+  {{$p}}
+ @endforeach
                                 <div class="col-lg-3 col-md-4 col-sm-6" >
                                
                                     <!-- product single grid item start -->
                                     <div class="product-item fix mb-30">
                                         <div class="product-thumb">
                                         <a href="{{url('/Productos/detalleProducto'.$producto->id)}}"  id="imagenes">
-                                    @foreach ($imagenes as $imagen)
-                                    @if($imagen->id == $producto->id)
-                                    <img src="{{asset('storage').'/'.$imagen->foto}}" class="img-sec" width="200" height="200"  alt="">
-                                    @endif
-                                    @endforeach
+                                    
                                    
                                    
                                     </a>
-                                            <div class="product-label">
-
-                                            </div>
-                                            <div class="product-action-link">
-                                    <a href="#" data-toggle="modal" data-target="#quick_view"> <span
-                                            data-toggle="tooltip" data-placement="left" title="Agregar Carrito"><i
-                                                class="fas fa-shopping-cart"></i></span> </a>
-                                    <a href="{{url('/Productos/detalleProducto'.$producto->id)}}" data-toggle="tooltip" data-placement="left" title="Ver Más"><i
-                                            class="fas fa-eye"></i></a>
-                                    
-                                    
                                 </div>
                                         </div>
                                         <div class="product-content">
@@ -296,9 +279,7 @@
                                  </div> 
                                     <!-- product single grid item end -->
                                     <!-- product single list item start -->
-                                    @endif
-                                    @endif
-                                    @endforeach
+                                   
                                     @endforeach
 
                             </div>
@@ -311,7 +292,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <ul class="pagination-box">
-                                    {{$productos->links()}}
+                                   
                                     </ul>
                                 </div>
                             </div>

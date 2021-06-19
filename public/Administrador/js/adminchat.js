@@ -103,7 +103,8 @@ const Fechasformato = (e, user) => {
       "idUsuario": v.idusuario,
       "leido": v.leido,
       "mensaje": v.mensaje,
-      "idAdmin": v.idAdmin
+      "idAdmin": v.idAdmin,
+      "foto": v.foto
     }
     acc.push(datos);
     return acc;
@@ -119,7 +120,8 @@ const Fechasformato = (e, user) => {
           "leido": co.leido,
           "mensaje": co.mensaje,
           "name": u.name,
-          "idAdmin": co.idAdmin
+          "idAdmin": co.idAdmin,
+          "foto":co.foto
         }
         datosContacto.push(usuario);
       }
@@ -130,7 +132,7 @@ const Fechasformato = (e, user) => {
 }
 
 const MensajeContacto = (e) => {
-  const arrayUsuarios = e.filter(u => u.idAdmin == 0);
+  const arrayUsuarios = e.filter(u => u.idAdmin != 11);
   SeccionChatUsuario(arrayUsuarios);
 }
 
@@ -148,7 +150,8 @@ const SeccionChatUsuario = (e) => {
           "mensaje": k.mensaje,
           "nombre": k.name,
           "idAdmin": k.idAdmin,
-          "fecha": k.fecha
+          "fecha": k.fecha,
+          "foto":  k.foto
         }
         prueba.push(mensaje)
       }
@@ -163,7 +166,7 @@ const MostrarMensajeContacto = (chats) => {
   contactos.innerHTML = '';
   chats.forEach(chat => {
     contactos.innerHTML += `<div class="discussion">
-    <div class="photo" style="background-image: url(http://e0.365dm.com/16/08/16-9/20/theirry-henry-sky-sports-pundit_3766131.jpg?20161212144602);">
+    <div class="photo" style="background-image: url(${chat.foto});">
       <div class="online"></div>
     </div>
     <div class="desc-contact">
@@ -200,7 +203,8 @@ const SacarFechaMensaje = (array) => {
             "nombre": q.data().nombre,
             "idAdmin": q.data().idAdmin,
             "fecha": q.data().fecha,
-            "mensaje": q.data().mensaje
+            "mensaje": q.data().mensaje,
+            "foto":q.data().foto
           }
           respuesta.push(ob);
         })
@@ -237,18 +241,20 @@ const ActivadorChat = (e) => {
 }
 
 const ObtenerMensajesUsuarios = (e, nombre) => {
+  console.log(e)
   db.collection('chats').where("idusuario", "==", Number(e)).where("idAdmin", "==", 0).orderBy("fecha")
     .onSnapshot((querySnapshot) => {
       const mensajes = [];
       querySnapshot.forEach((doc) => {
         mensajes.push(doc.data());
       });
+     console.log(mensajes, "usuario")
       MostrarMensajesUsuario(mensajes, nombre, e);
     });
 }
 
 const ObtenerMensajesAdmin = (e, usu) => {
-  db.collection('chats').where("idusuario", "==", Number(e)).where("idAdmin", "==", 6).orderBy("fecha")
+  db.collection('chats').where("idusuario", "==", Number(e)).where("idAdmin", "==", 11).orderBy("fecha")
     .onSnapshot((querySnapshot) => {
       const mensajes = [];
       querySnapshot.forEach((doc) => {
@@ -291,7 +297,7 @@ const MostrarMensajesAdmin = (e, usu) => {
   const divMensajes = document.getElementById("mensajes");
   divMensajes.innerHTML = ""
   MensajesOrdenadas.reduce((acc, v) => {
-    if (v.idAdmin != 6) {
+    if (v.idAdmin != 11) {
       const fecha = new Date(v.fecha * 1000);
       divMensajes.innerHTML += `
         <div class="message text-only">
@@ -344,6 +350,7 @@ const EnvioMensajeAdmin = (e) => {
 </div>`;*/
   let msg = mensaje;
   mensaje.value = '';
+  console.log(msg,e)
   GuardarMensajeAdmin(msg, e);
 
 }
@@ -367,14 +374,16 @@ const GuardarMensajeAdmin = (e, id) => {
         apellido = user.apellido;
       })
       const mensaje = {
-        "idAdmin": 6,
+        "idAdmin": 11,
         "fecha": Date.now(),
-        "leido": false,
+        "leido": true,
+        "foto": "http://e0.365dm.com/16/08/16-9/20/theirry-henry-sky-sports-pundit_3766131.jpg?20161212144602",
         "mensaje": e,
         "nombre": nombre,
         "apellido": apellido,
         "idusuario": Number(id)
       }
+      console.log(mensaje)
       db.collection("chats").add(mensaje)
         .then(r => {
           DatosFirebaseIdsUsuarios()

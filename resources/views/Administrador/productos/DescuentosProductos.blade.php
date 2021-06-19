@@ -10,9 +10,14 @@
     <form>
        <div class="col-12 mb-4">
         <h1>Descuentos de productos</h1>
+        @if(Session::has("success"))
+                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
+                        @elseif(Session::has("failed"))
+                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
+                        @endif
        </div>
        <div class="row">
-
+ 
         <div class="col-4 form-group">
           <label for="exampleFormControlSelect1">Seleccione el producto</label>
           <select class="form-control" id="producto">
@@ -125,7 +130,30 @@
             method: "post",
        })
        .then(r=>r.json())
-       .then(data=>data==1 ? alert("si si dormir mpp") : alert("f mpp"))
+       .then(data=>{
+        if(data==1){
+           const alerta=document.getElementById("alerta");
+           const prod=document.getElementById("producto")
+           const precioProducto=document.getElementById("precioProducto")
+           const descuentoProducto=document.getElementById("descuentoProducto")
+           const precioDescuentoProd=document.getElementById("precioDescuentoProd")
+           alerta.innerHTML+=`
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Se modifico!</strong> Se ejecuto la accion.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>`;
+prod.value='';
+precioProducto.value='';
+descuentoProducto.value='';
+precioDescuentoProd='';
+         }else{
+  alert("no se mpp")
+         }
+        
+       })
+       .catch(eror=>console.log(eror))
    }
 
 </script>

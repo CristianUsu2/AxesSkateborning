@@ -1,5 +1,6 @@
 @extends('Layout.plantillaU')
 @section('paginas')
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="main-header-wrapper bdr-bottom1">
             <div class="container">
@@ -13,9 +14,15 @@
                                         <i class="fa fa-angle-down"></i>
                                     </div>
                                 </div>
-                                @if(Session::has("failed2"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed2')}}</div>
-                             @endif
+                                @if(Session::has("failed3"))
+                      <script>
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Debes iniciar sesión para finalizar la compra.',
+                        })
+                      </script>
+                      @endif
                                 <nav class="category-menu hm-1">
                                     <ul>
                                     @foreach($categorias as $Categorias)
@@ -33,19 +40,10 @@
                                             
                                         </li>
                                        
-                                        <li><a href="#">Productos <i class="fa fa-angle-down"></i></a>
-                                            <ul class="dropdown">
-                                                <li><a href="{{route('promo')}}">Descuentos<i class="fas fa-percent"></i></a>
-                                                    
-                                                </li>
-                                                <li><a href="#">shop grid layout <i class="fa fa-angle-right"></i></a>
-                                                    
-                                                </li>
-                                                
-                                            </ul>
-                                            
+                                        <li><a href="{{route('promo')}}">Descuentos<i class="fas fa-percent"></i></a>
+                                                                                  
                                         </li>
-                                        
+                                       
                                     </ul>
                                 </nav>
                             </div>
@@ -141,4 +139,5 @@
                 </div>
             </div>
         </div>
+
 @endsection

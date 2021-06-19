@@ -2,6 +2,9 @@
 @section('title', 'Tienda Axes | Administrador')
 
 @section('content')
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <div class="container">
 
     <div class="row mt-2">
@@ -14,15 +17,42 @@
 
                     <h3><strong>Productos Registrados</strong></h3>
                     @if(Session::has("success"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
-                              @endif
-                              @if(Session::has("success1"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success1')}}</div>
-                              @endif        
+                            <script>
+                       Swal.fire(
+                        'Operación éxitosa!',
+                        'Se ha creado el producto éxitosamente.',
+                        'success'
+                        )
+                        </script>
+                         @elseif(Session::has("success1"))
+                            <script>
+                       Swal.fire(
+                        'Operación éxitosa!',
+                        'Cambio de estado éxitosamente.',
+                        'success'
+                        )
+                        </script>
+                          @elseif(Session::has("success2"))
+                            <script>
+                       Swal.fire(
+                        'Operación éxitosa!',
+                        'Hemos notificado a todos los usuarios sobre nuestros descuentos mediante un correo electrónico.',
+                        'success'
+                        )
+                        </script>
+                         @elseif(Session::has("failed"))
+                      <script>
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ocurrio un error, ya existe este color, ingrese uno diferente.',
+                        })
+                      </script>
+                        @endif     
                 </div>
                <button class="btn btn-success mb-2 ml-2" data-toggle="modal" data-target="#btnProductos"><i style="margin-right:5px;" class="fas fa-plus"></i>Crear Producto</button>
               
-                <a href="{{route('notificar')}}" style="margin-left:715px;"><button class="btn btn-info mb-2 ml-2"><i style="margin-right:5px;" class="fas fa-bell"></i>Notificar Descuentos Usuarios</button></a>
+                <a  id="notificar" style="margin-left:715px;"><button class="btn btn-info mb-2 ml-2"><i style="margin-right:5px;" class="fas fa-bell"></i>Notificar Descuentos Usuarios</button></a>
 
             </div>
 
@@ -287,6 +317,7 @@
 
 @stop
 @section('js')
+<script src="../../Administrador/js/envios.js"></script>
 <script>
     $(document).ready(function () {
         $('#productos').DataTable({
@@ -305,23 +336,25 @@
      var tallas=[];
        multiSelect.children(':selected').each((a,v)=>{
            let talla={
-               'idTalla':v.value
+               'idTalla':v.value,
+               'talla':v.textContent
                //'talla': v
            }
            tallas.push(talla);
        });
        Array2=tallas;
-       AgregarInput(tallas.length);
+       console.log(multiSelect)
+       AgregarInput(tallas);
     };
 
     let AgregarInput=(e)=>{   
         let i=0;
         let divCantidadesTalla=document.getElementById("inputTallaC");
         divCantidadesTalla.innerHTML='';
-         while(i<e){
+         while(i<e.length){
         divCantidadesTalla.innerHTML+=`
            <div class='col-4 mt-3'>
-            <label>Cantidad de talla ${i}</label>
+            <label>Cantidad de talla ${e[i].talla}</label>
             <input type="number" name="cantidadTalla[]" class="form-control" id="tallaC${i}"/>
             </div>`;
         i++;

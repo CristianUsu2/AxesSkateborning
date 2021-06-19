@@ -62,7 +62,11 @@ let AñadirElementoLocalStorage = () => {
     tallaP = null;
     MostrarProductos();
   } else {
-    alert("selecciona la talla");
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Seleccione una talla'
+    });
   }
 }
 

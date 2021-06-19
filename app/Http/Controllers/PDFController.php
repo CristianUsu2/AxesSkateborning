@@ -25,14 +25,16 @@ class PDFController extends Controller
         return $pdf->download('InformeStock.pdf');
     }
 
-    public function comprobante(){
+    public function comprobante($fecha){
+        $totales=[];
+        $totales2=[];
         $sesion=session('datosU');
         $idUsuario;
         foreach($sesion as $usua){
             $idUsuario=$usua->Id_Usuarios;
         }
         $usuario=User::find($idUsuario);
-        $user = User::all();
+        
         $productos=Productos::all();
         $pedidosT=Pedidos::all();
         $estadosPedido=EstadoPedido::all();
@@ -40,12 +42,22 @@ class PDFController extends Controller
         $pedidos=Pedidos::join("detalle_pedido_productos", "detalle_pedido_productos.id_pedido", "=", "pedidos.Id_pedido")
                          ->join("pago_en_lineas", "pago_en_lineas.id_pedido","=","pedidos.Id_pedido")
                          ->where('id_usuario','=',$usuario->Id_Usuarios)
+                         ->where('pedidos.Fecha','=',$fecha)
                          ->select("*")
                          ->get();
                          
-        $pdf = PDF::loadView('comprobantePago', compact('user','productos','pedidosT','estadosPedido','pedidos','detalleP'));
+        foreach($pedidos as $p){
+          array_push($totales,$p->Sub_Total);
+          array_push($totales2,$p->Total);
+        }
+      
+        $subtotal=array_sum($totales);
+        $total=array_sum($totales2);
+        
+    
+        $pdf = PDF::loadView('comprobantePago', compact('productos','pedidosT','subtotal','total','pedidos','detalleP','usuario'));
 
-        return $pdf->download('ComprobantePago.pdf');
+        return view('comprobantePago', compact('productos','pedidosT','subtotal','total','pedidos','detalleP','usuario'));//$pdf->download('ComprobantePago.pdf');
 
     }
 }

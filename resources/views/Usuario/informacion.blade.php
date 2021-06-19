@@ -1,6 +1,12 @@
 @extends('Layout.plantillaU')
 @section('paginas')
 
+<style>
+    .nice-select{
+        display: none;
+    }
+</style>
+
 <div class="container pt-5 pb-5">
             <div class="row">
                
@@ -11,9 +17,21 @@
                         <form action="{{route('Modificar')}}" method="POST">
                             @csrf
                             @if(Session::has("success"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
+                            <script>
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Datos actualizados",
+                                    text: "Tus datos han sido modificados correctamente."
+                                })
+                            </script>
                         @elseif(Session::has("failed"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
+                        <script>
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Opss....",
+                                    text: "Ocurrió un error, los datos son los mismos, no se puede modificar."
+                                })
+                            </script>
                         @endif
                             <input type="hidden" value="{{$usuario->Id_Usuarios}}" name="IdUsuario"/>
 

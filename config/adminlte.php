@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Tienda</b>Axes',
+    'logo_img' => '../../Usuario/img/logo_perro.jpg',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'AdminLTE',
+    'logo_img_alt' => 'TiendaAxes',
 
     /*
     |--------------------------------------------------------------------------
@@ -187,7 +187,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/Administrador/index',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -238,7 +238,7 @@ return [
         [
             
             'text' => 'Perfil',
-            'url'  => '/Administrador/perfil/5',
+            'url'  => '/Administrador/perfil/11',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
@@ -281,10 +281,10 @@ return [
                                     'text' => 'Sumar Cantidades',
                                     'url'  => '/Administrador/productos/SumarCantidad',
                                 ],
-                                [
+                                /*[
                                     'text' => 'Restar Cantidades',
                                     'url'  => '/Administrador/productos/RestarCantidad',
-                                ],
+                                ],*/
                             ],
                         ],
                     ],
@@ -333,20 +333,11 @@ return [
         
         ['header' => 'labels'],
         [
-            'text'       => 'important',
+            'text'       => 'Cerrar Sesión',
             'icon_color' => 'red',
-            'url'        => '#',
+            'url'        => '/Productos/login',
         ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-        ],
+        
     ],
 
     /*

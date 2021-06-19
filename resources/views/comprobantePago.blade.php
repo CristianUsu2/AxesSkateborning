@@ -641,23 +641,20 @@ footer p {
   </div><!-- .info -->
 
   <div class="bank">
+   
   @if($pedidos!=null)
    @foreach($pedidos as $pedido)
    <div>
- 
-   @foreach($user as $u)
-       @if($pedido->Id_Pedido == $u->Id_Usuarios && $pedido->id_usuario == $u->Id_Usuarios && $pedido->Fecha)
+   
     <p contenteditable>
     Factura #: {{$pedido->Id_Pedido}}<br>
-    Nombre Cliente: {{$u->name}} {{$u->apellido}}<br>
-    Documento: {{$u->identificacion}}<br>
+    Nombre Cliente: {{$usuario->name}} {{$usuario->apellido}}<br>
+    Documento: {{$usuario->identificacion}}<br>
     Fecha: {{$pedido->Fecha}}<br>
     @break;
 
-    </p>
-    
-    @endif
-    @endforeach
+    </php>
+  
    </div> 
 
     @endforeach
@@ -692,14 +689,13 @@ footer p {
                             <th class="pro-title">Direccion</th>
                             <th class="pro-title">Valor</th>
                             <th class="pro-title">Fecha</th>
-                            <th class="pro-title">Estado pedido</th>
                         </tr>
                         </thead>
                         <tbody>
                             @if($pedidos!=null)
                            @foreach($pedidos as $pedido)
 
-                           @if($pedido->Fecha == "2021-06-08")
+                           
                            <tr>
                                <td>{{$pedido->Id_Pedido}}</td>
                               
@@ -729,17 +725,11 @@ footer p {
                                <td>{{$pedido->Direccion}}</td>
                                <td>{{$pedido->Total}}</td>
                                <td>{{$pedido->Fecha}}</td>
-                               <td> 
-                                   @foreach ($estadosPedido as $item)
-                                   @if($pedido->id_estado == $item->Id_Estado)
-                                    {{$item->Estado}}
-                                   @endif   
-                                   @endforeach
-                               </td>
+                            
                            </tr>
-                           @endif
                            @endforeach
                            @endif
+
                         </tbody>
                        
                     </table>
@@ -748,20 +738,13 @@ footer p {
 
 <div class="invoicelist-footer">
   <table contenteditable>
-  @foreach($detalleP as $dp)
-  @foreach($pedidos as $pedido)
-
-  @if($dp->id_pedido == $pedido->Id_Pedido && $pedido->Fecha == "2021-06-08")
-   {{!$total = 0}}
-   {{!$total+=$dp->Total}}
+ 
     <tr>
-    <td style="font-size:16px; color:#000"><strong>Sub Total: ${{$dp->Sub_Total}}</strong></td><br>
-      <td style="font-size:18px; color:#000"><strong>Total: ${{$dp->Total}}</strong></td>
+    <td style="font-size:16px; color:#000"><strong>Sub Total: ${{$subtotal}}</strong></td><br>
+    <td style="font-size:16px; color:#000"><strong>Envío: $10000</strong></td><br>
+      <td style="font-size:18px; color:#000"><strong>Total: ${{$total}}</strong></td>
     </tr>
-    @break;
-    @endif
-    @endforeach
-    @endforeach
+    
 
   </table>
 </div>

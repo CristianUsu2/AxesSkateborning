@@ -13,10 +13,19 @@
     <link rel="stylesheet" type="text/css" href="../Usuario/css/skin-default.css">
 
     <link rel="icon" href="../Usuario/img/logo.jpeg" />
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+    .nice-select{
+        display: none;
+    }
+</style>
+
+
     <title>Tienda Axes</title>
   </head>
   <body>
-  <input type="hidden" value="{{csrf_token()}}" id="csrf" />
+  
       <div class="wrapper">
 
         <!-- header area start -->
@@ -43,13 +52,13 @@
                                 <nav>
                                     <ul>
                                         <li>
-                                            <div class="dropdown header-top-dropdown">
+                                        <div class="dropdown header-top-dropdown">
                                                 <a class="dropdown-toggle" id="myaccount" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     @php 
-                                                   
+                                                    
                                                     $datosS=session('datosU')
-                                                   
+                                                    
                                                     @endphp
                                                     @if (($datosS!=null))
                                                        @foreach ($datosS as $item)
@@ -75,7 +84,7 @@
                                                     <input type="hidden" id="idUsu" value="{{$item->Id_Usuarios}}" />
                                                     <a class="dropdown-item" href="{{url('/Informacion/'.$item->Id_Usuarios)}}"><i style="margin-right:5px;" class="fas fa-user"></i>Mi Perfil</a>
                                                     <a class="dropdown-item" href="{{route('PedidosU')}}"><i style="margin-right:5px;" class="fa fa-truck"></i>Mis Pedidos</a>
-                                                    <a class="dropdown-item" href="{{route('loginCerrar')}}"><i style="margin-right:5px;" class="fas fa-sign-out-alt"></i>Cerrar Sesión</a>
+                                                    <a class="dropdown-item" href="{{route('loginCerrar')}}" onclick="CerrarSesion()"><i style="margin-right:5px;" class="fas fa-sign-out-alt"></i>Cerrar Sesión</a>
                                                    </div>    
                                                 @endif
                                                  
@@ -87,7 +96,7 @@
                                         <i class="fas fa-shopping-cart"></i>    <a href="{{route('detalleCompra')}}">Mi Carrito</a>
                                         </li>
                                         <li>
-                                        <button id="alerta" type="button" style="border:none; background:none;"><i class="fas fa-bell"></i></button>
+                                        <button  type="button" style="border:none; background:none;" id="avatar"></button>
                                         </li>
                                     </ul>
                                 </nav>
@@ -139,13 +148,23 @@
                                       </div>
                                   </div> <!-- end single shipping -->
                               </div>
-                              @if(Session::has("success"))
-                            <div class="alert alert-success alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('success')}}</div>
-                                 @elseif(Session::has("failed"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed')}}</div>
-                            @elseif(Session::has("failed1"))
-                            <div class="alert alert-danger alert-dismissible"><button type="button" class="close">&times;</button>{{Session::get('failed1')}}</div>
-                             @endif
+                              @if(Session::has("failed"))
+                      <script>
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Este campo es obligatorio.',
+                        })
+                      </script>
+                           @elseif(Session::has("failed4"))
+                      <script>
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No se encontraron resultados para la busqueda.',
+                        })
+                      </script>
+                        @endif
                               <div class="header-middle-block">
                                   <div class="header-middle-searchbox">
                                   <form action="{{route('buscador')}}" method="POST">
@@ -266,7 +285,7 @@
                     <p>©2021 Todos los Derechos Reservados |  <strong>AXES SKATEBOARDING</strong></p>
                 </div>
                 <div class="payment-method-img">
-                   <a style="color:#000;" href="#"><p>Términos y Condiciones | </a> <a style="color:#000;" href="x">Política y Privacidad</a> </p>
+                   <a style="color:#000;" href="{{route('terminos')}}"><p>Términos y Condiciones | </a> <a style="color:#000;" href="{{route('privacidad')}}">Política y Privacidad</a> </p>
                 </div>
             </div>
         </div>
@@ -276,90 +295,6 @@
 </footer>
 <!-- footer area end -->
 
-<div class="modal" id="quick_view">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-              <!-- product details inner end -->
-              <div class="product-details-inner">
-                  <div class="row">
-                      <div class="col-lg-5">
-                          <div class="product-large-slider slick-arrow-style_2 mb-20">
-                              <div class="pro-large-img">
-                                  <img src="../Usuario/img/product-details-img1.jpg" alt="" />
-                              </div>
-                              <div class="pro-large-img">
-                                  <img src="../Usuario/img/product-details-img2.jpg" alt="" />
-                              </div>
-                              <div class="pro-large-img">
-                                  <img src="../Usuario/img/product-details-img3.jpg" alt="" />
-                              </div>
-                              <div class="pro-large-img">
-                                  <img src="../Usuario/img/product-details-img4.jpg" alt="" />
-                              </div>
-                              <div class="pro-large-img">
-                                  <img src="../Usuario/img/product-details-img5.jpg" alt="" />
-                              </div>
-                          </div>
-                          <div class="pro-nav slick-padding2 slick-arrow-style_2">
-                              <div class="pro-nav-thumb"><img src="../Usuario/img/product-details-img1.jpg"
-                                      alt="" /></div>
-                              <div class="pro-nav-thumb"><img src="../Usuario/img/product-details-img2.jpg"
-                                      alt="" /></div>
-                              <div class="pro-nav-thumb"><img src="../Usuario/img/product-details-img3.jpg"
-                                      alt="" /></div>
-                              <div class="pro-nav-thumb"><img src="../Usuario/img/product-details-img4.jpg"
-                                      alt="" /></div>
-                              <div class="pro-nav-thumb"><img src="../Usuario/img/product-details-img5.jpg"
-                                      alt="" /></div>
-                          </div>
-                      </div>
-                      <div class="col-lg-7">
-                          <div class="product-details-des mt-md-34 mt-sm-34">
-                              <h3><a href="product-details.html">external product 12</a></h3>
-                              <div class="ratings">
-                                  <span class="good"><i class="fa fa-star"></i></span>
-                                  <span class="good"><i class="fa fa-star"></i></span>
-                                  <span class="good"><i class="fa fa-star"></i></span>
-                                  <span class="good"><i class="fa fa-star"></i></span>
-                                  <span><i class="fa fa-star"></i></span>
-                                  <div class="pro-review">
-                                      <span>1 review(s)</span>
-                                  </div>
-                              </div>
-                              <div class="availability mt-10">
-                                  <h5>Availability:</h5>
-                                  <span>1 in stock</span>
-                              </div>
-                              <div class="pricebox">
-                                  <span class="regular-price">$160.00</span>
-                              </div>
-                              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-                                  tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.<br>
-                                  Phasellus id nisi quis justo tempus mollis sed et dui. In hac habitasse platea
-                                  dictumst. Suspendisse ultrices mauris diam. Nullam sed aliquet elit. Mauris
-                                  consequat nisi ut mauris efficitur lacinia.</p>
-                              <div class="quantity-cart-box d-flex align-items-center mt-20">
-                                  <div class="quantity">
-                                      <div class="pro-qty"><input type="text" value="1"></div>
-                                  </div>
-                                  <div class="action_link">
-                                      <a class="buy-btn" href="#">add to cart<i class="fa fa-shopping-cart"></i>
-                                      </a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <!-- product details inner end -->
-          </div>
-      </div>
-  </div>
-</div>
 <!-- Quick view modal end -->
 <div class="modal fade" id="formUsuarioGoogle" tabindex="-1" role="dialog" aria-labelledby="formUsuarioGoogle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -404,7 +339,7 @@
       <div class="chat-box-body">
         <div class="chat-box-overlay">   
         </div>
-      <div class="chat-logs">
+      <div class="chat-logs" id="chatlogs">
        
       </div><!--chat-log -->
     </div>
@@ -421,9 +356,6 @@
   
 </div>
 <!-- Scroll to top start -->
-<div class="scroll-top not-visible">
-  <i class="fa fa-angle-up"></i>
-</div>
 
 <script>
   const divsImagenes=document.querySelector("#divPadreProductos");
@@ -440,13 +372,14 @@
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
 <script>
   var firebaseConfig = {
-    apiKey: "AIzaSyADbRq5ER8UsC7-XnQ2srTiaoAsKt2qryg",
-    authDomain: "axesskateborning-e0bf9.firebaseapp.com",
-    projectId: "axesskateborning-e0bf9",
-    storageBucket: "axesskateborning-e0bf9.appspot.com",
-    messagingSenderId: "782465290202",
-    appId: "1:782465290202:web:35da585c1a5cd19f587ae3",
-    measurementId: "G-YB04YWTL2V" 
+    apiKey: "AIzaSyC5S_KFVnAC6Cbw5kqLqKUubmm_WcYpgQM",
+    authDomain: "proyectoaxes.firebaseapp.com",
+    projectId: "proyectoaxes",
+    databaseURL: "https://proyectoaxes.firebaseio.com",
+    storageBucket: "proyectoaxes.appspot.com",
+    messagingSenderId: "723650582483",
+    appId: "1:723650582483:web:bb8b54cd705ee08e470126",
+    measurementId: "G-RKX7LGM5GZ"
   };
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();

@@ -14,11 +14,12 @@ Route::get('/InicioSesion', [ControladorUsuario::class, "login"])->name('login')
 Route::post('/Buscador', [ControladorUsuario::class, "buscar"])->name('buscador');
 Route::get('/Buscador', [ControladorUsuario::class, "buscarD"]);
 Route::get('/ListadoProductos',[ControladorUsuario::class,"listarP"])->name("listar");
-Route::post('index',[ControladorUsuario::class, "listarPrecio"])->name("precio");
+Route::post('/ListadoProductos',[ControladorUsuario::class, "listarPrecio"])->name("precio");
+Route::post('index',[ControladorUsuario::class, "ValidacionUsuario"]);
 Route::post('index/Color',[ControladorUsuario::class, "listarC"])->name("color");
 Route::get('index/{color}',[ControladorUsuario::class, "listarColor"])->name("colores");
-Route::get('Tallas',[ControladorUsuario::class,"listarTallas"])->name("tallas");
-
+Route::get('Tallas/{id}',[ControladorUsuario::class,"listarTallas"]);
+//Route::get('Nuevos',[ControladorUsuario::class,"productosNuevos"]);
 Route::post('/InicioSesionR', [ControladorUsuario::class, "register"]);
 Route::get('/Terminos-Condiciones', [ControladorUsuario::class, "terminos"])->name("terminos");
 Route::get('/Politica-Privacidad', [ControladorUsuario::class, "privacidad"])->name("privacidad");
@@ -37,10 +38,11 @@ Route::get('/Productos/finalizarCompra',[ControladorUsuario::class,"FinalizarCom
 Route::post('/Productos/finalizarCompra',[ControladorUsuario::class,"GuardarCompra"]);
 Route::post('/Productos/detalleCompra',[ControladorUsuario::class,"FinalizarCompraGoogle"]);
 Route::get('/Productos/Pedidos',[ControladorUsuario::class,"PedidosUsuario"])->name('PedidosU');
-Route::get('/Productos/Pedidos/generarPDF', [PDFController::class, 'comprobante'])->name('comprobante');
-
+Route::get('/Productos/Pedidos/generarPDF/{fecha}', [PDFController::class, "comprobante"]);
+Route::post('/InicioSesion', [ControladorUsuario::class, "loginV"]);
 /*-------------Rutas de Administrador Usuarios---------------------- */
-    Route::post('/InicioSesion', [ControladorUsuario::class, "loginV"]);
+    
+  
 Route::get('/Administrador/index', [ControladorAdmin::class, "index"])->name('inicio');
 
 Route::get('/Administrador/usuarios', [ControladorAdmin::class, "usuarios"])->name('usuarios');
@@ -51,8 +53,9 @@ Route::get('/Administrador/usuarios/{Id_Usuarios}', [ControladorAdmin::class, "e
 Route::get('/Administrador/usuariosE/{Id_Usuarios}',[ControladorAdmin::class, "editarUsuario"]);
 Route::post('/Administrador/usuariosE',[ControladorAdmin::class,"ModificarUsuario"])->name('ModificarUsuario');
 Route::get('/Administrador/generarPDF', [PDFController::class, 'generatePDF'])->name('PDF');
-Route::post("/Administrador/notificaciones", [MailerController::class, "notificar"])->name("notificar");
+Route::post("/Administrador/notificaciones", [MailerController::class, "notificar"]);
 Route::get("/Administrador/notificaciones", [MailerController::class, "notificar"])->name("notificar");
+
 
 /*---------------------Rutas pedidos------------------------- */
 Route::get('/Administrador/productos/MostrarPedidos',[ControladorAdmin::class, "MostrarPedidos"]);
@@ -98,8 +101,8 @@ Route::get('/Administrador/productos/EditarProductos/{id}',[ControladorAdmin::cl
 Route::post('/Administrador/productos/ModificarProductos',[ControladorAdmin::class,"ModificarProductos"]);
 Route::get('/Administrador/productos/SumarCantidad',[ControladorAdmin::class, "EntradaProducto"]);
 Route::post('/Administrador/productos/SumarCantidad',[ControladorAdmin::class, "SumarProducto"]);
-Route::get('/Administrador/productos/RestarCantidad',[ControladorAdmin::class, "VistaRestaProducto"]);
-Route::post('/Administrador/productos/RestarCantidad',[ControladorAdmin::class,"RestarProducto"]);
+//Route::get('/Administrador/productos/RestarCantidad',[ControladorAdmin::class, "VistaRestaProducto"]);
+//Route::post('/Administrador/productos/RestarCantidad',[ControladorAdmin::class,"RestarProducto"]);
 Route::get('/Administrador/productos/EntradasProductos',[ControladorAdmin::class, "EntradasProductos"]);
 Route::get('/Administrador/productos/DescuentosProductos',[ControladorAdmin::class, "VistaDescuentosProductos"]);
 Route::post('/Administrador/productos/DescuentosProductos',[ControladorAdmin::class, "DescuentosProductos"]);

@@ -4,6 +4,7 @@
 
 
 @section('content')
+<div class="col-sm5" id="alerta"></div>
  <div class="container">
   <div class="col-12" >
     <input type="hidden" id="csrf" value="{{csrf_token()}}"/>
@@ -28,6 +29,16 @@
             <input class="form-control" type="text" id="cantidad"  disabled/>
            </div>
         
+        <div class="col-4 form-group">
+         <label>Seleccionar Talla</label>
+         <select class="custom-select" id="talla">
+         <option selected>Choose...</option>
+         @foreach($tallas as $t)
+    <option value="{{$t->id}}">{{$t->talla}}</option>
+     
+    @endforeach
+  </select>
+        </div>
         <div class="col-4 form-group">
          <label>Ingresar cantidad</label>
          <input class="form-control" type="text" id="cantidadSum" />
@@ -84,9 +95,11 @@
    
    const SumarStock=(CantidadSumar)=>{
      const id=select.value;
+     const talla=document.getElementById("talla").value;
      const data=new URLSearchParams();
      data.append("id", id);
      data.append("cantidad",CantidadSumar);
+     data.append("talla", talla);
      fetch('/Administrador/productos/SumarCantidad',{
        headers:{
         'X-CSRF-TOKEN': csrf
@@ -97,10 +110,19 @@
      .then(response=>response.json())
      .then(r=>{
         if(r==true){
-             alert("si señor se actulizo el stock");
+          const alerta=document.getElementById("alerta");
+          alerta.innerHTML+=`
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Se modifico!</strong> Se ejecuto la accion.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>`;
+           
              inputCantidadSum.value='';
              stock.value='';
              select.value='';
+             talla.value='';
     
         }})
      .catch(error=>console.log(error))

@@ -3,7 +3,6 @@
 <div class="cart-main-wrapper">
 
     <div class="container">
-    <a href="{{route('comprobante')}}"><button class="btn btn-danger mb-2 ml-2"><i style="margin-right:5px;" class="fas fa-file-import"></i>Comprobante Pago</button></a>
     <br>
     <br>
 
@@ -28,6 +27,7 @@
                             <th class="pro-title">Valor</th>
                             <th class="pro-title">Fecha</th>
                             <th class="pro-title">Estado pedido</th>
+                            <th class="pro-title">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -75,6 +75,9 @@
                                     {{$item->Estado}}
                                    @endif   
                                    @endforeach
+                               </td>
+                               <td>
+                               <a href="{{url('/Productos/Pedidos/generarPDF/'.$pedido->Fecha)}}"><button class="btn btn-danger mb-2 ml-2"><i style="margin-right:5px;" class="fas fa-file-import"></i>Comprobante Pago</button></a>
                                </td>
                            </tr>
                            @endforeach

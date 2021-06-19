@@ -1,6 +1,9 @@
 @extends('Layout.plantillaU')
 @section('paginas')
 
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 <div class="product-details-wrapper">
             <div class="container">
                 <div class="row">
