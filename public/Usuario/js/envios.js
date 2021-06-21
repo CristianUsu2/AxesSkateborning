@@ -70,7 +70,6 @@ const EnvioRecuperarContra = () => {
 const LoginUsuario = () => {
     let Correo = document.getElementById("correo").value;
     let Contraseña = document.getElementById("contra").value;
-    console.log(Correo , Contraseña);
     if (Correo.length ==0 || Correo == null) {
         spanCorreo.innerHTML=`El campo correo es obligatorio`;
     }else{
@@ -173,44 +172,55 @@ const registroUsuarios=()=>{
         spanContraConfirm.innerHTML=`El campo confirmar contraseña es obligatorio`;
         return false;
     }
-    //if(contraseña.length >1 && confirmarContraseña.length >1){
         if(contraseña.length >1 && confirmarContraseña.length >1 &&contraseña != confirmarContraseña){
         Swal.fire({
             icon: "error",
             title: "Opps....",
             text: "Las contraseñas no coinciden, ingrese las contraseñas iguales"
         })
-    //}
     }else{
 
         let data = new URLSearchParams();
         data.append("identificacion",cedula);
-        data.append("name",nombre);
+        data.append("nombre",nombre);
         data.append("apellido",apellido);
-        data.append("email",correo);
+        data.append("correo",correo);
         data.append("telefono",telefono);
-        data.append("password",contraseña);
+        data.append("contraseña",contraseña);
     
-        fetch("/InicioSesionR", {
+        fetch('/InicioSesionR', {
         headers: {
-        "X-CSRF-TOKEN": csrf,
+        "X-CSRF-TOKEN": csrf
         },
-        body: data,
         method: "POST",
+        body: data
         })
-        .then((response) => response.json())
-        .then((datos)=>{
+        .then(response=>response.json())
+        .then(datos=>{
             if(datos == 1){
                 Swal.fire({
                     icon: "success",
                     title: "Registro éxitoso",
                     text: "Tu cuenta se ha creado éxitosamente"
-                });
+                })
+                cedula.value='';
+                nombre.value='';
+                apellido.value='';
+                correo.value='';
+                telefono.value='';
+                contraseña.value='';          
+            }else if(datos !=1){
+                Swal.fire({
+                    icon: "error",
+                    title: "Error en el registro",
+                    text: "El correo o la identificación ya están registrado, verifique los campos o comuniquese con el administrador."
+                })
             }
         })
+        .catch(error=>console.log(error))
     }
 
-};
+}
 
 const RegistroUsuariosGoogle=()=>{
     const usuario=JSON.parse(localStorage.getItem("usuario"));

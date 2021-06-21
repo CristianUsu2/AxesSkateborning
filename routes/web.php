@@ -44,7 +44,6 @@ Route::post('/InicioSesion', [ControladorUsuario::class, "loginV"]);
     
   
 Route::get('/Administrador/index', [ControladorAdmin::class, "index"])->name('inicio');
-
 Route::get('/Administrador/usuarios', [ControladorAdmin::class, "usuarios"])->name('usuarios');
 Route::get('/Administrador/perfil/{Id_Usuarios}', [ControladorAdmin::class, "datosA"])->name('datos');
 Route::post('/Administrador/perfil', [ControladorAdmin::class, "perfil"])->name('editarD');
@@ -53,7 +52,7 @@ Route::get('/Administrador/usuarios/{Id_Usuarios}', [ControladorAdmin::class, "e
 Route::get('/Administrador/usuariosE/{Id_Usuarios}',[ControladorAdmin::class, "editarUsuario"]);
 Route::post('/Administrador/usuariosE',[ControladorAdmin::class,"ModificarUsuario"])->name('ModificarUsuario');
 Route::get('/Administrador/generarPDF', [PDFController::class, 'generatePDF'])->name('PDF');
-Route::post("/Administrador/notificaciones", [MailerController::class, "notificar"]);
+Route::post("/Administrador/notificaciones", [MailerController::class, "EmailDescuento"]);
 Route::get("/Administrador/notificaciones", [MailerController::class, "notificar"])->name("notificar");
 
 

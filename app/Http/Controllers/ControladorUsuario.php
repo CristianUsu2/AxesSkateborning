@@ -494,16 +494,6 @@ class ControladorUsuario extends Controller
   public function register(Request $request)
   {
     $res = null;
-    $request->validate([
-      'nombre' => 'required|min:2|max:20',
-      'apellido' => 'required|min:2|max:20',
-      'correo' => 'required|email|min:4|max:50|',
-      'identificacion' => 'required|min:7|max:12|',
-      'contraseña' => 'required|min:2|max:30',
-      'ConfirmarContraseña' => 'required|min:2|max:30',
-      'telefono' => 'required|min:2|max:11'
-    ]);
-    if ($request->contraseña == $request->ConfirmarContraseña) {
       try {
         $registro = new User();
         $registro->name = $request->nombre;
@@ -521,7 +511,7 @@ class ControladorUsuario extends Controller
         return Response::json($e->getMessage());
       }
       $res = 1;
-    }
+    
     return Response::json($res);
   }
 

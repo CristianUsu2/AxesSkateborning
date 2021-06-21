@@ -2,8 +2,11 @@
 
 @section('title', 'Tienda Axes | Administrador')
 
-
 @section('content')
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
  <div class="container">
   <div class="col-12" >
     <input type="hidden" id="csrf" value="{{csrf_token()}}"/>
@@ -132,24 +135,17 @@
        .then(r=>r.json())
        .then(data=>{
         if(data==1){
-           const alerta=document.getElementById("alerta");
-           const prod=document.getElementById("producto")
-           const precioProducto=document.getElementById("precioProducto")
-           const descuentoProducto=document.getElementById("descuentoProducto")
-           const precioDescuentoProd=document.getElementById("precioDescuentoProd")
-           alerta.innerHTML+=`
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong>Se modifico!</strong> Se ejecuto la accion.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>`;
-prod.value='';
-precioProducto.value='';
-descuentoProducto.value='';
-precioDescuentoProd='';
+           Swal.fire({
+             icon:'success',
+             title:'Operacion exitosa',
+             text:'Se agrego el descuento al producto'
+           })
          }else{
-  alert("no se mpp")
+          Swal.fire({
+             icon:'error',
+             title:'No se pudo ejecutar la operacion ',
+             text:'No se agrego el descuento al producto'
+           })
          }
         
        })

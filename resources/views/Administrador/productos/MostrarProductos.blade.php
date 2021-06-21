@@ -2,7 +2,7 @@
 @section('title', 'Tienda Axes | Administrador')
 
 @section('content')
-
+<input type="hidden" id="csrf" value="{{csrf_token()}}"/>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="container">
@@ -299,7 +299,7 @@
 
           </table>
 
-          
+          <div id="msgNoti" ></div>
           
 
     </div>
