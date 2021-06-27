@@ -388,7 +388,7 @@
 </script>
 <script src="../Usuario/js/configFirebase.js"></script>
 <script src="../Usuario/js/cart.js"></script>
-<script src="../Usuario/js/detailscart.js"></script>
+<script src="../Usuario/js/detailsCart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
 <script src="../Usuario/js/PayU.js"></script>
