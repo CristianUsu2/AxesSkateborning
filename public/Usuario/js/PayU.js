@@ -62,6 +62,8 @@ const EnvioPayU=(e)=>{
              data.append("shippingCity","Medellin");
              data.append("shippingCountry","COL");
              data.append("telephone",telefono)
+             data.append("responseUrl","/Productos/Pedidos")
+             data.append("confirmationUrl","Productos/finalizarCompra")
              data.append("responseUrl", "https://biz.payulatam.com/B0e22fd45D26DF4")
   fetch('https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu',{
     method: 'POST',
