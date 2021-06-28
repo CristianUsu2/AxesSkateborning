@@ -418,6 +418,10 @@ class ControladorUsuario extends Controller
     $sesion = session('datosU');
     $pedidos = Pedidos::all();
     $ultimoPedido = $pedidos->last();
+    $pedidoN;
+    foreach($ultimoPedido as $p){
+       $pedidoN=$p->Id_Pedido+1;
+    }
     if ($ultimoPedido == null) {
       $pedido = new Pedidos();
       $pedido->Id_Pedido = 1;
@@ -435,7 +439,7 @@ class ControladorUsuario extends Controller
     }
 
     return view('Usuario/finalizarCompra')->with('usuario', $sesion)
-      ->with('pedido', $ultimoPedido)
+      ->with('pedido', $pedidoN)
       ->with('categorias', $categoria);
   }
   public function ValidacionUsuario(Request $request)

@@ -19,12 +19,6 @@ if(divtotalCompra !=null){
 }
 const FormularioPayU=()=>{
    const productos=JSON.parse(localStorage.getItem("productos"));
-   divFormPayu.innerHTML+=`
-   <form  id="formPayU">
-    <input name="referenceCode" type="hidden"  value="{{$pedido->Id_Pedido + 1}}" id="referenceCode">
-    <input name="accountId"  type="hidden"  value="{{$u->Id_Usuarios}}" id="accountId">
-   </form>
-   `;
    const arrayNombresyCantidad=productos.map((prod,index,array)=>{array.push(prod.nombreP);array.push(prod.cantidadP); 
         return array});
    let descripcion="";
@@ -46,7 +40,7 @@ const FormularioPayU=()=>{
 
 const EnvioPayU=(e)=>{
   const referenceCode=document.getElementById("referenceCode").value;
-  const accountId=document.getElementById("accountId").value;
+  const accountId=document.getElementById("idUsuario").value;
   const firma="4Vj8eK4rloUd272L48hsrarnUA"+"~"+"508029"+"~"+referenceCode+"~"+totalCompra+"~"+"COP";
   const firmaMD5=CryptoJS.MD5(firma);
   const nombreCliente=nombre+apellido;
@@ -74,7 +68,7 @@ const EnvioPayU=(e)=>{
     body: data
   })
   .then((r)=>{
-      console.log(r);
+      window.location='https://biz.payulatam.com/B0e22fd45D26DF4'
   })
   .catch((r)=>{
       console.log(r);

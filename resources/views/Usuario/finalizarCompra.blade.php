@@ -99,6 +99,7 @@
                             <div class="billing-form-wrap">
                                 <form method="post" action="{{url('/Productos/finalizarCompra')}}"  id="formFinalizar">
                                     @csrf
+                                    <input name="referenceCode" type="hidden"  value="{{$pedido}}" id="referenceCode">
                                    @foreach($usuario as $u)                                 
                                 <div class="single-input-item">
                                      <input type="hidden" name="idUsuario" value="{{$u->Id_Usuarios}}"/>
