@@ -11,7 +11,7 @@ btnPayu.addEventListener("click", ()=>{
 });
 }
 if(divtotalCompra !=null){
-    var totalCompra=DivtotalCompra.value;
+    var totalCompra=divtotalCompra.value;
     var nombre=divnombre.value;
     var apellido=divapellido.value;
     var email=divemail.value;
