@@ -418,10 +418,7 @@ class ControladorUsuario extends Controller
     $sesion = session('datosU');
     $pedidos = Pedidos::all();
     $ultimoPedido = $pedidos->last();
-    $pedidoN;
-    foreach($ultimoPedido as $p){
-       $pedidoN=$p->Id_Pedido+1;
-    }
+    $pedidoN=$ultimoPedido->Id_Pedido+1;
     if ($ultimoPedido == null) {
       $pedido = new Pedidos();
       $pedido->Id_Pedido = 1;
