@@ -126,7 +126,7 @@ let CalculoCompraD = () => {
         totalD.textContent = "$" + valorTotal;
         if (formFinalizar != null) {
             formFinalizar.innerHTML += `
-      <input type="hidden" name="subtotal" value="${valorSubtotal}" />
+      <input type="hidden" name="subtotal" value="${valorSubtotal}"  />
      <input type="hidden" name="total" value="${valorTotal}" id="totalCompra" /> `;
         }
     }
