@@ -41,13 +41,13 @@ const FormularioPayU=()=>{
 const EnvioPayU=(e)=>{
   const referenceCode=document.getElementById("referenceCode").value;
   const accountId=document.getElementById("idUsu").value;
-  
-  const firma="4Vj8eK4rloUd272L48hsrarnUA"+"~"+"508029"+"~"+referenceCode+"~"+totalCompra+"~"+"COP";
+
+  const firma="4Vj8eK4rloUd272L48hsrarnUA"+"~"+"926461"+"~"+referenceCode+"~"+totalCompra+"~"+"COP";
   const firmaMD5=CryptoJS.MD5(firma);
   const nombreCliente=nombre+apellido;
   const direccion=document.getElementById("direccion").value;
   const data= new URLSearchParams();
-             data.append("merchantId","508029");
+             data.append("merchantId","926461");
              data.append("referenceCode",referenceCode);
              data.append("description",e);
              data.append("amount", totalCompra );
@@ -69,7 +69,7 @@ const EnvioPayU=(e)=>{
     body: data
   })
   .then((r)=>{
-      window.location='https://biz.payulatam.com/B0e22fd45D26DF4'
+     
   })
   .catch((r)=>{
       console.log(r);
