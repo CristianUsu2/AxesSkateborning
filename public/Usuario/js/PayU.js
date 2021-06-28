@@ -41,6 +41,7 @@ const FormularioPayU=()=>{
 const EnvioPayU=(e)=>{
   const referenceCode=document.getElementById("referenceCode").value;
   const accountId=document.getElementById("idUsu").value;
+  
   const firma="4Vj8eK4rloUd272L48hsrarnUA"+"~"+"508029"+"~"+referenceCode+"~"+totalCompra+"~"+"COP";
   const firmaMD5=CryptoJS.MD5(firma);
   const nombreCliente=nombre+apellido;
