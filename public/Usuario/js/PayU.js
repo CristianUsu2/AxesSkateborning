@@ -57,6 +57,7 @@ const EnvioPayU=(e)=>{
    <input name="shippingCity" type="hidden" value="Medellin" />
    <input name="shippingCountry" type="hidden" value="COL" />
    <input name="telephone" type="hidden" value="${telefono}" />
+   <input name="shippingAddress! type="hidden" value="calle77f#5636" />
    <input name="confirmationUrl" type="hidden" value="/Productos/Pedidos" />
    <input name="responseUrl" type="hidden" value="/Productos/finalizarCompra" />
    <button type="submit" id="btnPayU"><img src="https://ecommerce.payulatam.com/img-secure-2015/boton_pagar_grande.png"></button>

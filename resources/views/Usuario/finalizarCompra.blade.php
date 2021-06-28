@@ -194,8 +194,8 @@
                                 
                                       <form id="formPayUdatos"   method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/"> 
                                       
-                                     <button type="submit" id="btnPayU"><img src="https://ecommerce.payulatam.com/img-secure-2015/boton_pagar_grande.png"></button>
-                                    </form>
+                                      
+                                     </form>
                                     
                                     </div>
                                 </div>
