@@ -1,15 +1,11 @@
-const btnPayu=document.getElementById("btnPayU");
+
 const divtotalCompra=document.getElementById("totalCompra");
 const divnombre=document.getElementById("f_name");
 const divapellido=document.getElementById("l_name");
 const divemail=document.getElementById("email");
 const divtelefono=document.getElementById("phone");
 const divFormPayu=document.getElementById("divformPayU");
-if(btnPayu !=null){
-btnPayu.addEventListener("click", ()=>{
-    FormularioPayU();
-});
-}
+
 if(divtotalCompra !=null){
     var totalCompra=divtotalCompra.value;
     var nombre=divnombre.value;
@@ -39,41 +35,31 @@ const FormularioPayU=()=>{
 }
 
 const EnvioPayU=(e)=>{
+  const formPayU=document.getElementById("formPayUdatos");
   const referenceCode=document.getElementById("referenceCode").value;
   const accountId=document.getElementById("idUsu").value;
-
   const firma="4Vj8eK4rloUd272L48hsrarnUA"+"~"+"926461"+"~"+referenceCode+"~"+totalCompra+"~"+"COP";
   const firmaMD5=CryptoJS.MD5(firma);
   const nombreCliente=nombre+apellido;
   const direccion=document.getElementById("direccion").value;
-  const data= new URLSearchParams();
-             data.append("merchantId","926461");
-             data.append("referenceCode",referenceCode);
-             data.append("description",e);
-             data.append("amount", totalCompra );
-             data.append("tax",0);
-             data.append("taxReturnBase",0);
-             data.append("signature",firmaMD5);
-             data.append("accountId",accountId);
-             data.append("currency","COP");
-             data.append("buyerFullName",nombreCliente);
-             data.append("buyerEmail",email);
-             data.append("shippingAddress",direccion);
-             data.append("shippingCity","Medellin");
-             data.append("shippingCountry","COL");
-             data.append("telephone",telefono)
-             data.append("responseUrl","/Productos/Pedidos")
-             data.append("confirmationUrl","Productos/finalizarCompra")
-             data.append("responseUrl", "https://biz.payulatam.com/B0e22fd45D26DF4")
-  fetch('https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu',{
-    method: 'POST',
-    mode: 'no-cors',
-    body: data
-  })
-  .then((r)=>{
-     
-  })
-  .catch((r)=>{
-      console.log(r);
-  })
+  formPayU.innerHTML+=`
+   <input name="merchantId" type="hidden" value="926461" />
+   <input name="referenceCode" type="hidden" value="${referenceCode}" />
+   <input name="description" type="hidden" value="${e}" />
+   <input name="amount" type="hidden" value="${totalCompra}" />
+   <input name="tax" type="hidden" value="0" />
+   <input name="taxReturnBase" type="hidden" value="0" />
+   <input name="signature" type="hidden" value="${firmaMD5}" />
+   <input name="accountId" type="hidden" value="${accountId}" />
+   <input name="currency" type="hidden" value="COP" />
+   <input name="buyerFullName" type="hidden" value="${nombreCliente}" />
+   <input name="buyerEmail" type="hidden" value="${email}" />
+   <input name="shippingAddress" type="hidden" value="${direccion}" />
+   <input name="shippingCity" type="hidden" value="Medellin" />
+   <input name="shippingCountry" type="hidden" value="COL" />
+   <input name="telephone" type="hidden" value="${telefono}" />
+   <input name="confirmationUrl" type="hidden" value="/Productos/Pedidos" />
+   <input name="responseUrl" type="hidden" value="/Productos/finalizarCompra" />
+  `;    
 }
+FormularioPayU();
