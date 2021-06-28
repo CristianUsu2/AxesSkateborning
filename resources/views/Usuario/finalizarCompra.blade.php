@@ -192,7 +192,7 @@
                                     <button type="submit" id="contraEntrega" class="btn btn-dark">Contra Entrega</button>
                                 </form>
                                 
-                                      <form id="formPayUdatos"   method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/"> 
+                                      <form id="formPayUdatos"   method="post" action="https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi"> 
                                       
                                       
                                      </form>
